@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.physiclab">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".ProblemsMuc"></activity>
+        <activity android:name=".ProblemsMua" />
+        <activity android:name=".ProblemsMur" />
+        <activity android:name=".ExperimentMuc" />
+        <activity android:name=".MucTheory" />
+        <activity android:name=".ExperimentMua" />
+        <activity android:name=".MuaTheory" />
+        <activity android:name=".ExperimentsMur" />
+        <activity android:name=".MurTheory" />
+        <activity android:name=".MainActivity" />
+        <activity android:name=".PreStart">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
