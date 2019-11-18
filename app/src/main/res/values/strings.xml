@@ -8,7 +8,7 @@
     <string name="ExperimentsTilte">Experimentos con mi smartphone</string>
     <string name="murText">Desliza el avión desde el inicio hasta la meta</string>
     <string name="txtmua">Deje caer su celular tan pronto oprima el botón de iniciar</string>
-    <string name="txtmuc">Antes de iniciar ingrese el radio en centímetros de la circunferencia por la que va girar el celular y luego oprima iniciar</string>
+    <string name="txtmuc">Antes de iniciar ingrese el número de vueltas y el radio en el que va a hacer girar el celular.</string>
     <string name="problemsMur">Problema n° 1) Pasar de unidades las siguientes velocidades:
         a) de 36 km/h a m/s.
         b) de 10 m/s a km/h.

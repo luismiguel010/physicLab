@@ -1,7 +1,5 @@
 package com.example.physiclab;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.hardware.Sensor;
@@ -10,9 +8,6 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.util.FloatMath;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.Toast;
 
@@ -40,7 +35,6 @@ public class ExperimentMua extends Activity implements SensorEventListener {
         chronometer = (Chronometer)findViewById(R.id.chronometer);
         chronometer.setFormat("Time: %s");
         chronometer.setBase(SystemClock.elapsedRealtime());
-        Button buttonStart = (Button)findViewById(R.id.btnStartMua);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         sensorMan = (SensorManager)getSystemService(SENSOR_SERVICE);
         accelerometer = sensorMan.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -82,7 +76,7 @@ public class ExperimentMua extends Activity implements SensorEventListener {
                 restartChronometer();
                 distance = 0.5*gravityAceleration*Math.pow(time,2);
                 Toast.makeText(ExperimentMua.this,
-                        "Distancia recorrida="+distance+" m", Toast.LENGTH_SHORT)
+                        "Distancia recorrida="+String.format("%.2f", distance)+" m", Toast.LENGTH_SHORT)
                         .show();
                 flagStartMovement = false;
             }
