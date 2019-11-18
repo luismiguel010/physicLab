@@ -22,13 +22,14 @@ public class ExperimentsMur extends Activity {
     private ImageView image;
     private int xDelta;
     private int yDelta;
-    private long time;
+    private int distanceX;
+    private int distanceY;
+    private float time;
     private float velocityX;
     private float velocityY;
     private float velocity;
     String showVelocity;
     Chronometer chronometer;
-    private boolean runningTime;
     private long pauseOffset;
 
 
@@ -51,7 +52,7 @@ public class ExperimentsMur extends Activity {
             chronometer.start();
     }
 
-    public long pauseChronometer(View v){
+    public float pauseChronometer(View v){
             chronometer.stop();
             pauseOffset = SystemClock.elapsedRealtime() - chronometer.getBase();
             return pauseOffset;
@@ -84,6 +85,12 @@ public class ExperimentsMur extends Activity {
                         break;
 
                     case MotionEvent.ACTION_UP:
+                        time = pauseChronometer(view)/1000;
+                        restartChronometer(view);
+                        velocityX = distanceX/time;
+                        velocityY = distanceY/time;
+                        velocity = (float) (Math.sqrt(Math.pow(velocityX,2)+Math.pow(velocityY,2)));
+                        showVelocity = Float.toString(velocity);
                         Toast.makeText(ExperimentsMur.this,
                                 "Velocidad="+showVelocity+"pix/s", Toast.LENGTH_SHORT)
                                 .show();
@@ -96,12 +103,8 @@ public class ExperimentsMur extends Activity {
                         layoutParams.topMargin = y - yDelta;
                         layoutParams.rightMargin = 0;
                         layoutParams.bottomMargin = 0;
-                        time = pauseChronometer(view)/1000;
-                        restartChronometer(view);
-                        velocityX = layoutParams.leftMargin/time;
-                        velocityY = layoutParams.topMargin/time;
-                        velocity = (float) (Math.sqrt(Math.pow(velocityX,2)+Math.pow(velocityY,2)));
-                        showVelocity = Float.toString(velocity);
+                        distanceX = layoutParams.leftMargin;
+                        distanceY = layoutParams.topMargin;
                         view.setLayoutParams(layoutParams);
                         break;
                 }

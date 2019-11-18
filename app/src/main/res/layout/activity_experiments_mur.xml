@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/main"
+    android:background="#FFFFFF"
     tools:context=".MainActivity">
 
     <Chronometer
@@ -21,8 +22,8 @@
         android:layout_height="250dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="80dp"
-        android:layout_marginTop="444dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="5dp"
         android:contentDescription="@string/app_name"
         android:src="@drawable/ic_airplane" />
 
