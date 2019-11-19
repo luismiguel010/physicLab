@@ -85,14 +85,14 @@ public class ExperimentsMur extends Activity {
                         break;
 
                     case MotionEvent.ACTION_UP:
-                        time = pauseChronometer(view)/1000;
+                        time = pauseChronometer(view);
                         restartChronometer(view);
-                        velocityX = distanceX/time;
-                        velocityY = distanceY/time;
-                        velocity = (float) (Math.sqrt(Math.pow(velocityX,2)+Math.pow(velocityY,2)));
+                        velocityX = (float) distanceX/time;
+                        velocityY = (float) distanceY/time;
+                        velocity = (float) Math.sqrt(Math.pow(velocityX,2)+Math.pow(velocityY,2));
                         showVelocity = Float.toString(velocity);
                         Toast.makeText(ExperimentsMur.this,
-                                "Velocidad="+showVelocity+"pix/s", Toast.LENGTH_SHORT)
+                                "Velocidad="+showVelocity+" pix/s", Toast.LENGTH_SHORT)
                                 .show();
                         break;
 

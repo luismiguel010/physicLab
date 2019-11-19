@@ -15,22 +15,26 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class ExperimentMuc extends Activity {
 
     private EditText editNumberLaps;
     private EditText editRadio;
-    private int numberLaps = 1;
-    private int radio;
+    private int numberLaps;
+    private float radio;
     Chronometer chronometer;
     private long pauseOffset;
     private boolean flagStartMovement;
     private float time;
-    static final double pi = 3.1415;
+    static final float pi = 3.1415f;
     private float angularVelocity;
     private float frecuency;
     private float tanVelocity;
+    private TextView resultAngularVelocity;
+    private TextView resultTanVelocity;
+    private TextView resultFrecuency;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +52,9 @@ public class ExperimentMuc extends Activity {
             public void onClick(View v) {
                 numberLaps = catchNumberLaps();
                 radio = catchRadio();
+                Toast.makeText(ExperimentMuc.this,
+                        "¡Gire!", Toast.LENGTH_LONG)
+                        .show();
                 starChronometer();
             }
         });
@@ -56,24 +63,20 @@ public class ExperimentMuc extends Activity {
         buttonFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                time = pauseChronometer();
                 restartChronometer();
-                calculate(time);
+                calculate();
             }
         });
-
     }
 
-
-
-    private int catchRadio() {
+    private float catchRadio() {
         int value = Integer.parseInt(editRadio.getText().toString());
         if("".equals(value)){
             Toast.makeText(ExperimentMuc.this,
                     "Ingrese número de vueltas", Toast.LENGTH_SHORT)
                     .show();
         }else{
-            radio = Integer.valueOf(value);
+            radio = Float.valueOf(value);
         }
         return radio;
     }
@@ -93,37 +96,28 @@ public class ExperimentMuc extends Activity {
     private void initComponent(){
         editNumberLaps = findViewById(R.id.editNumberLaps);
         editRadio = findViewById(R.id.editRadio);
+        resultAngularVelocity = findViewById(R.id.resultAngularVelocity);
+        resultTanVelocity = findViewById(R.id.resultTanVelocity);
+        resultFrecuency = findViewById(R.id.resultFrecuency);
     }
 
-
-
-    public void calculate(float time) {
-        time = pauseChronometer()/1000;
+    public void calculate() {
+        time = pauseChronometer();
         restartChronometer();
-         angularVelocity = (float) ((numberLaps*2*pi)/time);
-         frecuency = (float) (angularVelocity / (2*pi));
-         tanVelocity = (float) ((2*pi*radio)/time);
-         Toast.makeText(ExperimentMuc.this,
-                        "La velocidad angular="+String.format("%.2f", angularVelocity)+" rad/s\nFrecuencia="
-                        +String.format("%.2f", frecuency)+" rpm\nVelocidad tangencial="+String.format("%.2f", tanVelocity)+" m/s", Toast.LENGTH_SHORT)
-                        .show();
-         flagStartMovement = false;
-    }
-
-
-
-    public float getNumberLaps() {
-        return numberLaps;
-    }
-
-    public void setNumberLaps(int numberLaps) {
-        this.numberLaps = numberLaps;
+        angularVelocity = (float) ((numberLaps*2*pi)/time);
+        frecuency = (float) (1 / (time));
+        tanVelocity = (float) ((2*pi*radio)/(time));
+        String resultAngular = String.valueOf(angularVelocity);
+        String resultTan = String.valueOf(tanVelocity);
+        String resultFrec = String.valueOf(frecuency);
+        resultAngularVelocity.setText("Velocidad angular = "+resultAngular + " rad/s");
+        resultTanVelocity.setText("Velocidad tangencial = "+resultTan + " m/s");
+        resultFrecuency.setText("Frecuencia = " + resultFrec + " Hz");
     }
 
     public void starChronometer(){
         chronometer.setBase(SystemClock.elapsedRealtime() - pauseOffset);
         chronometer.start();
-        flagStartMovement = true;
     }
 
     public float pauseChronometer(){
@@ -137,11 +131,19 @@ public class ExperimentMuc extends Activity {
         pauseOffset = 0;
     }
 
-    public int getRadio() {
+    public float getRadio() {
         return radio;
     }
 
-    public void setRadio(int radio) {
+    public void setRadio(float radio) {
         this.radio = radio;
+    }
+
+    public int getNumberLaps() {
+        return numberLaps;
+    }
+
+    public void setNumberLaps(int numberLaps) {
+        this.numberLaps = numberLaps;
     }
 }

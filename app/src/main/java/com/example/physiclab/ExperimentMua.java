@@ -23,8 +23,8 @@ public class ExperimentMua extends Activity implements SensorEventListener {
     Chronometer chronometer;
     private long pauseOffset;
     private boolean flagStartMovement;
-    private double distance;
-    static final double gravityAceleration = 9.80665;
+    private float distance;
+    static final float gravityAceleration = 9.80665F;
     private float time;
 
 
@@ -68,15 +68,15 @@ public class ExperimentMua extends Activity implements SensorEventListener {
             mAccelLast = mAccelCurrent;
             mAccelCurrent = (float)Math.sqrt(x*x + y*y + z*z);
             float delta = mAccelCurrent - mAccelLast;
-            mAccel = mAccel * 0.9f + delta;
-            if(mAccel > 3){
+            mAccel = mAccel * 0.3f + delta;
+            if(mAccel < 3){
                 starChronometer();
-            }else if(flagStartMovement){
-                time = pauseChronometer()/1000;
+            }else{
+                time = pauseChronometer();
                 restartChronometer();
-                distance = 0.5*gravityAceleration*Math.pow(time,2);
+                distance = (float) (gravityAceleration*time*time)/(2);
                 Toast.makeText(ExperimentMua.this,
-                        "Distancia recorrida="+String.format("%.2f", distance)+" m", Toast.LENGTH_SHORT)
+                        "Distancia recorrida="+String.format("%.5f", distance)+" m", Toast.LENGTH_SHORT)
                         .show();
                 flagStartMovement = false;
             }
@@ -91,7 +91,6 @@ public class ExperimentMua extends Activity implements SensorEventListener {
     public void starChronometer(){
         chronometer.setBase(SystemClock.elapsedRealtime() - pauseOffset);
         chronometer.start();
-        flagStartMovement = true;
     }
 
     public float pauseChronometer(){

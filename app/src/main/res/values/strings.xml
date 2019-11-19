@@ -7,7 +7,7 @@
     <string name="muc">MUC</string>
     <string name="ExperimentsTilte">Experimentos con mi smartphone</string>
     <string name="murText">Desliza el avión desde el inicio hasta la meta</string>
-    <string name="txtmua">Deje caer su celular tan pronto oprima el botón de iniciar</string>
+    <string name="txtmua">Deje caer su celular sobre una superficie blanda para saber la distancia que recorre</string>
     <string name="txtmuc">Antes de iniciar ingrese el número de vueltas y el radio en el que va a hacer girar el celular.</string>
     <string name="problemsMur">Problema n° 1) Pasar de unidades las siguientes velocidades:
         a) de 36 km/h a m/s.
@@ -26,5 +26,7 @@
     <string name="theoryMua">Movimiento uniforme acelerado (MUA)  Es aquel movimiento en el que la aceleración que experimenta un cuerpo, permanece constante (en magnitud vectores y dirección) en el transcurso del tiempo manteniéndose firme.</string>
     <string name="theoryMur">Movimiento uniforme rectilíneo (MUR)  Es aquel que tiene su velocidad constante y su trayectoria es una línea recta. Esto implica que: El espacio recorrido es igual que el desplazamiento. En tiempos iguales se recorren distancias iguales.</string>
     <string name="theoryMuc">Movimiento circular uniforme (MCU)  Es aquel que describe el movimiento de un cuerpo con una rapidez constante y una trayectoria circular.</string>
+    <string name="digiteRadio">Radio (m)</string>
+    <string name="digiteLaps">Vueltas</string>
 
 </resources>
