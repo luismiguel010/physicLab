@@ -24,10 +24,7 @@ public class ExperimentMuc extends Activity {
     private EditText editRadio;
     private int numberLaps;
     private float radio;
-    Chronometer chronometer;
-    private long pauseOffset;
-    private boolean flagStartMovement;
-    private float time;
+    private double time;
     static final float pi = 3.1415f;
     private float angularVelocity;
     private float frecuency;
@@ -35,15 +32,14 @@ public class ExperimentMuc extends Activity {
     private TextView resultAngularVelocity;
     private TextView resultTanVelocity;
     private TextView resultFrecuency;
+    private long startTimestamp;
+    private long finishTimestamp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_experiment_muc);
         initComponent();
-        chronometer = (Chronometer) findViewById(R.id.chronometer);
-        chronometer.setFormat("Time: %s");
-        chronometer.setBase(SystemClock.elapsedRealtime());
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         Button buttonStart = (Button) findViewById(R.id.button);
@@ -55,7 +51,7 @@ public class ExperimentMuc extends Activity {
                 Toast.makeText(ExperimentMuc.this,
                         "¡Gire!", Toast.LENGTH_LONG)
                         .show();
-                starChronometer();
+                startTimestamp = System.currentTimeMillis();
             }
         });
 
@@ -63,32 +59,33 @@ public class ExperimentMuc extends Activity {
         buttonFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                restartChronometer();
+                finishTimestamp = System.currentTimeMillis();
+                time = (finishTimestamp - startTimestamp)/1000.0;
                 calculate();
             }
         });
     }
 
     private float catchRadio() {
-        int value = Integer.parseInt(editRadio.getText().toString());
-        if("".equals(value)){
+        String valueString = editRadio.getText().toString();
+        if(valueString.equals("") || valueString.equals("0")){
             Toast.makeText(ExperimentMuc.this,
                     "Ingrese número de vueltas", Toast.LENGTH_SHORT)
                     .show();
         }else{
-            radio = Float.valueOf(value);
+            radio = Float.parseFloat(editRadio.getText().toString());
         }
         return radio;
     }
 
     private int catchNumberLaps() {
-        int value = Integer.parseInt(editNumberLaps.getText().toString());
-        if("".equals(value)){
+        String valueString = editNumberLaps.getText().toString();
+        if(valueString.equals("") || valueString.equals("0")){
             Toast.makeText(ExperimentMuc.this,
                     "Ingrese número de vueltas", Toast.LENGTH_SHORT)
                     .show();
         }else{
-            numberLaps = Integer.valueOf(value);
+            numberLaps = Integer.parseInt(editNumberLaps.getText().toString());
         }
         return numberLaps;
     }
@@ -102,8 +99,6 @@ public class ExperimentMuc extends Activity {
     }
 
     public void calculate() {
-        time = pauseChronometer();
-        restartChronometer();
         angularVelocity = (float) ((numberLaps*2*pi)/time);
         frecuency = (float) (1 / (time));
         tanVelocity = (float) ((2*pi*radio)/(time));
@@ -113,22 +108,6 @@ public class ExperimentMuc extends Activity {
         resultAngularVelocity.setText("Velocidad angular = "+resultAngular + " rad/s");
         resultTanVelocity.setText("Velocidad tangencial = "+resultTan + " m/s");
         resultFrecuency.setText("Frecuencia = " + resultFrec + " Hz");
-    }
-
-    public void starChronometer(){
-        chronometer.setBase(SystemClock.elapsedRealtime() - pauseOffset);
-        chronometer.start();
-    }
-
-    public float pauseChronometer(){
-        chronometer.stop();
-        pauseOffset = SystemClock.elapsedRealtime() - chronometer.getBase();
-        return pauseOffset;
-    }
-
-    public void restartChronometer(){
-        chronometer.setBase(SystemClock.elapsedRealtime());
-        pauseOffset = 0;
     }
 
     public float getRadio() {

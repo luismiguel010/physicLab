@@ -81,9 +81,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
-
         int images[] = new int[] {R.drawable.slide1main,R.drawable.slide2main, R.drawable.slide3main};
 
         v_flipper = findViewById(R.id.v_flipper);

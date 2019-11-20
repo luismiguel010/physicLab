@@ -7,10 +7,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.os.SystemClock;
-import android.widget.Chronometer;
 import android.widget.Toast;
-
 
 public class ExperimentMua extends Activity implements SensorEventListener {
 
@@ -20,21 +17,18 @@ public class ExperimentMua extends Activity implements SensorEventListener {
     private float mAccel;
     private float mAccelCurrent;
     private float mAccelLast;
-    Chronometer chronometer;
-    private long pauseOffset;
     private boolean flagStartMovement;
     private float distance;
     static final float gravityAceleration = 9.80665F;
-    private float time;
+    private double time;
+    private long startTimestamp;
+    private long finishTimestamp;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_experiment_mua);
-        chronometer = (Chronometer)findViewById(R.id.chronometer);
-        chronometer.setFormat("Time: %s");
-        chronometer.setBase(SystemClock.elapsedRealtime());
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         sensorMan = (SensorManager)getSystemService(SENSOR_SERVICE);
         accelerometer = sensorMan.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -70,10 +64,10 @@ public class ExperimentMua extends Activity implements SensorEventListener {
             float delta = mAccelCurrent - mAccelLast;
             mAccel = mAccel * 0.3f + delta;
             if(mAccel < 3){
-                starChronometer();
+                startTimestamp = System.currentTimeMillis();
             }else{
-                time = pauseChronometer();
-                restartChronometer();
+                finishTimestamp = System.currentTimeMillis();
+                time = (finishTimestamp - startTimestamp)/(1000.0);
                 distance = (float) (gravityAceleration*time*time)/(2);
                 Toast.makeText(ExperimentMua.this,
                         "Distancia recorrida="+String.format("%.5f", distance)+" m", Toast.LENGTH_SHORT)
@@ -87,23 +81,6 @@ public class ExperimentMua extends Activity implements SensorEventListener {
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
     }
-
-    public void starChronometer(){
-        chronometer.setBase(SystemClock.elapsedRealtime() - pauseOffset);
-        chronometer.start();
-    }
-
-    public float pauseChronometer(){
-        chronometer.stop();
-        pauseOffset = SystemClock.elapsedRealtime() - chronometer.getBase();
-        return pauseOffset;
-    }
-
-    public void restartChronometer(){
-        chronometer.setBase(SystemClock.elapsedRealtime());
-        pauseOffset = 0;
-    }
-
 }
 
 
