@@ -35,7 +35,6 @@ public class ExperimentMua extends Activity implements SensorEventListener {
         mAccel = 0.00f;
         mAccelCurrent = SensorManager.GRAVITY_EARTH;
         mAccelLast = SensorManager.GRAVITY_EARTH;
-
     }
 
     @Override
