@@ -33,7 +33,7 @@ public class PreStart extends AppCompatActivity {
                     ignored.printStackTrace();
                 }
             }
-        }, 5000);  // Give a 5 seconds delay.
+        }, 2000);  // Give a 5 seconds delay.
     }
 
     @Override

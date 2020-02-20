@@ -11,10 +11,12 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-public class ExperimentsMur extends Activity {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class ExperimentsMur extends AppCompatActivity {
 
     private ViewGroup mainLayout;
-    private ImageView image;
+    private ImageView imageAirplane;
     private int xDelta;
     private int yDelta;
     private int distanceX;
@@ -32,8 +34,8 @@ public class ExperimentsMur extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_experiments_mur);
         mainLayout = (RelativeLayout) findViewById(R.id.main);
-        image = (ImageView) findViewById(R.id.image);
-        image.setOnTouchListener(onTouchListener());
+        imageAirplane = (ImageView) findViewById(R.id.imageAirplane);
+        imageAirplane.setOnTouchListener(onTouchListener());
     }
 
     private OnTouchListener onTouchListener() {

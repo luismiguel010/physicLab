@@ -28,5 +28,6 @@
     <string name="theoryMuc">Movimiento circular uniforme (MCU)  Es aquel que describe el movimiento de un cuerpo con una rapidez constante y una trayectoria circular.</string>
     <string name="digiteRadio">Radio (m)</string>
     <string name="digiteLaps">Vueltas</string>
+    <string name="description">Image for move</string>
 
 </resources>
