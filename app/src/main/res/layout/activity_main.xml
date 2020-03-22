@@ -8,13 +8,12 @@
     tools:context=".MainActivity">
 
     <ViewFlipper
+        android:id="@+id/v_flipper"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        tools:ignore="MissingConstraints"
         android:layout_centerHorizontal="true"
-        android:id="@+id/v_flipper"
         android:background="@drawable/border"
-        />
+        tools:ignore="MissingConstraints" />
 
     <ImageButton
         android:id="@+id/btnMur"

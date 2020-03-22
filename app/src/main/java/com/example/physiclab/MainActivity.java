@@ -24,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
         btnMur = (ImageButton) findViewById(R.id.btnMur);
         btnMua = (ImageButton) findViewById(R.id.btnMua);
@@ -81,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        int images[] = new int[] {R.drawable.slide2main, R.drawable.slide3main};
+        int images[] = new int[] {R.drawable.slidemain1, R.drawable.slidemain2, R.drawable.slidemain3};
 
         v_flipper = findViewById(R.id.v_flipper);
 
