@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.transition.Explode;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 
 public class PreStart extends AppCompatActivity {
     private Handler mWaitHandler = new Handler();
@@ -16,7 +17,6 @@ public class PreStart extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         setContentView(R.layout.activity_pre_start);
         mWaitHandler.postDelayed(new Runnable() {
 
