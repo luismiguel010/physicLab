@@ -1,30 +1,30 @@
 <resources>
-    <string name="app_name">PhysicLab</string>
+    <string name="app_name">Physics Lab</string>
     <string name="descImagePreStart">Image for pre strart</string>
-    <string name="titleTheoryExcercise">Ejercicios teóricos</string>
+    <string name="titleTheoryExcercise">Problemas teóricos</string>
     <string name="mur">MUR</string>
     <string name="mua">MUA</string>
-    <string name="muc">MUC</string>
-    <string name="ExperimentsTilte">Experimentos con mi smartphone</string>
-    <string name="murText">Desliza el avión desde el inicio hasta la meta</string>
+    <string name="muc">MCU</string>
+    <string name="ExperimentsTilte">Experimentos con mi teléfono</string>
+    <string name="murText">Desliza el avión y sabrá con qué velocidad lo hizo</string>
     <string name="txtmua">Deje caer su celular sobre una superficie blanda para saber la distancia que recorre</string>
     <string name="txtmuc">Antes de iniciar ingrese el número de vueltas y el radio en el que va a hacer girar el celular.</string>
-    <string name="problemsMur">Problema n° 1) Pasar de unidades las siguientes velocidades:
-        a) de 36 km/h a m/s.
-        b) de 10 m/s a km/h.
-        c) de 30 km/min a cm/s.
-        d) de 50 m/min a km/h.</string>
-    <string name="problemsMur2">Problema n° 2) Un móvil recorre 98 km en 2 h, calcular:  a) Su velocidad.  b) ¿Cuántos kilómetros recorrerá en 3 h con la misma velocidad?</string>
-    <string name="problemsMur3">Problema n° 3) Se produce un disparo a 2,04 km de donde se encuentra un policía, ¿cuánto tarda el policía en oírlo si la velocidad del sonido en el aire es de 330 m/s?</string>
+    <string name="problemsMur">Problema n° 1) Realizar las siguiente conversiones de unidades:
+        a) de 36 Km/h a m/s.
+        b) de 10 m/s a Km/h.
+        c) de 30 Km/min a cm/s.
+        d) de 50 m/min a Km/h.</string>
+    <string name="problemsMur2">Problema n° 2) Un móvil recorre 98 Km en 2 h, determine:  a) Su velocidad.  b) ¿Cuántos kilómetros recorrerá en 3 horas con la misma velocidad?</string>
+    <string name="problemsMur3">Problema n° 3) Se produce un disparo a 2,04 Km de donde se encuentra un policía, ¿cuánto tarda el policía en oírlo si la velocidad del sonido en el aire es de 330 m/s?</string>
     <string name="titleMur">Ejercicios</string>
     <string name="problemsMua">Problema n° 1) Un cohete parte del reposo con aceleración constante y logra alcanzar en 30 s una velocidad de 588 m/s. Calcular:  a) Aceleración.  b) ¿Qué espacio recorrió en esos 30 s?</string>
     <string name="problemsMua2">Problema n° 2) Un móvil que se desplaza con velocidad constante aplica los frenos durante 25 s y recorre 400 m hasta detenerse. Calcular:  a) ¿Qué velocidad tenia el móvil antes de aplicar los frenos?  b) ¿Qué desaceleración produjeron los frenos?</string>
-    <string name="problemsMua3">Problema n° 3) ¿Cuánto tiempo tardará un móvil en alcanzar una velocidad de 60 km/h, si parte del reposo acelerando constantemente con una aceleración de 20 km/h²?</string>
+    <string name="problemsMua3">Problema n° 3) ¿Cuánto tiempo tardará un móvil en alcanzar una velocidad de 60 Km/h, si parte del reposo acelerando constantemente con una aceleración de 20 Km/h²?</string>
     <string name="problemsMuc">Problema n° 1) a - ¿Cuál es la velocidad angular de un punto dotado de M.C.U. si su período es de 1,4 s?  b - ¿Cuál es la velocidad tangencial si el radio es de 80 cm?</string>
     <string name="problemsMuc2">Problema n° 2) Si un motor cumple 8000 R.P.M., determinar:  a) ¿Cuál es su velocidad angular?  b) ¿Cuál es su período?</string>
     <string name="problemsMuc3">Problema n° 3) Un móvil dotado de M.C.U. da 280 vueltas en 20 minutos, si la circunferencia que describe es de 80 cm de radio, hallar:  a) ¿Cuál es su velocidad angular?  b) ¿Cuál es su velocidad tangencial?  c) ¿Cuál es la aceleración centrípeta?</string>
-    <string name="theoryMua">Movimiento uniforme acelerado (MUA)  Es aquel movimiento en el que la aceleración que experimenta un cuerpo, permanece constante (en magnitud vectores y dirección) en el transcurso del tiempo manteniéndose firme.</string>
-    <string name="theoryMur">Movimiento uniforme rectilíneo (MUR)  Es aquel que tiene su velocidad constante y su trayectoria es una línea recta. Esto implica que: El espacio recorrido es igual que el desplazamiento. En tiempos iguales se recorren distancias iguales.</string>
+    <string name="theoryMua">Movimiento uniforme acelerado (MUA)  Es el movimiento de un cuerpo cuya velocidad experimenta aumentos o disminuciones iguales en tiempos iguales.</string>
+    <string name="theoryMur">Movimiento uniforme rectilíneo (MUR)  Es aquel que tiene su velocidad constante y su trayectoria es una línea recta.</string>
     <string name="theoryMuc">Movimiento circular uniforme (MCU)  Es aquel que describe el movimiento de un cuerpo con una rapidez constante y una trayectoria circular.</string>
     <string name="digiteRadio">Radio (m)</string>
     <string name="digiteLaps">Vueltas</string>
