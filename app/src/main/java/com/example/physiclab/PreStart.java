@@ -22,12 +22,9 @@ public class PreStart extends AppCompatActivity {
 
             @Override
             public void run() {
-                //The following code will execute after the 5 seconds.
                 try {
-                    //Go to next page i.e, start the next activity.
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
-                    //Let's Finish Splash Activity since we don't want to show this when user press back button.
                     finish();
                 } catch (Exception ignored) {
                     ignored.printStackTrace();
@@ -39,7 +36,6 @@ public class PreStart extends AppCompatActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        //Remove all the callbacks otherwise navigation will execute even after activity is killed or closed.
         mWaitHandler.removeCallbacksAndMessages(null);
     }
 }
