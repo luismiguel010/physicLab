@@ -7,23 +7,34 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 public class MucIntroduction extends AppCompatActivity {
 
-    private Button btnGoMurExp3;
+    private ImageButton btnbook;
+    private ImageButton btnlab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_muc_introduction);
-        btnGoMurExp3 = (Button) findViewById(R.id.btnGoMurExp3);
+        btnlab = (ImageButton) findViewById(R.id.imagebutton_lab);
+        btnbook = (ImageButton) findViewById(R.id.imagebutton_book);
 
-        btnGoMurExp3.setOnClickListener(new View.OnClickListener() {
+        btnlab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Intent intentMucExp = new Intent(getApplicationContext(), ExperimentMuc.class);
-                startActivity(intentMucExp);
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ExperimentMuc.class);
+                startActivity(intent);
+            }
+        });
+
+        btnbook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), MurTheory.class);
+                startActivity(intent);
             }
         });
     }

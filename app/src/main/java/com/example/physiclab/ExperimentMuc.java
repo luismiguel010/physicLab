@@ -15,6 +15,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,7 +41,7 @@ public class ExperimentMuc extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_experiment_muc);
         initComponent();
-        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
 
         Button buttonStart = (Button) findViewById(R.id.button);
         buttonStart.setOnClickListener(new View.OnClickListener() {

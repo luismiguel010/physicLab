@@ -23,9 +23,9 @@
     <string name="problemsMuc">Problema n° 1) a - ¿Cuál es la velocidad angular de un punto dotado de M.C.U. si su período es de 1,4 s?  b - ¿Cuál es la velocidad tangencial si el radio es de 80 cm?</string>
     <string name="problemsMuc2">Problema n° 2) Si un motor cumple 8000 R.P.M., determinar:  a) ¿Cuál es su velocidad angular?  b) ¿Cuál es su período?</string>
     <string name="problemsMuc3">Problema n° 3) Un móvil dotado de M.C.U. da 280 vueltas en 20 minutos, si la circunferencia que describe es de 80 cm de radio, hallar:  a) ¿Cuál es su velocidad angular?  b) ¿Cuál es su velocidad tangencial?  c) ¿Cuál es la aceleración centrípeta?</string>
-    <string name="theoryMua">Movimiento uniforme acelerado (MUA).  Es el movimiento de un cuerpo cuya velocidad experimenta aumentos o disminuciones iguales en tiempos iguales.</string>
+    <string name="theoryMua">Movimiento uniforme acelerado (MUA)</string>
     <string name="theoryMur">Movimiento uniforme rectilíneo (MUR)</string>
-    <string name="theoryMuc">Movimiento circular uniforme (MCU)  Es aquel que describe el movimiento de un cuerpo con una rapidez constante y una trayectoria circular.</string>
+    <string name="theoryMuc">Movimiento circular uniforme (MCU)</string>
     <string name="digiteRadio">Radio (m)</string>
     <string name="digiteLaps">Vueltas</string>
     <string name="description">Image for move</string>
