@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#4D6C64"
-    tools:context=".MucTheory">
+    tools:context=".MucIntroduction">
 
     <Button
         android:id="@+id/btnGoMurExp3"

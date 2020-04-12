@@ -9,15 +9,16 @@
         android:roundIcon="@drawable/logo2_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ProblemsMuc"></activity>
+        <activity android:name=".MurTheory"></activity>
+        <activity android:name=".ProblemsMuc" />
         <activity android:name=".ProblemsMua" />
         <activity android:name=".ProblemsMur" />
         <activity android:name=".ExperimentMuc" />
-        <activity android:name=".MucTheory" />
+        <activity android:name=".MucIntroduction" />
         <activity android:name=".ExperimentMua" />
-        <activity android:name=".MuaTheory" />
+        <activity android:name=".MuaIntroduction" />
         <activity android:name=".ExperimentsMur" />
-        <activity android:name=".MurTheory" />
+        <activity android:name=".MurIntroduction" />
         <activity android:name=".MainActivity" />
         <activity android:name=".PreStart">
             <intent-filter>

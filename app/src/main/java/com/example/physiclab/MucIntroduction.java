@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 
-public class MucTheory extends AppCompatActivity {
+public class MucIntroduction extends AppCompatActivity {
 
     private Button btnGoMurExp3;
 
@@ -16,7 +16,7 @@ public class MucTheory extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_muc_theory);
+        setContentView(R.layout.activity_muc_introduction);
         btnGoMurExp3 = (Button) findViewById(R.id.btnGoMurExp3);
 
         btnGoMurExp3.setOnClickListener(new View.OnClickListener() {

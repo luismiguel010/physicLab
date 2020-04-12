@@ -1,31 +1,72 @@
 package com.example.physiclab;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
+import android.app.Activity;
 import android.os.Bundle;
-import android.view.View;
-import android.view.Window;
-import android.widget.Button;
-import android.widget.ImageButton;
+import android.util.Log;
+import com.github.barteksc.pdfviewer.PDFView;
+import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
+import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
+import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
+import com.shockwave.pdfium.PdfDocument;
 
-public class MurTheory extends AppCompatActivity {
+import java.util.List;
 
-    private Button btnGoMurExp;
+public class MurTheory extends Activity implements OnPageChangeListener, OnLoadCompleteListener {
+
+    private static final String TAG = MainActivity.class.getSimpleName();
+    public static final String SAMPLE_FILE = "Practica_4.pdf";
+    PDFView pdfView;
+    Integer pageNumber = 0;
+    String pdfFileName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_mur_theory);
-        btnGoMurExp = (Button) findViewById(R.id.btnGoMurExp);
+        setContentView(R.layout.activity_main);
 
-        btnGoMurExp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intentMurTheory = new Intent(getApplicationContext(), ExperimentsMur.class);
-                startActivity(intentMurTheory);
+
+        pdfView= (PDFView)findViewById(R.id.pdfView);
+        displayFromAsset(SAMPLE_FILE);
+    }
+
+    private void displayFromAsset(String assetFileName) {
+        pdfFileName = assetFileName;
+
+        pdfView.fromAsset(SAMPLE_FILE)
+                .defaultPage(pageNumber)
+                .enableSwipe(true)
+
+                .swipeHorizontal(false)
+                .onPageChange(this)
+                .enableAnnotationRendering(true)
+                .onLoad(this)
+                .scrollHandle(new DefaultScrollHandle(this))
+                .load();
+    }
+
+
+    @Override
+    public void onPageChanged(int page, int pageCount) {
+        pageNumber = page;
+        setTitle(String.format("%s %s / %s", pdfFileName, page + 1, pageCount));
+    }
+
+
+    @Override
+    public void loadComplete(int nbPages) {
+        PdfDocument.Meta meta = pdfView.getDocumentMeta();
+        printBookmarksTree(pdfView.getTableOfContents(), "-");
+
+    }
+
+    public void printBookmarksTree(List<PdfDocument.Bookmark> tree, String sep) {
+        for (PdfDocument.Bookmark b : tree) {
+
+            Log.e(TAG, String.format("%s %s, p %d", sep, b.getTitle(), b.getPageIdx()));
+
+            if (b.hasChildren()) {
+                printBookmarksTree(b.getChildren(), sep + "-");
             }
-        });
+        }
     }
 }

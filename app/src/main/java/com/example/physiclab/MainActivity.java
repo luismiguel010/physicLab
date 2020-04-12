@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ViewFlipper;
@@ -59,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         btnMurExp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentMurExp = new Intent(getApplicationContext(), MurTheory.class);
+                Intent intentMurExp = new Intent(getApplicationContext(), MurIntroduction.class);
                 startActivity(intentMurExp);
             }
         });
@@ -67,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         btnMuaExp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentMuaExp = new Intent(getApplicationContext(), MuaTheory.class);
+                Intent intentMuaExp = new Intent(getApplicationContext(), MuaIntroduction.class);
                 startActivity(intentMuaExp);
             }
         });
@@ -75,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         btnMucExp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentMucExp = new Intent(getApplicationContext(), MucTheory.class);
+                Intent intentMucExp = new Intent(getApplicationContext(), MucIntroduction.class);
                 startActivity(intentMucExp);
             }
         });

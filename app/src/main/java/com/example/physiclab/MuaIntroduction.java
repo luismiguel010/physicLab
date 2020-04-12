@@ -7,9 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.ImageButton;
 
-public class MuaTheory extends AppCompatActivity {
+public class MuaIntroduction extends AppCompatActivity {
 
     private Button btnGoMurExp2;
 
@@ -17,7 +16,7 @@ public class MuaTheory extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_mua_theory);
+        setContentView(R.layout.activity_mua_introduction);
         btnGoMurExp2 = (Button) findViewById(R.id.btnGoMurExp2);
 
         btnGoMurExp2.setOnClickListener(new View.OnClickListener() {
