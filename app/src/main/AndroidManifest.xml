@@ -9,7 +9,9 @@
         android:roundIcon="@drawable/logo2_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MurTheory"></activity>
+        <activity android:name=".Muc_Theory"></activity>
+        <activity android:name=".MuaTheory" />
+        <activity android:name=".MurTheory" />
         <activity android:name=".ProblemsMuc" />
         <activity android:name=".ProblemsMua" />
         <activity android:name=".ProblemsMur" />

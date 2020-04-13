@@ -6,17 +6,17 @@ import android.os.Bundle;
 
 import com.github.barteksc.pdfviewer.PDFView;
 
-public class MurTheory extends AppCompatActivity {
+public class Muc_Theory extends AppCompatActivity {
 
     PDFView pdfView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mur_theory);
+        setContentView(R.layout.activity_muc__theory);
 
-        pdfView = findViewById(R.id.pdf_mur);
-        pdfView.fromAsset("MUR_Theory.pdf")
+        pdfView = findViewById(R.id.pdf_mua);
+        pdfView.fromAsset("MUC_Theory.pdf")
                 .load();
     }
 }

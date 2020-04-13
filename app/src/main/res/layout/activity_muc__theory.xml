@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MurTheory">
+    tools:context=".Muc_Theory">
 
     <com.github.barteksc.pdfviewer.PDFView
-        android:id="@+id/pdf_mur"
+        android:id="@+id/pdf_muc"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
