@@ -15,7 +15,7 @@ public class Muc_Theory extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_muc__theory);
 
-        pdfView = findViewById(R.id.pdf_mua);
+        pdfView = findViewById(R.id.pdf_muc);
         pdfView.fromAsset("MUC_Theory.pdf")
                 .load();
     }
