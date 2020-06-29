@@ -29,5 +29,6 @@
     <string name="digiteRadio">Radio (m)</string>
     <string name="digiteLaps">Vueltas</string>
     <string name="description">Image for move</string>
+    <string name="murexperimentsound">Vamos a calcular la velocidad del sonido</string>
 
 </resources>
