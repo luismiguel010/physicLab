@@ -1,8 +1,11 @@
 package com.example.physiclab;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,14 +31,12 @@ public class ExperimentMurSound extends AppCompatActivity {
     private float velocity;
     private float distance;
     private long timeStampThis;
-
     private static final String TAG = "Clapper";
     AudioDispatcher dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050,1024,0);
-
     double threshold = 8;
-    double sensitivity = 20;
-
+    double sensitivity = 50;
     public static final int RequestPermissionCode = 1;
+    private int counterCatchTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +52,7 @@ public class ExperimentMurSound extends AppCompatActivity {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
+                                    counterCatchTime = counterCatchTime + 1;
                                     catchTimeClap();
                                 }
                             });
@@ -69,12 +71,49 @@ public class ExperimentMurSound extends AppCompatActivity {
                     calculateSound();
                 }
             });
+
+            Button buttonEraseTime = (Button) findViewById(R.id.eraseTime);
+            buttonEraseTime.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    counterCatchTime = 0;
+                    timeStampThis = 0;
+                    timeSoundThis.setText("");
+
+                }
+            });
     }
 
     public void catchTimeClap(){
-        timeStampThis = System.currentTimeMillis()/1000;
-        String timeThis = String.valueOf(timeStampThis);
-        timeSoundThis.setText(timeThis);
+        if(counterCatchTime == 1) {
+            final long timeStampTemp = System.currentTimeMillis();
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(ExperimentMurSound.this);
+            builder1.setMessage("Desea guardar este tiempo para este dispositivo: " + String.valueOf(timeStampTemp));
+            builder1.setCancelable(true);
+            builder1.setPositiveButton(
+                    "Sí",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            timeStampThis = timeStampTemp;
+                            String timeThis = String.valueOf(timeStampThis);
+                            timeSoundThis.setText(timeThis);
+                            dialog.cancel();
+                        }
+                    });
+
+            builder1.setNegativeButton(
+                    "No",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            counterCatchTime = 0;
+                            timeSoundThis.setText("");
+                            dialog.cancel();
+                        }
+                    });
+
+            AlertDialog alert11 = builder1.create();
+            alert11.show();
+        }
     }
 
     public float catchDistance(){
@@ -102,9 +141,9 @@ public class ExperimentMurSound extends AppCompatActivity {
     }
 
     public void calculateSound() {
-        float timeMilliSeconds = timeStampThis - otherTime;
-        time = (float) Math.abs((timeMilliSeconds)/1000.0);
-        velocity = (float) (distance/time);
+        float timeMilliSeconds = (timeStampThis - otherTime);
+        time = (float) Math.abs((timeMilliSeconds)/100000.0);
+        velocity = (float) ((distance/time));
         String resultVelocitySound = String.valueOf(velocity);
         resultVelocity.setText("Velocidad del sonido = "+resultVelocitySound+" m/s");
     }
@@ -114,5 +153,20 @@ public class ExperimentMurSound extends AppCompatActivity {
             timeSoundThis = findViewById(R.id.timeSoundThis);
             distanceMurSound = findViewById(R.id.distanceMurSound);
             resultVelocity = findViewById(R.id.resultVelocitySound);
+    }
+
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setTitle("Really Exit?")
+                .setMessage("Are you sure you want to exit?")
+                .setNegativeButton(android.R.string.no, null)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        counterCatchTime = 0;
+                        ExperimentMurSound.super.onBackPressed();
+                    }
+                }).create().show();
     }
 }
