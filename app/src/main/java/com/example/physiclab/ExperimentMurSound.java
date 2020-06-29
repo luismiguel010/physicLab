@@ -1,8 +1,9 @@
 package com.example.physiclab;
 
 import androidx.appcompat.app.AppCompatActivity;
-import android.media.MediaPlayer;
-import android.media.MediaRecorder;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,13 +11,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.Random;
-
 import be.tarsos.dsp.AudioDispatcher;
 import be.tarsos.dsp.io.android.AudioDispatcherFactory;
 import be.tarsos.dsp.onsets.OnsetHandler;
 import be.tarsos.dsp.onsets.PercussionOnsetDetector;
+import static android.Manifest.permission.RECORD_AUDIO;
 
 public class ExperimentMurSound extends AppCompatActivity {
 
@@ -30,46 +29,46 @@ public class ExperimentMurSound extends AppCompatActivity {
     private float distance;
     private long timeStampThis;
 
-    AudioDispatcher dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050,1024,0);
     private static final String TAG = "Clapper";
+    AudioDispatcher dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050,1024,0);
 
     double threshold = 8;
     double sensitivity = 20;
+
+    public static final int RequestPermissionCode = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_experiment_mur_sound);
         initComponent();
+            PercussionOnsetDetector mPercussionDetector = new PercussionOnsetDetector(22050, 1024,
+                    new OnsetHandler() {
 
-        PercussionOnsetDetector mPercussionDetector = new PercussionOnsetDetector(22050, 1024,
-                new OnsetHandler() {
+                        @Override
+                        public void handleOnset(double time, double salience) {
+                            Log.d(TAG, "Clap detected!");
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    catchTimeClap();
+                                }
+                            });
+                        }
+                    }, sensitivity, threshold);
 
-                    @Override
-                    public void handleOnset(double time, double salience) {
-                        Log.d(TAG, "Clap detected!");
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                catchTimeClap();
-                            }
-                        });
-                    }
-                }, sensitivity, threshold);
+            dispatcher.addAudioProcessor(mPercussionDetector);
+            new Thread(dispatcher, "Audio Dispatcher").start();
 
-        dispatcher.addAudioProcessor(mPercussionDetector);
-        new Thread(dispatcher,"Audio Dispatcher").start();
-
-
-        Button buttonCalculate = (Button) findViewById(R.id.buttonMurSound);
-        buttonCalculate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                otherTime = catchOtherTime();
-                distance = catchDistance();
-                calculateSound();
-            }
-        });
+            Button buttonCalculate = (Button) findViewById(R.id.buttonMurSound);
+            buttonCalculate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    otherTime = catchOtherTime();
+                    distance = catchDistance();
+                    calculateSound();
+                }
+            });
     }
 
     public void catchTimeClap(){
@@ -111,11 +110,9 @@ public class ExperimentMurSound extends AppCompatActivity {
     }
 
     private void initComponent() {
-        timeSoundOther = findViewById(R.id.timeSoundOther);
-        timeSoundThis = findViewById(R.id.timeSoundThis);
-        distanceMurSound = findViewById(R.id.distanceMurSound);
-        resultVelocity = findViewById(R.id.resultVelocitySound);
+            timeSoundOther = findViewById(R.id.timeSoundOther);
+            timeSoundThis = findViewById(R.id.timeSoundThis);
+            distanceMurSound = findViewById(R.id.distanceMurSound);
+            resultVelocity = findViewById(R.id.resultVelocitySound);
     }
-
-
 }
