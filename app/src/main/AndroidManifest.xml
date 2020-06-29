@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.physiclab">
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/logo2"
@@ -9,7 +13,8 @@
         android:roundIcon="@drawable/logo2_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Muc_Theory"></activity>
+        <activity android:name=".ExperimentMurSound"></activity>
+        <activity android:name=".Muc_Theory" />
         <activity android:name=".MuaTheory" />
         <activity android:name=".MurTheory" />
         <activity android:name=".ProblemsMuc" />

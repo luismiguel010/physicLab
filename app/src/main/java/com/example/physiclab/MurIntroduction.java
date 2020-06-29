@@ -25,7 +25,7 @@ public class MurIntroduction extends AppCompatActivity {
         btnlab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), ExperimentsMur.class);
+                Intent intent = new Intent(getApplicationContext(), ExperimentMurSound.class);
                 startActivity(intent);
             }
         });
