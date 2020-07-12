@@ -2,11 +2,7 @@ package com.example.physiclab;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import android.content.DialogInterface;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,7 +14,6 @@ import be.tarsos.dsp.AudioDispatcher;
 import be.tarsos.dsp.io.android.AudioDispatcherFactory;
 import be.tarsos.dsp.onsets.OnsetHandler;
 import be.tarsos.dsp.onsets.PercussionOnsetDetector;
-import static android.Manifest.permission.RECORD_AUDIO;
 
 public class ExperimentMurSound extends AppCompatActivity {
 
@@ -48,12 +43,12 @@ public class ExperimentMurSound extends AppCompatActivity {
 
                         @Override
                         public void handleOnset(double time, double salience) {
-                            Log.d(TAG, "Clap detected!");
+                            final long timeStampCatch = System.currentTimeMillis();
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
                                     counterCatchTime = counterCatchTime + 1;
-                                    catchTimeClap();
+                                    catchTimeClap(timeStampCatch);
                                 }
                             });
                         }
@@ -84,11 +79,11 @@ public class ExperimentMurSound extends AppCompatActivity {
             });
     }
 
-    public void catchTimeClap(){
+    public void catchTimeClap(long timeStampCatch){
+        final long timeStampTemp = timeStampCatch;
         if(counterCatchTime == 1) {
-            final long timeStampTemp = System.currentTimeMillis();
             AlertDialog.Builder builder1 = new AlertDialog.Builder(ExperimentMurSound.this);
-            builder1.setMessage("Desea guardar este tiempo para este dispositivo: " + String.valueOf(timeStampTemp));
+            builder1.setMessage("¿Desea guardar este tiempo para este dispositivo: " + String.valueOf(timeStampTemp)+"?");
             builder1.setCancelable(true);
             builder1.setPositiveButton(
                     "Sí",
@@ -120,7 +115,7 @@ public class ExperimentMurSound extends AppCompatActivity {
         String valueString = distanceMurSound.getText().toString();
         if(valueString.equals("") || valueString.equals("0")){
             Toast.makeText(ExperimentMurSound.this,
-                    "Ingrese la distancia entre los dispositivos en metros", Toast.LENGTH_SHORT)
+                    "Ingrese la distancia entre los dispositivos en metros.", Toast.LENGTH_SHORT)
                     .show();
         }else{
             distance = Float.parseFloat(distanceMurSound.getText().toString());
@@ -132,7 +127,7 @@ public class ExperimentMurSound extends AppCompatActivity {
         String valueString = timeSoundOther.getText().toString();
         if(valueString.equals("") || valueString.equals("0")){
             Toast.makeText(ExperimentMurSound.this,
-                    "Ingrese el tiempo que registró el otro dispositivo", Toast.LENGTH_SHORT)
+                    "Ingrese el tiempo que registró el otro dispositivo.", Toast.LENGTH_SHORT)
                     .show();
         }else{
             otherTime = Long.parseLong(timeSoundOther.getText().toString());
@@ -158,8 +153,8 @@ public class ExperimentMurSound extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(this)
-                .setTitle("Really Exit?")
-                .setMessage("Are you sure you want to exit?")
+                .setTitle("¿Está seguro que desea salir?")
+                .setMessage("Se borrarán los datos.")
                 .setNegativeButton(android.R.string.no, null)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
