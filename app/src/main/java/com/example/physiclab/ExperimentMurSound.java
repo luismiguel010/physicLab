@@ -20,7 +20,6 @@ public class ExperimentMurSound extends AppCompatActivity {
     private EditText timeSoundOther;
     private EditText distanceMurSound;
     private TextView timeSoundThis;
-    private TextView resultVelocity;
     private float time;
     private long otherTime;
     private float velocity;
@@ -57,13 +56,19 @@ public class ExperimentMurSound extends AppCompatActivity {
             dispatcher.addAudioProcessor(mPercussionDetector);
             new Thread(dispatcher, "Audio Dispatcher").start();
 
+
+
             Button buttonCalculate = (Button) findViewById(R.id.buttonMurSound);
             buttonCalculate.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     otherTime = catchOtherTime();
                     distance = catchDistance();
-                    calculateSound();
+                    String resultVelocitySound = calculateSound();
+                    AlertDialog alertDialog = new AlertDialog.Builder(ExperimentMurSound.this).create(); //Read Update
+                    alertDialog.setTitle("Velocidad del sonido");
+                    alertDialog.setMessage(resultVelocitySound + " m/s");
+                    alertDialog.show();
                 }
             });
 
@@ -135,19 +140,18 @@ public class ExperimentMurSound extends AppCompatActivity {
         return otherTime;
     }
 
-    public void calculateSound() {
+    public String calculateSound() {
         float timeMilliSeconds = (timeStampThis - otherTime);
         time = (float) Math.abs((timeMilliSeconds)/100000.0);
         velocity = (float) ((distance/time));
         String resultVelocitySound = String.valueOf(velocity);
-        resultVelocity.setText("Velocidad del sonido = "+resultVelocitySound+" m/s");
+        return resultVelocitySound;
     }
 
     private void initComponent() {
             timeSoundOther = findViewById(R.id.timeSoundOther);
             timeSoundThis = findViewById(R.id.timeSoundThis);
             distanceMurSound = findViewById(R.id.distanceMurSound);
-            resultVelocity = findViewById(R.id.resultVelocitySound);
     }
 
     @Override
