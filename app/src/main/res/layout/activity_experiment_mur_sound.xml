@@ -11,7 +11,7 @@
         android:id="@+id/buttonMurSound"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="84dp"
+        android:layout_marginStart="76dp"
         android:layout_marginTop="32dp"
         android:background="@color/colorPrimary"
         android:text="Calcular"
@@ -21,38 +21,27 @@
 
     <EditText
         android:id="@+id/timeSoundOther"
-        android:layout_width="128dp"
-        android:layout_height="16dp"
-        android:layout_marginTop="8dp"
-        android:background="@null"
+        android:layout_width="292dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="16dp"
         android:ems="10"
         android:hint=""
         android:inputType="number"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textViewLess"
-        app:layout_constraintTop_toBottomOf="@+id/textViewLine" />
-
-    <TextView
-        android:id="@+id/timeSoundThis"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text=""
-        app:layout_constraintStart_toEndOf="@+id/textViewV"
-        app:layout_constraintTop_toBottomOf="@+id/textViewLine" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/distanceMurSound" />
 
     <EditText
         android:id="@+id/distanceMurSound"
-        android:layout_width="105dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="62dp"
+        android:layout_width="288dp"
+        android:layout_height="51dp"
         android:layout_marginTop="8dp"
-        android:background="@null"
         android:ems="10"
         android:hint=""
         android:inputType="numberDecimal"
-        app:layout_constraintStart_toEndOf="@+id/textViewV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/info2mur" />
 
     <Button
@@ -69,42 +58,11 @@
         app:layout_constraintStart_toEndOf="@+id/buttonMurSound"
         app:layout_constraintTop_toBottomOf="@+id/imageView5" />
 
-    <TextView
-        android:id="@+id/textViewV"
-        android:layout_width="71dp"
-        android:layout_height="75dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="180dp"
-        android:fontFamily="casual"
-        android:text="v = "
-        android:textSize="50dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textViewLine"
-        android:layout_width="188dp"
-        android:layout_height="18dp"
-        android:text="-----------------------------------------------------"
-        app:layout_constraintStart_toEndOf="@+id/textViewV"
-        app:layout_constraintTop_toBottomOf="@+id/distanceMurSound" />
-
-    <TextView
-        android:id="@+id/textViewLess"
-        android:layout_width="15dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="8dp"
-        android:fontFamily="casual"
-        android:text="-"
-        android:textSize="50dp"
-        app:layout_constraintStart_toEndOf="@+id/timeSoundThis"
-        app:layout_constraintTop_toBottomOf="@+id/distanceMurSound" />
-
     <ImageView
         android:id="@+id/info2mur"
-        android:layout_width="186dp"
-        android:layout_height="137dp"
-        android:layout_marginTop="32dp"
+        android:layout_width="192dp"
+        android:layout_height="98dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/distanceMurSound"
         app:layout_constraintTop_toTopOf="parent"
@@ -112,12 +70,43 @@
 
     <ImageView
         android:id="@+id/imageView5"
-        android:layout_width="143dp"
-        android:layout_height="158dp"
+        android:layout_width="190dp"
+        android:layout_height="130dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/timeSoundOther"
         app:layout_constraintTop_toBottomOf="@+id/timeSoundOther"
         app:srcCompat="@drawable/info1mur" />
+
+    <TextView
+        android:id="@+id/timeSoundThis"
+        android:layout_width="222dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.285"
+        app:layout_constraintStart_toEndOf="@+id/textViewTimeThis"
+        app:layout_constraintTop_toBottomOf="@+id/eraseTime" />
+
+    <TextView
+        android:id="@+id/textViewTimeThis"
+        android:layout_width="142dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="32dp"
+        android:text="Tiempo de este dispositivo: "
+        android:textAlignment="viewEnd"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonMurSound" />
+
+    <TextView
+        android:id="@+id/textViewTemperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text=""
+        app:layout_constraintEnd_toStartOf="@+id/info2mur"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

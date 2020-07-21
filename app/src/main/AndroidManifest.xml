@@ -3,6 +3,8 @@
     package="com.example.physiclab">
 
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -10,6 +12,7 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/logo2_round"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ExperimentMurSound"></activity>
         <activity android:name=".Muc_Theory" />

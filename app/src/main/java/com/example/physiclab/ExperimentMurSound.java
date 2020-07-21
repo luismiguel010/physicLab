@@ -2,7 +2,22 @@ package com.example.physiclab;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
+import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,36 +25,72 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.physiclab.services.HttpRequest;
+
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.List;
+import java.util.Locale;
+
 import be.tarsos.dsp.AudioDispatcher;
 import be.tarsos.dsp.io.android.AudioDispatcherFactory;
 import be.tarsos.dsp.onsets.OnsetHandler;
 import be.tarsos.dsp.onsets.PercussionOnsetDetector;
 
-public class ExperimentMurSound extends AppCompatActivity {
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static android.Manifest.permission.INTERNET;
+import static android.Manifest.permission.RECORD_AUDIO;
+
+
+public class ExperimentMurSound extends AppCompatActivity implements SensorEventListener {
 
     private EditText timeSoundOther;
     private EditText distanceMurSound;
     private TextView timeSoundThis;
+    private TextView temperatureViewer;
     private float time;
     private long otherTime;
     private float velocity;
     private float distance;
     private long timeStampThis;
     private static final String TAG = "Clapper";
-    AudioDispatcher dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050,1024,0);
+    AudioDispatcher dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050, 1024, 0);
     double threshold = 8;
     double sensitivity = 50;
     public static final int RequestPermissionCode = 1;
     private int counterCatchTime = 0;
+    private SensorManager sensorManager;
+    private Sensor temperature;
+    boolean isPresentTemperatureSensor;
+    double longitud;
+    double latitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_experiment_mur_sound);
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        if(isPresentTemperatureSensor) {
+            temperature = sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
+            temperatureViewer.setText(temperature.toString());
+        }else{
+            getLocationByGPS();
+        }
+
         initComponent();
             PercussionOnsetDetector mPercussionDetector = new PercussionOnsetDetector(22050, 1024,
                     new OnsetHandler() {
-
                         @Override
                         public void handleOnset(double time, double salience) {
                             final long timeStampCatch = System.currentTimeMillis();
@@ -55,8 +106,6 @@ public class ExperimentMurSound extends AppCompatActivity {
 
             dispatcher.addAudioProcessor(mPercussionDetector);
             new Thread(dispatcher, "Audio Dispatcher").start();
-
-
 
             Button buttonCalculate = (Button) findViewById(R.id.buttonMurSound);
             buttonCalculate.setOnClickListener(new View.OnClickListener() {
@@ -84,9 +133,10 @@ public class ExperimentMurSound extends AppCompatActivity {
             });
     }
 
+
     public void catchTimeClap(long timeStampCatch){
-        final long timeStampTemp = timeStampCatch;
         if(counterCatchTime == 1) {
+            final long timeStampTemp = timeStampCatch;
             AlertDialog.Builder builder1 = new AlertDialog.Builder(ExperimentMurSound.this);
             builder1.setMessage("¿Desea guardar este tiempo para este dispositivo: " + String.valueOf(timeStampTemp)+"?");
             builder1.setCancelable(true);
@@ -152,6 +202,7 @@ public class ExperimentMurSound extends AppCompatActivity {
             timeSoundOther = findViewById(R.id.timeSoundOther);
             timeSoundThis = findViewById(R.id.timeSoundThis);
             distanceMurSound = findViewById(R.id.distanceMurSound);
+            temperatureViewer = findViewById(R.id.textViewTemperature);
     }
 
     @Override
@@ -168,4 +219,105 @@ public class ExperimentMurSound extends AppCompatActivity {
                     }
                 }).create().show();
     }
+
+    @Override
+    public void onSensorChanged(SensorEvent sensorEvent) {
+        float millibarsOfTemperature = sensorEvent.values[0];
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int i) {
+
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        isPresentTemperatureSensor = sensorManager.registerListener(this, temperature, SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        sensorManager.unregisterListener(this);
+    }
+
+    private void requestPermission() {
+        ActivityCompat.requestPermissions(ExperimentMurSound.this, new String[]{ACCESS_FINE_LOCATION, INTERNET}, RequestPermissionCode);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        for (int i = 0; i == permissions.length; i++) {
+            switch (requestCode) {
+                case RequestPermissionCode:
+                    if (grantResults.length > 0) {
+                        boolean RecordPermission = grantResults[i] ==
+                                PackageManager.PERMISSION_GRANTED;
+                        if (RecordPermission) {
+                            Toast.makeText(ExperimentMurSound.this, "Permission Granted",
+                                    Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(ExperimentMurSound.this, "Permission Denied", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                    break;
+            }
+        }
+    }
+
+    public boolean checkPermissionLocation() {
+        int result = ContextCompat.checkSelfPermission(getApplicationContext(), ACCESS_FINE_LOCATION);
+        return result == PackageManager.PERMISSION_GRANTED;
+    }
+
+    public boolean checkPermissionInternet(){
+        int result = ContextCompat.checkSelfPermission(getApplicationContext(), INTERNET);
+        return result == PackageManager.PERMISSION_GRANTED;
+    }
+
+    public void getLocationByGPS(){
+        LocationManager locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermission();
+        }
+        List<String> providers = locationManager.getProviders(true);
+        Location bestLocation = null;
+        for (String provider : providers) {
+            Location location = locationManager.getLastKnownLocation(provider);
+            if (location == null) {
+                continue;
+            }
+            if (bestLocation == null || location.getAccuracy() < bestLocation.getAccuracy()) {
+                bestLocation = location;
+                longitud = bestLocation.getLongitude();
+                latitude = bestLocation.getLatitude();
+            }
+        }
+        if (bestLocation == null) {
+            System.out.println("Not found location");
+        }
+        requestTemperatureApi(Double.toString(longitud), Double.toString(latitude));
+    }
+
+    public void requestTemperatureApi(final String lon, final String lat){
+        if(checkPermissionInternet()){
+            AsyncTask.execute(new Runnable() {
+                @Override
+                public void run() {
+                    HttpRequest httpRequest = new HttpRequest();
+                    try{
+                        String response = httpRequest.run("http://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+lon+"&appid=9de243494c0b295cca9337e1e96b00e2");
+                        System.out.println(response);
+                    }catch (IOException e){
+                        e.printStackTrace();
+                    }
+                }
+            });
+        } else {
+            temperatureViewer.setText("15 C");
+        }
+
+    }
+
 }
