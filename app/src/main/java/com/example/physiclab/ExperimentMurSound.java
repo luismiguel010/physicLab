@@ -13,13 +13,10 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,20 +25,11 @@ import android.widget.Toast;
 
 import com.example.physiclab.services.HttpRequest;
 
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.List;
-import java.util.Locale;
 
 import be.tarsos.dsp.AudioDispatcher;
 import be.tarsos.dsp.io.android.AudioDispatcherFactory;
@@ -50,7 +38,6 @@ import be.tarsos.dsp.onsets.PercussionOnsetDetector;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.Manifest.permission.INTERNET;
-import static android.Manifest.permission.RECORD_AUDIO;
 
 
 public class ExperimentMurSound extends AppCompatActivity implements SensorEventListener {
@@ -71,10 +58,11 @@ public class ExperimentMurSound extends AppCompatActivity implements SensorEvent
     public static final int RequestPermissionCode = 1;
     private int counterCatchTime = 0;
     private SensorManager sensorManager;
-    private Sensor temperature;
+    private Sensor temperatureSensor;
     boolean isPresentTemperatureSensor;
     double longitud;
     double latitude;
+    double temperature;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,8 +70,8 @@ public class ExperimentMurSound extends AppCompatActivity implements SensorEvent
         setContentView(R.layout.activity_experiment_mur_sound);
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         if(isPresentTemperatureSensor) {
-            temperature = sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
-            temperatureViewer.setText(temperature.toString());
+            temperatureSensor = sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
+            temperatureViewer.setText(temperatureSensor.toString());
         }else{
             getLocationByGPS();
         }
@@ -233,7 +221,7 @@ public class ExperimentMurSound extends AppCompatActivity implements SensorEvent
     @Override
     protected void onResume(){
         super.onResume();
-        isPresentTemperatureSensor = sensorManager.registerListener(this, temperature, SensorManager.SENSOR_DELAY_NORMAL);
+        isPresentTemperatureSensor = sensorManager.registerListener(this, temperatureSensor, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     @Override
@@ -308,8 +296,12 @@ public class ExperimentMurSound extends AppCompatActivity implements SensorEvent
                     HttpRequest httpRequest = new HttpRequest();
                     try{
                         String response = httpRequest.run("http://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+lon+"&appid=9de243494c0b295cca9337e1e96b00e2");
-                        System.out.println(response);
-                    }catch (IOException e){
+                        JSONObject jsonObject = new JSONObject(response);
+                        String main = jsonObject.getString("main");
+                        JSONObject jsonObject1 = new JSONObject(main);
+                        temperature = jsonObject1.getDouble("temp");
+                        System.out.println(temperature);
+                    }catch (IOException | JSONException e){
                         e.printStackTrace();
                     }
                 }
