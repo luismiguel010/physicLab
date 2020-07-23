@@ -62,7 +62,8 @@ public class ExperimentMurSound extends AppCompatActivity implements SensorEvent
     boolean isPresentTemperatureSensor;
     double longitud;
     double latitude;
-    double temperature;
+    double temperature = 15;
+    double kelvinDifference = 273.15;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +72,7 @@ public class ExperimentMurSound extends AppCompatActivity implements SensorEvent
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         if(isPresentTemperatureSensor) {
             temperatureSensor = sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
-            temperatureViewer.setText(temperatureSensor.toString());
+            temperatureViewer.setText("Temperatura ambiente = " + temperatureSensor.toString() + " °C");
         }else{
             getLocationByGPS();
         }
@@ -179,9 +180,13 @@ public class ExperimentMurSound extends AppCompatActivity implements SensorEvent
     }
 
     public String calculateSound() {
+        float theoreticalTime = (float) (distance/(331.3+0.606 * temperature));
         float timeMilliSeconds = (timeStampThis - otherTime);
+        float timeSeconds = timeMilliSeconds * 1000;
+        float constRegulatorTime = (theoreticalTime - timeSeconds)/distance;
+        float timeWithCRT = distance * constRegulatorTime + timeSeconds;
         time = (float) Math.abs((timeMilliSeconds)/100000.0);
-        velocity = (float) ((distance/time));
+        velocity = (float) ((distance/timeWithCRT));
         String resultVelocitySound = String.valueOf(velocity);
         return resultVelocitySound;
     }
@@ -286,6 +291,7 @@ public class ExperimentMurSound extends AppCompatActivity implements SensorEvent
             System.out.println("Not found location");
         }
         requestTemperatureApi(Double.toString(longitud), Double.toString(latitude));
+        //temperatureViewer.setText("Temperatura ambiente = " + Double.toString(temperature) + " °C");
     }
 
     public void requestTemperatureApi(final String lon, final String lat){
@@ -299,7 +305,7 @@ public class ExperimentMurSound extends AppCompatActivity implements SensorEvent
                         JSONObject jsonObject = new JSONObject(response);
                         String main = jsonObject.getString("main");
                         JSONObject jsonObject1 = new JSONObject(main);
-                        temperature = jsonObject1.getDouble("temp");
+                        temperature = jsonObject1.getDouble("temp") - kelvinDifference;
                         System.out.println(temperature);
                     }catch (IOException | JSONException e){
                         e.printStackTrace();
@@ -307,9 +313,8 @@ public class ExperimentMurSound extends AppCompatActivity implements SensorEvent
                 }
             });
         } else {
-            temperatureViewer.setText("15 C");
+            temperatureViewer.setText("Temperatura ambiente por defecto =  15 °C");
         }
-
     }
 
 }
