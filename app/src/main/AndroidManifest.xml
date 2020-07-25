@@ -12,9 +12,10 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/logo2_round"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".ExperimentMurSound"></activity>
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".ExperimentMURTimer"></activity>
+        <activity android:name=".ExperimentMurSound" />
         <activity android:name=".Muc_Theory" />
         <activity android:name=".MuaTheory" />
         <activity android:name=".MurTheory" />

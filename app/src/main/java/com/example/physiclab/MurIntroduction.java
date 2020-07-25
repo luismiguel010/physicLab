@@ -34,7 +34,7 @@ public class MurIntroduction extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     if(checkPermission()) {
-                    Intent intent = new Intent(getApplicationContext(), ExperimentMurSound.class);
+                    Intent intent = new Intent(getApplicationContext(), ExperimentMURTimer.class);
                     startActivity(intent);
                     }else {
                         requestPermission();
