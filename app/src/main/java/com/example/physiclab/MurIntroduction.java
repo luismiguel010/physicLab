@@ -38,6 +38,10 @@ public class MurIntroduction extends AppCompatActivity {
                     startActivity(intent);
                     }else {
                         requestPermission();
+                        if(checkPermission()){
+                            Intent intent = new Intent(getApplicationContext(), ExperimentMURTimer.class);
+                            startActivity(intent);
+                        }
                     }
                 }
             });
@@ -65,10 +69,10 @@ public class MurIntroduction extends AppCompatActivity {
                     boolean RecordPermission = grantResults[0] ==
                             PackageManager.PERMISSION_GRANTED;
                     if (RecordPermission) {
-                        Toast.makeText(MurIntroduction.this, "Permission Granted",
+                        Toast.makeText(MurIntroduction.this, "Permisos aceptados, presione el botón nuevamente.",
                                 Toast.LENGTH_LONG).show();
                     } else {
-                        Toast.makeText(MurIntroduction.this,"Permission Denied",Toast.LENGTH_LONG).show();
+                        Toast.makeText(MurIntroduction.this,"Permisos denegados.",Toast.LENGTH_LONG).show();
                     }
                 }
                 break;
