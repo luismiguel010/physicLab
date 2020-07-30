@@ -52,7 +52,7 @@ public class ExperimentMurSound extends AppCompatActivity implements SensorEvent
     private float distance;
     private long timeStampThis;
     private static final String TAG = "Clapper";
-    AudioDispatcher dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050, 1024, 0);
+    AudioDispatcher dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(44000, 1024, 0);
     double threshold = 8;
     double sensitivity = 50;
     public static final int RequestPermissionCode = 1;
@@ -78,7 +78,7 @@ public class ExperimentMurSound extends AppCompatActivity implements SensorEvent
         }
 
         initComponent();
-            PercussionOnsetDetector mPercussionDetector = new PercussionOnsetDetector(22050, 1024,
+            PercussionOnsetDetector mPercussionDetector = new PercussionOnsetDetector(44000, 1024,
                     new OnsetHandler() {
                         @Override
                         public void handleOnset(double time, double salience) {
@@ -92,6 +92,7 @@ public class ExperimentMurSound extends AppCompatActivity implements SensorEvent
                             });
                         }
                     }, sensitivity, threshold);
+
 
             dispatcher.addAudioProcessor(mPercussionDetector);
             new Thread(dispatcher, "Audio Dispatcher").start();

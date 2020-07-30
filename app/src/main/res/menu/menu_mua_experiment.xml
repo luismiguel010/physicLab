@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ExperimentMUAProx">
+
+    <item android:id="@+id/play"
+        android:icon="@drawable/ic_media_play_dark"
+        app:showAsAction="always"
+        android:title="Play" />
+
+    <item
+        android:id="@+id/stop"
+        android:visible="false"
+        android:icon="@drawable/ic_media_pause_dark"
+        app:showAsAction="ifRoom"/>
+
+</menu>

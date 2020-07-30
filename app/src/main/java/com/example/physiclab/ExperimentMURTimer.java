@@ -2,6 +2,11 @@ package com.example.physiclab;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
+import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -10,10 +15,20 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.physiclab.services.HttpRequest;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
 import be.tarsos.dsp.AudioDispatcher;
 import be.tarsos.dsp.io.android.AudioDispatcherFactory;
 import be.tarsos.dsp.onsets.OnsetHandler;
 import be.tarsos.dsp.onsets.PercussionOnsetDetector;
+
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static android.Manifest.permission.INTERNET;
 
 public class ExperimentMURTimer extends AppCompatActivity {
 
@@ -25,10 +40,11 @@ public class ExperimentMURTimer extends AppCompatActivity {
     double timeCorrection;
     Handler customHandler = new Handler();
     long startTime=0L, timeInMilliseconds=0L, timeSwapBuff=0L, updateTime=0L;
-    AudioDispatcher dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050, 1024, 0);
+    AudioDispatcher dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(44000, 7176, 0);
     double threshold = 8;
     double sensitivity = 50;
     int counterClap = 0;
+    float secondsProcessed;
 
     Runnable updateTimetThread = new Runnable() {
         @Override
@@ -53,7 +69,7 @@ public class ExperimentMURTimer extends AppCompatActivity {
     }
 
     public void startAudioDispatcher(){
-            PercussionOnsetDetector mPercussionDetector = new PercussionOnsetDetector(22050, 1024,
+            PercussionOnsetDetector mPercussionDetector = new PercussionOnsetDetector(44000, 7176,
                     new OnsetHandler() {
                         @Override
                         public void handleOnset(final double timeHandle, double salience) {
@@ -196,4 +212,5 @@ public class ExperimentMURTimer extends AppCompatActivity {
         updateTime=0L;
         textState.setText("");
     }
+
 }

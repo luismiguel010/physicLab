@@ -1,18 +1,25 @@
 package com.example.physiclab;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
+
+import static android.Manifest.permission.RECORD_AUDIO;
 
 public class MuaIntroduction extends AppCompatActivity {
 
     private ImageButton btnbook;
     private ImageButton btnlab;
+    public static final int RequestPermissionCode = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +33,16 @@ public class MuaIntroduction extends AppCompatActivity {
         btnlab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), ExperimentMua.class);
-                startActivity(intent);
+                if(checkPermission()) {
+                    Intent intent = new Intent(getApplicationContext(), ExperimentMUAProx.class);
+                    startActivity(intent);
+                }else {
+                    requestPermission();
+                    if(checkPermission()){
+                        Intent intent = new Intent(getApplicationContext(), ExperimentMUAProx.class);
+                        startActivity(intent);
+                    }
+                }
             }
         });
 
@@ -38,5 +53,33 @@ public class MuaIntroduction extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void requestPermission() {
+        ActivityCompat.requestPermissions(MuaIntroduction.this, new String[]{RECORD_AUDIO}, RequestPermissionCode);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case RequestPermissionCode:
+                if (grantResults.length> 0) {
+                    boolean RecordPermission = grantResults[0] ==
+                            PackageManager.PERMISSION_GRANTED;
+                    if (RecordPermission) {
+                        Toast.makeText(MuaIntroduction.this, "Permisos aceptados, presione el botón nuevamente.",
+                                Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(MuaIntroduction.this,"Permisos denegados.",Toast.LENGTH_LONG).show();
+                    }
+                }
+                break;
+        }
+    }
+
+    public boolean checkPermission() {
+        int result1 = ContextCompat.checkSelfPermission(getApplicationContext(),
+                RECORD_AUDIO);
+        return result1 == PackageManager.PERMISSION_GRANTED;
     }
 }
