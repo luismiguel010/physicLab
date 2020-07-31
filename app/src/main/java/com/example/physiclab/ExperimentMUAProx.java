@@ -8,35 +8,29 @@ import androidx.core.content.ContextCompat;
 
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.physiclab.services.HttpRequest;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import be.tarsos.dsp.AudioDispatcher;
 import be.tarsos.dsp.io.android.AudioDispatcherFactory;
 import be.tarsos.dsp.onsets.OnsetHandler;
 import be.tarsos.dsp.onsets.PercussionOnsetDetector;
-
-import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.Manifest.permission.INTERNET;
 
 public class ExperimentMUAProx extends AppCompatActivity {
@@ -46,7 +40,6 @@ public class ExperimentMUAProx extends AppCompatActivity {
     private Switch switchButton;
     private TextView textSensor;
     boolean isOnSensor = false;
-    long timeStampCatch;
     int counterCatchTime = 0;
     boolean isOrigin = false;
     boolean isCatchTime = false;
@@ -56,18 +49,18 @@ public class ExperimentMUAProx extends AppCompatActivity {
     SensorManager sensorManager;
     Sensor proximitySensor;
     public static final int RequestPermissionCode = 1;
+    String timeStampCatchRequest;
+    private RequestQueue queue;
+    String urlServer = "http://192.168.1.9:8080/physicslab/getCurrentTime";
+    public static  final String TAG = "TAG_SERVER";
+    private boolean isEvent = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_experiment_m_u_a_prox);
-        toolbar = findViewById(R.id.tool_bar);
-        switchButton = findViewById(R.id.switch1);
-        textSensor = findViewById(R.id.textSensor);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("");
-        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        proximitySensor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
+        initComponents();
+
 
         if(proximitySensor == null){
             Toast.makeText(ExperimentMUAProx.this, "Sensor de proximidad no disponible", Toast.LENGTH_LONG).show();
@@ -85,18 +78,62 @@ public class ExperimentMUAProx extends AppCompatActivity {
         });
     }
 
+    private void initComponents() {
+        toolbar = findViewById(R.id.tool_bar);
+        switchButton = findViewById(R.id.switch1);
+        textSensor = findViewById(R.id.textSensor);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("");
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        proximitySensor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
+        queue = Volley.newRequestQueue(this);
+    }
+
+    private void getCurrentTimeServer(){
+        final long startTime = System.currentTimeMillis();
+        if(checkPermissionInternet()) {
+            if(isEvent) {
+                StringRequest stringRequest = new StringRequest(Request.Method.GET, urlServer, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        long totalRequestTime = Long.valueOf(response) - (System.currentTimeMillis() - startTime);
+                        timeStampCatchRequest = Long.toString(totalRequestTime);
+                        catchTimeClap(timeStampCatchRequest);
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        timeStampCatchRequest = "Error 404";
+                    }
+                });
+                stringRequest.setTag(TAG);
+                queue.add(stringRequest);
+            }
+        }else{
+            Toast.makeText(ExperimentMUAProx.this, "Es necesario permisos de internet",
+                    Toast.LENGTH_LONG).show();
+        }
+    }
+
     @Override
-    protected void onResume() {
+    protected void onStop() {
+        super.onStop();
+        if(queue != null){
+            queue.cancelAll(TAG);
+        }
+    }
+
+    private void startProximityCatcher() {
         final SensorEventListener proximitySensorListener = new SensorEventListener() {
             @Override
             public void onSensorChanged(SensorEvent sensorEvent) {
-                timeStampCatch = System.currentTimeMillis();
                 if(sensorEvent.values[0] < proximitySensor.getMaximumRange()){
                     textSensor.setText("Ahí está el sensor.");
+                    isEvent = true;
                 }else{
                     textSensor.setText("");
-                    if(isOnSensor){
-                        catchTimeClap(timeStampCatch);
+                    if(isOnSensor && isEvent){
+                        getCurrentTimeServer();
                     }
                 }
             }
@@ -106,19 +143,19 @@ public class ExperimentMUAProx extends AppCompatActivity {
             }
         };
         sensorManager.registerListener(proximitySensorListener, proximitySensor, 1);
-        super.onResume();
+    }
 
-
+    private void startAudioCatcher() {
         PercussionOnsetDetector mPercussionDetector = new PercussionOnsetDetector(22050, 1024,
                 new OnsetHandler() {
                     @Override
                     public void handleOnset(final double timeHandle, double salience) {
-                        timeStampCatch = System.currentTimeMillis();
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 if(!isOrigin && isOnSensor) {
-                                    catchTimeClap(timeStampCatch);
+                                    isEvent = true;
+                                    getCurrentTimeServer();
                                 }
                             }
                         });
@@ -140,13 +177,15 @@ public class ExperimentMUAProx extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.play) {
+            startAudioCatcher();
+            startProximityCatcher();
             isOnSensor = true;
             isCatchTime = false;
             counterCatchTime = 0;
-            //startAudioDispatcher();
             menu.getItem(0).setVisible(false);
             menu.getItem(1).setVisible(true);
             Toast.makeText(ExperimentMUAProx.this, "Sensor activado...", Toast.LENGTH_LONG).show();
+            requestPermission();
             return true;
         }else if(id == R.id.stop){
             isOnSensor = false;
@@ -160,19 +199,20 @@ public class ExperimentMUAProx extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void catchTimeClap(long timeStampCatch){
-        if(!isCatchTime) {
-            final long timeStampTemp = timeStampCatch;
+    public void catchTimeClap(String timeStampCatch){
+        if(!isCatchTime && timeStampCatchRequest != null) {
             isCatchTime = true;
+            isEvent = false;
             counterCatchTime = 0;
             AlertDialog.Builder builder1 = new AlertDialog.Builder(ExperimentMUAProx.this);
-            builder1.setMessage("Tiempo: " + String.valueOf(timeStampTemp));
+            builder1.setMessage("Tiempo: " + timeStampCatchRequest);
             builder1.setNegativeButton(
-                    "No es el tiempo",
+                    "Reintentar",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             isCatchTime = false;
                             counterCatchTime = 0;
+                            queue.cancelAll(TAG);
                             dialog.cancel();
                         }
                     });
@@ -183,16 +223,15 @@ public class ExperimentMUAProx extends AppCompatActivity {
     }
 
     private void requestPermission() {
-        ActivityCompat.requestPermissions(ExperimentMUAProx.this, new String[]{ACCESS_FINE_LOCATION, INTERNET}, RequestPermissionCode);
+        ActivityCompat.requestPermissions(ExperimentMUAProx.this, new String[]{INTERNET}, RequestPermissionCode);
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        for (int i = 0; i == permissions.length; i++) {
             switch (requestCode) {
                 case RequestPermissionCode:
                     if (grantResults.length > 0) {
-                        boolean RecordPermission = grantResults[i] ==
+                        boolean RecordPermission = grantResults[0] ==
                                 PackageManager.PERMISSION_GRANTED;
                         if (RecordPermission) {
                             Toast.makeText(ExperimentMUAProx.this, "Permission Granted",
@@ -203,7 +242,6 @@ public class ExperimentMUAProx extends AppCompatActivity {
                     }
                     break;
             }
-        }
     }
 
     public boolean checkPermissionInternet(){
@@ -211,24 +249,32 @@ public class ExperimentMUAProx extends AppCompatActivity {
         return result == PackageManager.PERMISSION_GRANTED;
     }
 
-    public void requestTemperatureApi(final String lon, final String lat){
+
+
+
+
+/*    public void requestCurrentTime(){
+        //final long startTime = System.currentTimeMillis();
         if(checkPermissionInternet()){
             AsyncTask.execute(new Runnable() {
                 @Override
                 public void run() {
                     HttpRequest httpRequest = new HttpRequest();
                     try{
-                        String response = httpRequest.run("http://192.168.1.9:8080/physicslab/getCurrentTime");
-
+                            String timeReponse = httpRequest.run("http://192.168.1.9:8080/physicslab/getCurrentTime");
+                            isOkResponse = true;
+                            //long elapsedTime = System.currentTimeMillis() - startTime;
+                            //long currentTimeReal = Long.valueOf(timeResponse).longValue() - elapsedTime;
+                            //timeStampCatchRequest = Long.toString(currentTimeReal);
                     }catch (IOException e){
                         e.printStackTrace();
                     }
                 }
             });
         } else {
-            Toast.makeText(ExperimentMUAProx.this, "Error internet",
+            Toast.makeText(ExperimentMUAProx.this, "Error http",
                     Toast.LENGTH_LONG).show();
         }
-    }
+    }*/
 
 }
