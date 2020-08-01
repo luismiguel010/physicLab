@@ -9,7 +9,6 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.SystemClock;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -22,7 +21,7 @@ import be.tarsos.dsp.onsets.PercussionOnsetDetector;
 public class ExperimentMUAProx extends AppCompatActivity {
 
     private TextView timeTextView;
-    long startTime=0L, timeInMilliseconds=0L, timeSwapBuff=0L, updateTime=0L;
+    long startTime=0L, timeInNanoSeconds =0L, timeSwapBuff=0L, updateTime=0L;
     String time, timeCatch;
     Handler customHandler = new Handler();
     int counterSound = 0;
@@ -40,10 +39,9 @@ public class ExperimentMUAProx extends AppCompatActivity {
     Runnable updateTimetThread = new Runnable() {
         @Override
         public void run() {
-            startTimeCode = System.nanoTime();
-            timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
-            updateTime = timeSwapBuff + timeInMilliseconds;
-            updateTime = updateTime - (System.nanoTime() - startTimeCode)/1000000000;
+            startTimeCode = System.currentTimeMillis();
+            timeInNanoSeconds = System.currentTimeMillis() - startTime;
+            updateTime = timeSwapBuff + timeInNanoSeconds - (System.currentTimeMillis()- startTimeCode);
             int secs = (int)(updateTime / 1000);
             int milliseconds = (int) (updateTime%1000);
             time = secs + "." + String.format("%03d", milliseconds);
@@ -99,7 +97,7 @@ public class ExperimentMUAProx extends AppCompatActivity {
                     @Override
                     public void handleOnset(final double timeHandle, double salience) {
                         timeCatch = time;
-                        counterSound = counterSound + 1;
+                        counterSound = 1;
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -147,7 +145,7 @@ public class ExperimentMUAProx extends AppCompatActivity {
     }
 
     public void runTime(){
-        startTime = SystemClock.uptimeMillis();
+        startTime = System.currentTimeMillis();
         customHandler.postDelayed(updateTimetThread, 0);
     }
 
@@ -158,13 +156,13 @@ public class ExperimentMUAProx extends AppCompatActivity {
     }
 
     public void pauseTime(){
-        timeSwapBuff += timeInMilliseconds;
+        timeSwapBuff += timeInNanoSeconds;
         customHandler.removeCallbacks(updateTimetThread);
     }
 
     public void restartTime(){
         startTime = 0L;
-        timeInMilliseconds=0L;
+        timeInNanoSeconds =0L;
         timeSwapBuff=0L;
         updateTime=0L;
         timeTextView.setText("");
