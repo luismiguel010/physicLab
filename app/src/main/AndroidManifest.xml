@@ -18,7 +18,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ExperimentMUAProx"></activity>
+        <activity android:name=".ExperimentMUCGyro"></activity>
+        <activity android:name=".ExperimentMUAProx" />
         <activity android:name=".ExperimentMURTimer" />
         <activity android:name=".ExperimentMurSound" />
         <activity android:name=".Muc_Theory" />
