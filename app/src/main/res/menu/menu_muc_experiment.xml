@@ -15,4 +15,39 @@
         android:icon="@drawable/ic_media_pause_dark"
         app:showAsAction="ifRoom"/>
 
+    <item
+        android:id="@+id/exportData"
+        android:title="Exportar datos"
+        app:showAsAction="never"
+        />
+
+    <item
+        android:id="@+id/enableRemote"
+        android:title="Permitir acceso remoto"
+        android:checkable="true"
+        app:showAsAction="never"
+        app:actionViewClass="android.widget.CheckBox"
+        />
+
+    <item
+        android:id="@+id/actionAddEntry"
+        android:title="Action Add Entry">
+    </item>
+    <item
+        android:id="@+id/actionRemoveEntry"
+        android:title="Action Remove Entry">
+    </item>
+    <item
+        android:id="@+id/actionAddDataSet"
+        android:title="Action Add Set">
+    </item>
+    <item
+        android:id="@+id/actionRemoveDataSet"
+        android:title="Action Remove Data Set">
+    </item>
+    <item
+        android:id="@+id/actionClear"
+        android:title="Action Clear Chart">
+    </item>
+
 </menu>

@@ -23,8 +23,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.physiclab.services.HttpRequest;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -73,8 +71,6 @@ public class ExperimentMurSound extends AppCompatActivity implements SensorEvent
         if(isPresentTemperatureSensor) {
             temperatureSensor = sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
             temperatureViewer.setText("Temperatura ambiente = " + temperatureSensor.toString() + " °C");
-        }else{
-            getLocationByGPS();
         }
 
         initComponent();
@@ -265,57 +261,11 @@ public class ExperimentMurSound extends AppCompatActivity implements SensorEvent
         return result == PackageManager.PERMISSION_GRANTED;
     }
 
-    public boolean checkPermissionInternet(){
+    public boolean checkPermissionInternet() {
         int result = ContextCompat.checkSelfPermission(getApplicationContext(), INTERNET);
         return result == PackageManager.PERMISSION_GRANTED;
     }
 
-    public void getLocationByGPS(){
-        LocationManager locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            requestPermission();
-        }
-        List<String> providers = locationManager.getProviders(true);
-        Location bestLocation = null;
-        for (String provider : providers) {
-            Location location = locationManager.getLastKnownLocation(provider);
-            if (location == null) {
-                continue;
-            }
-            if (bestLocation == null || location.getAccuracy() < bestLocation.getAccuracy()) {
-                bestLocation = location;
-                longitud = bestLocation.getLongitude();
-                latitude = bestLocation.getLatitude();
-            }
-        }
-        if (bestLocation == null) {
-            System.out.println("Not found location");
-        }
-        requestTemperatureApi(Double.toString(longitud), Double.toString(latitude));
-        //temperatureViewer.setText("Temperatura ambiente = " + Double.toString(temperature) + " °C");
-    }
 
-    public void requestTemperatureApi(final String lon, final String lat){
-        if(checkPermissionInternet()){
-            AsyncTask.execute(new Runnable() {
-                @Override
-                public void run() {
-                    HttpRequest httpRequest = new HttpRequest();
-                    try{
-                        String response = httpRequest.run("http://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+lon+"&appid=9de243494c0b295cca9337e1e96b00e2");
-                        JSONObject jsonObject = new JSONObject(response);
-                        String main = jsonObject.getString("main");
-                        JSONObject jsonObject1 = new JSONObject(main);
-                        temperature = jsonObject1.getDouble("temp") - kelvinDifference;
-                        System.out.println(temperature);
-                    }catch (IOException | JSONException e){
-                        e.printStackTrace();
-                    }
-                }
-            });
-        } else {
-            temperatureViewer.setText("Temperatura ambiente por defecto =  15 °C");
-        }
-    }
 
 }

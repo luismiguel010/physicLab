@@ -25,7 +25,7 @@ public class MucIntroduction extends AppCompatActivity {
         btnlab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), ExperimentMuc.class);
+                Intent intent = new Intent(getApplicationContext(), ExperimentMUCGyro.class);
                 startActivity(intent);
             }
         });
