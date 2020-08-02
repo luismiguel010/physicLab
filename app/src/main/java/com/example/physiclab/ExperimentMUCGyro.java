@@ -47,16 +47,16 @@ public class ExperimentMUCGyro extends AppCompatActivity implements OnChartValue
     private EditText editRadio;
     private float radio;
     private int samplingPeriodUsGyro = 1000000;
-    private int samplingPeriodUsAccel = 1000000;
     boolean isSensorOn = false;
     private float mAccel, mAccelCurrent, mAccelLast;
     long startTime=0L, timeInNanoSeconds =0L, timeSwapBuff=0L, updateTime=0L;
     String time, timeCatch;
     Handler customHandler = new Handler();
-    private float[] vectorTime;
-    private float[] vectorVelocity;
+    private float omegaMagnitude;
     private final int[] vectorColors = ColorTemplate.VORDIPLOM_COLORS;
     private LineChart lineChart;
+    private float secsWithMillis;
+    ArrayList<Float> vectorVelocity, vectorTime;
 
     Runnable updateTimetThread = new Runnable() {
         @Override
@@ -65,6 +65,7 @@ public class ExperimentMUCGyro extends AppCompatActivity implements OnChartValue
             updateTime = timeSwapBuff + timeInNanoSeconds;
             int secs = (int)(updateTime / 1000);
             int milliseconds = (int) (updateTime%1000);
+            secsWithMillis = updateTime/1000;
             time = secs + "." + String.format("%03d", milliseconds);
             customHandler.postDelayed(this,0);
         }
@@ -88,7 +89,7 @@ public class ExperimentMUCGyro extends AppCompatActivity implements OnChartValue
         lineChart.setOnChartValueSelectedListener(this);
         lineChart.setDrawGridBackground(false);
         lineChart.getDescription().setEnabled(false);
-        lineChart.setNoDataText("Datos no disponibles. Presione play para obtener datos de los sensores.");
+        lineChart.setNoDataText("Presione play para visualizar los datos.");
         lineChart.invalidate();
 
         mAccel = 0.00f;
@@ -103,31 +104,24 @@ public class ExperimentMUCGyro extends AppCompatActivity implements OnChartValue
 
     private void addEntry(){
         LineData data = lineChart.getData();
-
         if (data == null) {
             data = new LineData();
             lineChart.setData(data);
         }
-
         ILineDataSet set = data.getDataSetByIndex(0);
         // set.addEntry(...); // can be called as well
-
         if (set == null) {
             set = createSet();
             data.addDataSet(set);
         }
-
         // choose a random dataSet
-        int randomDataSetIndex = (int) (Math.random() * data.getDataSetCount());
-        ILineDataSet randomSet = data.getDataSetByIndex(randomDataSetIndex);
-        float value = (float) (Math.random() * 50) + 50f * (randomDataSetIndex + 1);
-
-        data.addEntry(new Entry(randomSet.getEntryCount(), value), randomDataSetIndex);
+        //int randomDataSetIndex = (int) (Math.random() * data.getDataSetCount());
+        //ILineDataSet randomSet = data.getDataSetByIndex(randomDataSetIndex);
+        //float value = (float) (Math.random() * 50) + 50f * (randomDataSetIndex + 1);
+        data.addEntry(new Entry(secsWithMillis, omegaMagnitude), 0);
         data.notifyDataChanged();
-
         // let the chart know it's data has changed
         lineChart.notifyDataSetChanged();
-
         lineChart.setVisibleXRangeMaximum(6);
         //chart.setVisibleYRangeMaximum(15, AxisDependency.LEFT);
 //
@@ -250,6 +244,7 @@ public class ExperimentMUCGyro extends AppCompatActivity implements OnChartValue
                 if(radio != 0) {
                     isSensorOn = true;
                     startGyroscope();
+                    runTime();
                     menu.getItem(0).setVisible(false);
                     menu.getItem(1).setVisible(true);
                     Toast.makeText(ExperimentMUCGyro.this, "Sensor activado.", Toast.LENGTH_LONG).show();
@@ -311,12 +306,13 @@ public class ExperimentMUCGyro extends AppCompatActivity implements OnChartValue
                 float axisX = sensorEvent.values[0];
                 float axisY = sensorEvent.values[1];
                 float axisZ = sensorEvent.values[2];
-                float omegaMagnitude = (float) Math.sqrt(axisX * axisX + axisY * axisY + axisZ * axisZ);
+                omegaMagnitude = (float) Math.sqrt(axisX * axisX + axisY * axisY + axisZ * axisZ);
+                vectorVelocity.add(omegaMagnitude*radio);
+                vectorTime.add(secsWithMillis);
+                addEntry();
             }
             @Override
-            public void onAccuracyChanged(Sensor sensor, int i) {
-
-            }
+            public void onAccuracyChanged(Sensor sensor, int i) { }
         };
         if(isSensorOn) {
             sensorManager.registerListener(sensorEventListener, sensorGyroscope, samplingPeriodUsGyro);
