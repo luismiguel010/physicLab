@@ -24,17 +24,19 @@ public class ExperimentMURTimer extends AppCompatActivity {
     double timeCorrection;
     Handler customHandler = new Handler();
     long startTime=0L, timeInMilliseconds=0L, timeSwapBuff=0L, updateTime=0L;
-    AudioDispatcher dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(44000, 7176, 0);
+    AudioDispatcher dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050, 1024, 0);
     double threshold = 8;
     double sensitivity = 50;
     int counterClap = 0;
     float secondsProcessed;
+    private long startTimeCode;
 
     Runnable updateTimetThread = new Runnable() {
         @Override
         public void run() {
+            startTimeCode = System.nanoTime();
             timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
-            updateTime = timeSwapBuff + timeInMilliseconds;
+            updateTime = timeSwapBuff + timeInMilliseconds - (System.nanoTime() - startTimeCode)/1000000;
             int secs = (int)(updateTime / 1000);
             int milliseconds = (int) (updateTime%1000);
             time = secs + "." + String.format("%03d", milliseconds);
@@ -53,7 +55,7 @@ public class ExperimentMURTimer extends AppCompatActivity {
     }
 
     public void startAudioDispatcher(){
-            PercussionOnsetDetector mPercussionDetector = new PercussionOnsetDetector(44000, 7176,
+            PercussionOnsetDetector mPercussionDetector = new PercussionOnsetDetector(22050, 1024,
                     new OnsetHandler() {
                         @Override
                         public void handleOnset(final double timeHandle, double salience) {
