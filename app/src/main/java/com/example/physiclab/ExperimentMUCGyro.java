@@ -3,19 +3,23 @@ package com.example.physiclab;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -35,6 +39,8 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 public class ExperimentMUCGyro extends AppCompatActivity implements OnChartValueSelectedListener {
@@ -65,8 +71,8 @@ public class ExperimentMUCGyro extends AppCompatActivity implements OnChartValue
             updateTime = timeSwapBuff + timeInNanoSeconds;
             int secs = (int)(updateTime / 1000);
             int milliseconds = (int) (updateTime%1000);
-            secsWithMillis = updateTime/1000;
             time = secs + "." + String.format("%03d", milliseconds);
+            secsWithMillis = Float.parseFloat(time);
             customHandler.postDelayed(this,0);
         }
     };
@@ -84,14 +90,12 @@ public class ExperimentMUCGyro extends AppCompatActivity implements OnChartValue
         textViewRadio = findViewById(R.id.textViewRadio);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
-
         lineChart = findViewById(R.id.linear_chart);
         lineChart.setOnChartValueSelectedListener(this);
         lineChart.setDrawGridBackground(false);
         lineChart.getDescription().setEnabled(false);
         lineChart.setNoDataText("Presione play para visualizar los datos.");
         lineChart.invalidate();
-
         mAccel = 0.00f;
         mAccelCurrent = SensorManager.GRAVITY_EARTH;
         mAccelLast = SensorManager.GRAVITY_EARTH;
@@ -100,6 +104,8 @@ public class ExperimentMUCGyro extends AppCompatActivity implements OnChartValue
         if(sensorGyroscope == null){
             Toast.makeText(ExperimentMUCGyro.this, "Giroscopio no disponible", Toast.LENGTH_LONG).show();
         }
+        vectorVelocity = new ArrayList<>();
+        vectorTime = new ArrayList<>();
     }
 
     private void addEntry(){
@@ -167,7 +173,7 @@ public class ExperimentMUCGyro extends AppCompatActivity implements OnChartValue
                 values.add(new Entry(i, (float) (Math.random() * 50f) + 50f * count));
             }
 
-            LineDataSet set = new LineDataSet(values, "DataSet " + count);
+            LineDataSet set = new LineDataSet(values, "Velocidad angular " + count);
             set.setLineWidth(2.5f);
             set.setCircleRadius(4.5f);
 
@@ -202,7 +208,7 @@ public class ExperimentMUCGyro extends AppCompatActivity implements OnChartValue
 
     private LineDataSet createSet() {
 
-        LineDataSet set = new LineDataSet(null, "DataSet 1");
+        LineDataSet set = new LineDataSet(null, "Velocidad angular");
         set.setLineWidth(2.5f);
         set.setCircleRadius(4.5f);
         set.setColor(Color.rgb(240, 99, 99));
@@ -244,6 +250,7 @@ public class ExperimentMUCGyro extends AppCompatActivity implements OnChartValue
                 if(radio != 0) {
                     isSensorOn = true;
                     startGyroscope();
+                    restartTime();
                     runTime();
                     menu.getItem(0).setVisible(false);
                     menu.getItem(1).setVisible(true);
@@ -253,7 +260,7 @@ public class ExperimentMUCGyro extends AppCompatActivity implements OnChartValue
             case R.id.stop:
                 isSensorOn = false;
                 startGyroscope();
-                restartTime();
+                pauseTime();
                 menu.getItem(0).setVisible(true);
                 menu.getItem(1).setVisible(false);
                 Toast.makeText(ExperimentMUCGyro.this, "Sensor desactivado.", Toast.LENGTH_LONG).show();
@@ -268,6 +275,7 @@ public class ExperimentMUCGyro extends AppCompatActivity implements OnChartValue
                 }
                 return true;
             case R.id.exportData:
+                export();
                 Toast.makeText(ExperimentMUCGyro.this, "Exportar datos.", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.actionAddEntry: {
@@ -307,8 +315,7 @@ public class ExperimentMUCGyro extends AppCompatActivity implements OnChartValue
                 float axisY = sensorEvent.values[1];
                 float axisZ = sensorEvent.values[2];
                 omegaMagnitude = (float) Math.sqrt(axisX * axisX + axisY * axisY + axisZ * axisZ);
-                vectorVelocity.add(omegaMagnitude*radio);
-                vectorTime.add(secsWithMillis);
+                saveData();
                 addEntry();
             }
             @Override
@@ -318,6 +325,13 @@ public class ExperimentMUCGyro extends AppCompatActivity implements OnChartValue
             sensorManager.registerListener(sensorEventListener, sensorGyroscope, samplingPeriodUsGyro);
         }else{
             sensorManager.unregisterListener(sensorEventListener, sensorGyroscope);
+        }
+    }
+
+    private void saveData() {
+        if(isSensorOn) {
+            vectorVelocity.add(omegaMagnitude * radio);
+            vectorTime.add(secsWithMillis);
         }
     }
 
@@ -344,5 +358,36 @@ public class ExperimentMUCGyro extends AppCompatActivity implements OnChartValue
         }else{
             Toast.makeText(ExperimentMUCGyro.this, "Ingrese el radio.", Toast.LENGTH_LONG).show();
         }
+    }
+
+    public void export(){
+        //generate data
+        StringBuilder data = new StringBuilder();
+        data.append("Tiempo,Velocidad");
+        for(int i = 0; i < vectorVelocity.size(); i++){
+            data.append("\n" + vectorTime.get(i).toString() + "," + vectorVelocity.get(i).toString());
+        }
+
+        try{
+            //saving the file into device
+            FileOutputStream out = openFileOutput("data.csv", Context.MODE_PRIVATE);
+            out.write((data.toString()).getBytes());
+            out.close();
+
+            //exporting
+            Context context = getApplicationContext();
+            File filelocation = new File(getFilesDir(), "data.csv");
+            Uri path = FileProvider.getUriForFile(context, "com.example.physiclab.fileprovider", filelocation);
+            Intent fileIntent = new Intent(Intent.ACTION_SEND);
+            fileIntent.setType("text/csv");
+            fileIntent.putExtra(Intent.EXTRA_SUBJECT, "Data");
+            fileIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            fileIntent.putExtra(Intent.EXTRA_STREAM, path);
+            startActivity(Intent.createChooser(fileIntent, "Send mail"));
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+
     }
 }
