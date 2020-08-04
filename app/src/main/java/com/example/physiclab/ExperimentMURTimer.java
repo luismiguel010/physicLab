@@ -30,12 +30,10 @@ public class ExperimentMURTimer extends AppCompatActivity {
     int counterClap = 0;
     float secondsProcessed;
     private long startTimeCode;
-    volatile boolean runTime = false;
 
     Runnable updateTimetThread = new Runnable() {
         @Override
         public void run() {
-            while (runTime) {
                 startTimeCode = System.nanoTime();
                 timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
                 updateTime = timeSwapBuff + timeInMilliseconds - (System.nanoTime() - startTimeCode) / 1000000;
@@ -43,7 +41,7 @@ public class ExperimentMURTimer extends AppCompatActivity {
                 int milliseconds = (int) (updateTime % 1000);
                 time = secs + "." + String.format("%03d", milliseconds);
                 customHandler.postDelayed(this, 0);
-            }
+
         }
     };
 
@@ -87,14 +85,12 @@ public class ExperimentMURTimer extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.play) {
-            runTime = true;
             startAudioDispatcher();
             menu.getItem(1).setVisible(false);
             menu.getItem(2).setVisible(true);
             Toast.makeText(ExperimentMURTimer.this, "Escuchando...", Toast.LENGTH_LONG).show();
             return true;
         }else if(id == R.id.stop){
-            runTime = false;
             pauseTime();
             menu.getItem(1).setVisible(true);
             menu.getItem(2).setVisible(false);
