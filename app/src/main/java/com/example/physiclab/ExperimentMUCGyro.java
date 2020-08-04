@@ -115,76 +115,37 @@ public class ExperimentMUCGyro extends AppCompatActivity implements OnChartValue
             lineChart.setData(data);
         }
         ILineDataSet set = data.getDataSetByIndex(0);
-        // set.addEntry(...); // can be called as well
         if (set == null) {
             set = createSet();
             data.addDataSet(set);
         }
-        // choose a random dataSet
-        //int randomDataSetIndex = (int) (Math.random() * data.getDataSetCount());
-        //ILineDataSet randomSet = data.getDataSetByIndex(randomDataSetIndex);
-        //float value = (float) (Math.random() * 50) + 50f * (randomDataSetIndex + 1);
-        data.addEntry(new Entry(secsWithMillis, omegaMagnitude), 0);
+        data.addEntry(new Entry(secsWithMillis, omegaMagnitude*radio), 0);
         data.notifyDataChanged();
-        // let the chart know it's data has changed
         lineChart.notifyDataSetChanged();
         lineChart.setVisibleXRangeMaximum(6);
-        //chart.setVisibleYRangeMaximum(15, AxisDependency.LEFT);
-//
-//            // this automatically refreshes the chart (calls invalidate())
         lineChart.moveViewTo(data.getEntryCount() - 7, 50f, YAxis.AxisDependency.LEFT);
     }
 
-    private void removeLastEntry() {
-
-        LineData data = lineChart.getData();
-
-        if (data != null) {
-
-            ILineDataSet set = data.getDataSetByIndex(0);
-
-            if (set != null) {
-
-                Entry e = set.getEntryForXValue(set.getEntryCount() - 1, Float.NaN);
-
-                data.removeEntry(e, 0);
-                // or remove by index
-                // mData.removeEntryByXValue(xIndex, dataSetIndex);
-                data.notifyDataChanged();
-                lineChart.notifyDataSetChanged();
-                lineChart.invalidate();
-            }
-        }
-    }
-
     private void addDataSet() {
-
         LineData data = lineChart.getData();
-
         if (data == null) {
             lineChart.setData(new LineData());
         } else {
             int count = (data.getDataSetCount() + 1);
             int amount = data.getDataSetByIndex(0).getEntryCount();
-
             ArrayList<Entry> values = new ArrayList<>();
-
             for (int i = 0; i < amount; i++) {
                 values.add(new Entry(i, (float) (Math.random() * 50f) + 50f * count));
             }
-
             LineDataSet set = new LineDataSet(values, "Velocidad angular " + count);
             set.setLineWidth(2.5f);
             set.setCircleRadius(4.5f);
-
             int color = vectorColors[count % vectorColors.length];
-
             set.setColor(color);
             set.setCircleColor(color);
             set.setHighLightColor(color);
             set.setValueTextSize(10f);
             set.setValueTextColor(color);
-
             data.addDataSet(set);
             data.notifyDataChanged();
             lineChart.notifyDataSetChanged();
@@ -192,31 +153,12 @@ public class ExperimentMUCGyro extends AppCompatActivity implements OnChartValue
         }
     }
 
-    private void removeDataSet() {
-
-        LineData data = lineChart.getData();
-
-        if (data != null) {
-
-            data.removeDataSet(data.getDataSetByIndex(data.getDataSetCount() - 1));
-
-            lineChart.notifyDataSetChanged();
-            lineChart.invalidate();
-        }
-    }
-
-
     private LineDataSet createSet() {
-
-        LineDataSet set = new LineDataSet(null, "Velocidad angular");
+        LineDataSet set = new LineDataSet(null, "Velocidad m/s");
         set.setLineWidth(2.5f);
-        set.setCircleRadius(4.5f);
-        set.setColor(Color.rgb(240, 99, 99));
-        set.setCircleColor(Color.rgb(240, 99, 99));
-        set.setHighLightColor(Color.rgb(190, 190, 190));
+        set.setColor(Color.rgb(0, 110, 71));
         set.setAxisDependency(YAxis.AxisDependency.LEFT);
         set.setValueTextSize(10f);
-
         return set;
     }
 
@@ -278,28 +220,10 @@ public class ExperimentMUCGyro extends AppCompatActivity implements OnChartValue
                 export();
                 Toast.makeText(ExperimentMUCGyro.this, "Exportar datos.", Toast.LENGTH_LONG).show();
                 return true;
-            case R.id.actionAddEntry: {
-                addEntry();
-                Toast.makeText(this, "Entry added!", Toast.LENGTH_SHORT).show();
-                break;
-            }
-            case R.id.actionRemoveEntry: {
-                removeLastEntry();
-                Toast.makeText(this, "Entry removed!", Toast.LENGTH_SHORT).show();
-                break;
-            }
-            case R.id.actionAddDataSet: {
-                addDataSet();
-                Toast.makeText(this, "DataSet added!", Toast.LENGTH_SHORT).show();
-                break;
-            }
-            case R.id.actionRemoveDataSet: {
-                removeDataSet();
-                Toast.makeText(this, "DataSet removed!", Toast.LENGTH_SHORT).show();
-                break;
-            }
             case R.id.actionClear: {
+                restartTime();
                 lineChart.clear();
+                runTime();
                 Toast.makeText(this, "Chart cleared!", Toast.LENGTH_SHORT).show();
                 break;
             }
@@ -311,12 +235,14 @@ public class ExperimentMUCGyro extends AppCompatActivity implements OnChartValue
         final SensorEventListener sensorEventListener = new SensorEventListener() {
             @Override
             public void onSensorChanged(SensorEvent sensorEvent) {
-                float axisX = sensorEvent.values[0];
-                float axisY = sensorEvent.values[1];
-                float axisZ = sensorEvent.values[2];
-                omegaMagnitude = (float) Math.sqrt(axisX * axisX + axisY * axisY + axisZ * axisZ);
-                saveData();
-                addEntry();
+                if(isSensorOn) {
+                    float axisX = sensorEvent.values[0];
+                    float axisY = sensorEvent.values[1];
+                    float axisZ = sensorEvent.values[2];
+                    omegaMagnitude = (float) Math.sqrt(axisX * axisX + axisY * axisY + axisZ * axisZ);
+                    saveData();
+                    addEntry();
+                }
             }
             @Override
             public void onAccuracyChanged(Sensor sensor, int i) { }
@@ -336,8 +262,10 @@ public class ExperimentMUCGyro extends AppCompatActivity implements OnChartValue
     }
 
     public void runTime(){
-        startTime = System.currentTimeMillis();
-        customHandler.postDelayed(updateTimetThread, 0);
+        if(isSensorOn) {
+            startTime = System.currentTimeMillis();
+            customHandler.postDelayed(updateTimetThread, 0);
+        }
     }
 
     public void pauseTime(){
@@ -361,20 +289,15 @@ public class ExperimentMUCGyro extends AppCompatActivity implements OnChartValue
     }
 
     public void export(){
-        //generate data
         StringBuilder data = new StringBuilder();
         data.append("Tiempo,Velocidad");
         for(int i = 0; i < vectorVelocity.size(); i++){
             data.append("\n" + vectorTime.get(i).toString() + "," + vectorVelocity.get(i).toString());
         }
-
         try{
-            //saving the file into device
             FileOutputStream out = openFileOutput("data.csv", Context.MODE_PRIVATE);
             out.write((data.toString()).getBytes());
             out.close();
-
-            //exporting
             Context context = getApplicationContext();
             File filelocation = new File(getFilesDir(), "data.csv");
             Uri path = FileProvider.getUriForFile(context, "com.example.physiclab.fileprovider", filelocation);
@@ -388,6 +311,5 @@ public class ExperimentMUCGyro extends AppCompatActivity implements OnChartValue
         catch(Exception e){
             e.printStackTrace();
         }
-
     }
 }
