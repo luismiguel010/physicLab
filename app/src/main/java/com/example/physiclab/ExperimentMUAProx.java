@@ -9,6 +9,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -21,7 +22,7 @@ import be.tarsos.dsp.onsets.PercussionOnsetDetector;
 public class ExperimentMUAProx extends AppCompatActivity {
 
     private TextView timeTextView;
-    long startTime=0L, timeInNanoSeconds =0L, timeSwapBuff=0L, updateTime=0L;
+    long startTime=0L, timeInMilliseconds =0L, timeSwapBuff=0L, updateTime=0L;
     String time, timeCatch;
     Handler customHandler = new Handler();
     int counterSound = 0;
@@ -39,13 +40,13 @@ public class ExperimentMUAProx extends AppCompatActivity {
     Runnable updateTimetThread = new Runnable() {
         @Override
         public void run() {
-            startTimeCode = System.currentTimeMillis();
-            timeInNanoSeconds = System.currentTimeMillis() - startTime;
-            updateTime = timeSwapBuff + timeInNanoSeconds - (System.currentTimeMillis()- startTimeCode);
-            int secs = (int)(updateTime / 1000);
-            int milliseconds = (int) (updateTime%1000);
-            time = secs + "." + String.format("%03d", milliseconds);
-            customHandler.postDelayed(this,0);
+                startTimeCode = System.nanoTime();
+                timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
+                updateTime = timeSwapBuff + timeInMilliseconds - (System.nanoTime() - startTimeCode) / 1000000;
+                int secs = (int) (updateTime / 1000);
+                int milliseconds = (int) (updateTime % 1000);
+                time = secs + "." + String.format("%03d", milliseconds);
+                customHandler.postDelayed(this, 0);
         }
     };
 
@@ -69,6 +70,11 @@ public class ExperimentMUAProx extends AppCompatActivity {
         proximitySensor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        startProximityCatcher();
+    }
 
     private void startProximityCatcher() {
         final SensorEventListener proximitySensorListener = new SensorEventListener() {
@@ -80,6 +86,7 @@ public class ExperimentMUAProx extends AppCompatActivity {
                     getWindow().getDecorView().setBackgroundColor(Color.YELLOW);
                 }else{
                     runTime();
+                    startAudioCatcher();
                     getWindow().getDecorView().setBackgroundColor(Color.WHITE);
                 }
             }
@@ -124,8 +131,6 @@ public class ExperimentMUAProx extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.play) {
-            startAudioCatcher();
-            startProximityCatcher();
             isOnSensor = true;
             counterSound = 0;
             menu.getItem(0).setVisible(false);
@@ -145,7 +150,7 @@ public class ExperimentMUAProx extends AppCompatActivity {
     }
 
     public void runTime(){
-        startTime = System.currentTimeMillis();
+        startTime = SystemClock.uptimeMillis();
         customHandler.postDelayed(updateTimetThread, 0);
     }
 
@@ -156,13 +161,13 @@ public class ExperimentMUAProx extends AppCompatActivity {
     }
 
     public void pauseTime(){
-        timeSwapBuff += timeInNanoSeconds;
+        timeSwapBuff += timeInMilliseconds;
         customHandler.removeCallbacks(updateTimetThread);
     }
 
     public void restartTime(){
         startTime = 0L;
-        timeInNanoSeconds =0L;
+        timeInMilliseconds =0L;
         timeSwapBuff=0L;
         updateTime=0L;
         timeTextView.setText("");
