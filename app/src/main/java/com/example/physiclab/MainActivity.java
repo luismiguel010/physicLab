@@ -1,10 +1,14 @@
 package com.example.physiclab;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -16,6 +20,9 @@ import com.example.physiclab.features.cuestionaries.ProblemsMur;
 
 
 public class MainActivity extends AppCompatActivity {
+
+    private Toolbar toolbar;
+    private Menu menu;
     ViewFlipper v_flipper;
     private ImageButton btnMur;
     private ImageButton btnMua;
@@ -28,6 +35,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        toolbar = findViewById(R.id.tool_bar);
+        setSupportActionBar(toolbar);
+        toolbar.setTitleTextColor(Color.WHITE);
+        //toolbar.setLogo(R.drawable.ic_logo_without_border);
+
         btnMur = (ImageButton) findViewById(R.id.btnMur);
         btnMua = (ImageButton) findViewById(R.id.btnMua);
         btnMuc = (ImageButton) findViewById(R.id.btnMcu);
@@ -91,6 +103,13 @@ public class MainActivity extends AppCompatActivity {
             flipperImage(image);
         }
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        this.menu = menu;
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
     }
 
     public void flipperImage(int image){
