@@ -1,4 +1,4 @@
-package com.example.physiclab;
+package com.example.physiclab.features.experiments;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -14,6 +14,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.physiclab.R;
+
 import be.tarsos.dsp.AudioDispatcher;
 import be.tarsos.dsp.io.android.AudioDispatcherFactory;
 import be.tarsos.dsp.onsets.OnsetHandler;

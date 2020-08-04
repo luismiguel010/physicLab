@@ -1,9 +1,11 @@
-package com.example.physiclab;
+package com.example.physiclab.features.cuestionaries;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.Window;
+
+import com.example.physiclab.R;
 
 public class ProblemsMua extends AppCompatActivity {
 

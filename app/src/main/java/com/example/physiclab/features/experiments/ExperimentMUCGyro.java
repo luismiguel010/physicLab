@@ -1,14 +1,11 @@
-package com.example.physiclab;
+package com.example.physiclab.features.experiments;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -19,17 +16,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.mikephil.charting.charts.Chart;
+import com.example.physiclab.R;
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.components.LegendEntry;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;

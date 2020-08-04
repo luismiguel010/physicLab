@@ -1,9 +1,10 @@
-package com.example.physiclab;
+package com.example.physiclab.features.theories;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import com.example.physiclab.R;
 import com.github.barteksc.pdfviewer.PDFView;
 
 public class MuaTheory extends AppCompatActivity {

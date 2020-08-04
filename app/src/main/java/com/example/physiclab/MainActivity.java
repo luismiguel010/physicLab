@@ -10,6 +10,10 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ViewFlipper;
 
+import com.example.physiclab.features.cuestionaries.ProblemsMua;
+import com.example.physiclab.features.cuestionaries.ProblemsMuc;
+import com.example.physiclab.features.cuestionaries.ProblemsMur;
+
 
 public class MainActivity extends AppCompatActivity {
     ViewFlipper v_flipper;

@@ -1,16 +1,18 @@
-package com.example.physiclab;
+package com.example.physiclab.features.cuestionaries;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.Window;
 
-public class ProblemsMuc extends AppCompatActivity {
+import com.example.physiclab.R;
+
+public class ProblemsMur extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_problems_muc);
+        setContentView(R.layout.activity_problems_mur);
     }
 }

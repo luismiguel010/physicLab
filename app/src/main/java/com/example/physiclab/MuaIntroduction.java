@@ -9,9 +9,11 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
+
+import com.example.physiclab.features.experiments.ExperimentMUAProx;
+import com.example.physiclab.features.theories.MurTheory;
 
 import static android.Manifest.permission.RECORD_AUDIO;
 
