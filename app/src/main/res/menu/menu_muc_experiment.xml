@@ -28,26 +28,9 @@
         app:showAsAction="never"
         app:actionViewClass="android.widget.CheckBox"
         />
-
-    <item
-        android:id="@+id/actionAddEntry"
-        android:title="Action Add Entry">
-    </item>
-    <item
-        android:id="@+id/actionRemoveEntry"
-        android:title="Action Remove Entry">
-    </item>
-    <item
-        android:id="@+id/actionAddDataSet"
-        android:title="Action Add Set">
-    </item>
-    <item
-        android:id="@+id/actionRemoveDataSet"
-        android:title="Action Remove Data Set">
-    </item>
     <item
         android:id="@+id/actionClear"
-        android:title="Action Clear Chart">
+        android:title="Limpiar gráfico">
     </item>
 
 </menu>
