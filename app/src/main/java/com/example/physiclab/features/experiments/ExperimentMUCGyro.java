@@ -49,7 +49,7 @@ public class ExperimentMUCGyro extends AppCompatActivity implements OnChartValue
     boolean isSensorOn = false;
     private float mAccel, mAccelCurrent, mAccelLast;
     long startTime=0L, timeInNanoSeconds =0L, timeSwapBuff=0L, updateTime=0L;
-    String time, timeCatch;
+    String time;
     Handler customHandler = new Handler();
     private float omegaMagnitude;
     private final int[] vectorColors = ColorTemplate.VORDIPLOM_COLORS;
@@ -118,33 +118,6 @@ public class ExperimentMUCGyro extends AppCompatActivity implements OnChartValue
         lineChart.notifyDataSetChanged();
         lineChart.setVisibleXRangeMaximum(6);
         lineChart.moveViewTo(data.getEntryCount() - 7, 50f, YAxis.AxisDependency.LEFT);
-    }
-
-    private void addDataSet() {
-        LineData data = lineChart.getData();
-        if (data == null) {
-            lineChart.setData(new LineData());
-        } else {
-            int count = (data.getDataSetCount() + 1);
-            int amount = data.getDataSetByIndex(0).getEntryCount();
-            ArrayList<Entry> values = new ArrayList<>();
-            for (int i = 0; i < amount; i++) {
-                values.add(new Entry(i, (float) (Math.random() * 50f) + 50f * count));
-            }
-            LineDataSet set = new LineDataSet(values, "Velocidad angular " + count);
-            set.setLineWidth(2.5f);
-            set.setCircleRadius(4.5f);
-            int color = vectorColors[count % vectorColors.length];
-            set.setColor(color);
-            set.setCircleColor(color);
-            set.setHighLightColor(color);
-            set.setValueTextSize(10f);
-            set.setValueTextColor(color);
-            data.addDataSet(set);
-            data.notifyDataChanged();
-            lineChart.notifyDataSetChanged();
-            lineChart.invalidate();
-        }
     }
 
     private LineDataSet createSet() {

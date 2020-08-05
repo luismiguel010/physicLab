@@ -42,4 +42,5 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     //noinspection GradleCompatible
     compile "com.android.support:appcompat-v7:21.0.3"
+    compile group: 'org.nanohttpd', name: 'nanohttpd', version: '2.3.1'
 }
