@@ -2,6 +2,8 @@ package com.example.physiclab.features.experiments;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -24,14 +26,12 @@ public class ExperimentMURTimer extends AppCompatActivity {
     TextView textState, time1, time2, time3, time4, time5;
     String time;
     String timeCatch = "";
-    double timeCorrection;
     Handler customHandler = new Handler();
     long startTime=0L, timeInMilliseconds=0L, timeSwapBuff=0L, updateTime=0L;
     AudioDispatcher dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050, 1024, 0);
     double threshold = 8;
     double sensitivity = 50;
     int counterClap = 0;
-    float secondsProcessed;
     private long startTimeCode;
 
     Runnable updateTimetThread = new Runnable() {
@@ -44,7 +44,6 @@ public class ExperimentMURTimer extends AppCompatActivity {
                 int milliseconds = (int) (updateTime % 1000);
                 time = secs + "." + String.format("%03d", milliseconds);
                 customHandler.postDelayed(this, 0);
-
         }
     };
 
@@ -54,8 +53,15 @@ public class ExperimentMURTimer extends AppCompatActivity {
         setContentView(R.layout.activity_experiment_m_u_r_timer);
         toolbar = findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("");
+        getSupportActionBar().setTitle("MUR");
+        toolbar.setTitleTextColor(Color.WHITE);
         initComponents();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        counterClap = 0;
     }
 
     public void startAudioDispatcher(){
@@ -88,6 +94,7 @@ public class ExperimentMURTimer extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.play) {
+            restartTime();
             startAudioDispatcher();
             menu.getItem(1).setVisible(false);
             menu.getItem(2).setVisible(true);
@@ -95,11 +102,13 @@ public class ExperimentMURTimer extends AppCompatActivity {
             return true;
         }else if(id == R.id.stop){
             pauseTime();
+            restartTime();
             menu.getItem(1).setVisible(true);
             menu.getItem(2).setVisible(false);
             Toast.makeText(ExperimentMURTimer.this, "No escuchando...", Toast.LENGTH_LONG).show();
             return true;
         }else if(id == R.id.restart){
+            pauseTime();
             restartTime();
         }
         return super.onOptionsItemSelected(item);
@@ -117,19 +126,19 @@ public class ExperimentMURTimer extends AppCompatActivity {
         time3 = findViewById(R.id.time3);
         time4 = findViewById(R.id.time4);
         time5 = findViewById(R.id.time5);
+        counterClap = 0;
     }
 
     public void controlTime(int counter, String timeCatchHandle){
         switch (counter){
             case 0:
-                startTime = SystemClock.uptimeMillis();
+                runTime();
                 textState.setText("Inició");
                 time1.setText("_ _ , _ _");
                 time2.setText("_ _ , _ _");
                 time3.setText("_ _ , _ _");
                 time4.setText("_ _ , _ _");
                 time5.setText("_ _ , _ _");
-                customHandler.postDelayed(updateTimetThread, 0);
                 counterClap = 1;
                 break;
             case 1:
@@ -181,6 +190,11 @@ public class ExperimentMURTimer extends AppCompatActivity {
                 pauseTime();
                 break;
         }
+    }
+
+    public void runTime(){
+        startTime = SystemClock.uptimeMillis();
+        customHandler.postDelayed(updateTimetThread, 0);
     }
 
     public void pauseTime(){

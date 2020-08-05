@@ -82,7 +82,8 @@ public class ExperimentMUCGyro extends AppCompatActivity implements OnChartValue
         editRadio = findViewById(R.id.edit_radio);
         textViewRadio = findViewById(R.id.textViewRadio);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("");
+        getSupportActionBar().setTitle("MUC");
+        toolbar.setTitleTextColor(Color.WHITE);
         lineChart = findViewById(R.id.linear_chart);
         lineChart.setOnChartValueSelectedListener(this);
         lineChart.setDrawGridBackground(false);

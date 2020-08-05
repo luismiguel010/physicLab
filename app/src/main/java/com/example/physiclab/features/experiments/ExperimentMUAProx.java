@@ -68,7 +68,8 @@ public class ExperimentMUAProx extends AppCompatActivity {
         toolbar = findViewById(R.id.tool_bar);
         textSensor = findViewById(R.id.textSensor);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("");
+        getSupportActionBar().setTitle("MUA");
+        toolbar.setTitleTextColor(Color.WHITE);
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         proximitySensor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
     }
@@ -84,6 +85,7 @@ public class ExperimentMUAProx extends AppCompatActivity {
             @Override
             public void onSensorChanged(SensorEvent sensorEvent) {
                 if(sensorEvent.values[0] < proximitySensor.getMaximumRange()){
+                    pauseTime();
                     restartTime();
                     counterSound = 0;
                     getWindow().getDecorView().setBackgroundColor(Color.YELLOW);
@@ -141,6 +143,7 @@ public class ExperimentMUAProx extends AppCompatActivity {
             Toast.makeText(ExperimentMUAProx.this, "Sensor activado...", Toast.LENGTH_LONG).show();
             return true;
         }else if(id == R.id.stop){
+            pauseTime();
             restartTime();
             isOnSensor = false;
             counterSound = 0;
