@@ -3,6 +3,7 @@ package com.example.physiclab.features.guides;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.FileProvider;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
@@ -13,6 +14,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+
 import com.example.physiclab.R;
 import com.github.barteksc.pdfviewer.PDFView;
 
@@ -22,24 +24,24 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class MURGuide extends AppCompatActivity {
+public class MUAGuide extends AppCompatActivity {
 
     PDFView pdfView;
     private Toolbar toolbar;
     private Menu menu;
-    private final static String TAG  = MURGuide.class.getSimpleName();
+    private final static String TAG  = MUAGuide.class.getSimpleName();
     private static final int PERMISSION_REQUEST = 255;
-    private String nameFile = "mur_guide.pdf";
+    private String nameFile = "mua_guide.pdf";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_m_u_r_guide);
+        setContentView(R.layout.activity_m_u_a_guide);
         toolbar = findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("MUR Guía de laboratorio");
+        getSupportActionBar().setTitle("MUA Guía de laboratorio");
         toolbar.setTitleTextColor(Color.WHITE);
-        pdfView = findViewById(R.id.mur_guide);
+        pdfView = findViewById(R.id.mua_guide);
         pdfView.fromAsset(nameFile).load();
     }
 
@@ -55,7 +57,7 @@ public class MURGuide extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.exportGuide:
                 exportGuide();
-                Toast.makeText(MURGuide.this, "Exportar guía.", Toast.LENGTH_LONG).show();
+                Toast.makeText(MUAGuide.this, "Exportar guía.", Toast.LENGTH_LONG).show();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -77,7 +79,7 @@ public class MURGuide extends AppCompatActivity {
             startActivity(Intent.createChooser(objIntent, "Send guide"));
         } else {
 
-            Toast.makeText(MURGuide.this, "The file not exists! ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MUAGuide.this, "The file not exists! ", Toast.LENGTH_SHORT).show();
 
         }
     }

@@ -18,7 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".features.guides.MURGuide"></activity>
+        <activity android:name=".features.guides.MUCGuide"></activity>
+        <activity android:name=".features.guides.MUAGuide" />
+        <activity android:name=".features.guides.MURGuide" />
         <activity android:name=".features.experiments.ExperimentMUCGyro" />
         <activity android:name=".features.experiments.ExperimentMUAProx" />
         <activity android:name=".features.experiments.ExperimentMURTimer" />

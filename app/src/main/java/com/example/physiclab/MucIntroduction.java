@@ -9,6 +9,7 @@ import android.view.Window;
 import android.widget.ImageButton;
 
 import com.example.physiclab.features.experiments.ExperimentMUCGyro;
+import com.example.physiclab.features.guides.MUCGuide;
 import com.example.physiclab.features.theories.MurTheory;
 
 public class MucIntroduction extends AppCompatActivity {
@@ -35,7 +36,7 @@ public class MucIntroduction extends AppCompatActivity {
         btnbook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), MurTheory.class);
+                Intent intent = new Intent(getApplicationContext(), MUCGuide.class);
                 startActivity(intent);
             }
         });
