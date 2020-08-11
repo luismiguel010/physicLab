@@ -256,6 +256,7 @@ public class ExperimentMUCGyro extends AppCompatActivity implements OnChartValue
     }
 
     public void export(){
+        String nameFile = "DataGyro";
         StringBuilder data = new StringBuilder();
         data.append("Tiempo,Velocidad");
         for(int i = 0; i < vectorVelocity.size(); i++){
@@ -267,10 +268,10 @@ public class ExperimentMUCGyro extends AppCompatActivity implements OnChartValue
             out.close();
             Context context = getApplicationContext();
             File filelocation = new File(getFilesDir(), "data.csv");
-            Uri path = FileProvider.getUriForFile(context, "com.example.physiclab.fileprovider", filelocation);
+            Uri path = FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName() +".fileprovider", filelocation);
             Intent fileIntent = new Intent(Intent.ACTION_SEND);
             fileIntent.setType("text/csv");
-            fileIntent.putExtra(Intent.EXTRA_SUBJECT, "Data");
+            fileIntent.putExtra(Intent.EXTRA_SUBJECT, nameFile);
             fileIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             fileIntent.putExtra(Intent.EXTRA_STREAM, path);
             startActivity(Intent.createChooser(fileIntent, "Send mail"));

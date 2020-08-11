@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.physiclab.BuildConfig;
 import com.example.physiclab.R;
 import com.github.barteksc.pdfviewer.PDFView;
 
@@ -66,15 +67,20 @@ public class MURGuide extends AppCompatActivity {
     }
 
     public void exportGuide(){
+        String nameFile = "mur_guide.pdf";
         copyAssets();
-        File pdfFile = new File(Environment.getExternalStorageDirectory(),"mur_guide.pdf");//File path
+        Context context = getApplicationContext();
+        File pdfFile = new File(getFilesDir(),nameFile);//File path
         if (pdfFile.exists()) //Checking for the file is exist or not
         {
-            Uri path = Uri.fromFile(pdfFile);
-            Intent objIntent = new Intent(Intent.ACTION_VIEW);
+            Uri path = FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName() +".fileprovider", pdfFile);
+            Intent objIntent = new Intent(Intent.ACTION_SEND);
             objIntent.setDataAndType(path, "application/pdf");
+            objIntent.putExtra(Intent.EXTRA_SUBJECT, nameFile);
+            objIntent.putExtra(Intent.EXTRA_STREAM, path);
+            objIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             objIntent.setFlags(Intent. FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(objIntent);//Staring the pdf viewer
+            startActivity(Intent.createChooser(objIntent, "Send guide"));
         } else {
 
             Toast.makeText(MURGuide.this, "The file not exists! ", Toast.LENGTH_SHORT).show();
@@ -95,7 +101,7 @@ public class MURGuide extends AppCompatActivity {
             OutputStream out = null;
             try {
                 in = assetManager.open(filename);
-                File outFile = new File(getExternalFilesDir(null), filename);
+                File outFile = new File(getFilesDir(), filename);
                 out = new FileOutputStream(outFile);
                 copyFile(in, out);
             } catch(IOException e) {
