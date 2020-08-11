@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.physiclab.features.experiments.ExperimentMURTimer;
+import com.example.physiclab.features.guides.MURGuide;
 import com.example.physiclab.features.theories.MurTheory;
 
 import static android.Manifest.permission.RECORD_AUDIO;
@@ -52,7 +53,7 @@ public class MurIntroduction extends AppCompatActivity {
         btnbook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), MurTheory.class);
+                Intent intent = new Intent(getApplicationContext(), MURGuide.class);
                 startActivity(intent);
             }
         });

@@ -1,17 +1,9 @@
 package com.example.physiclab.features.theories;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.widget.Toast;
-
 import com.example.physiclab.R;
 import com.github.barteksc.pdfviewer.PDFView;
-
-import static android.Manifest.permission.RECORD_AUDIO;
 
 public class MurTheory extends AppCompatActivity {
 

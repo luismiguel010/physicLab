@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".features.guides.MURGuide">
+
+    <item
+        android:id="@+id/exportGuide"
+        android:title="Exportar guía"
+        app:showAsAction="never"
+        />
+
+</menu>

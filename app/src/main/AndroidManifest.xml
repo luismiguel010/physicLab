@@ -18,7 +18,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".features.experiments.ExperimentMUCGyro"></activity>
+        <activity android:name=".features.guides.MURGuide"></activity>
+        <activity android:name=".features.experiments.ExperimentMUCGyro" />
         <activity android:name=".features.experiments.ExperimentMUAProx" />
         <activity android:name=".features.experiments.ExperimentMURTimer" />
         <activity android:name=".features.theories.Muc_Theory" />
@@ -42,13 +43,12 @@
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.physiclab.fileprovider"
-            android:grantUriPermissions="true"
-            android:exported="false">
+            android:exported="false"
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"/>
+                android:resource="@xml/provider_paths" />
         </provider>
-
     </application>
 
 </manifest>
