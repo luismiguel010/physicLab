@@ -7,7 +7,6 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -17,7 +16,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.physiclab.R;
-import com.example.physiclab.threads.ControlAudioThread;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
@@ -28,7 +26,6 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
-import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import be.tarsos.dsp.AudioDispatcher;
@@ -38,12 +35,11 @@ import be.tarsos.dsp.onsets.PercussionOnsetDetector;
 
 public class ExperimentMUAProx extends AppCompatActivity implements OnChartValueSelectedListener {
 
-    ControlAudioThread controlAudioThread;
-
     private TextView timeTextView;
     long startTime=0L, timeInMilliseconds =0L, timeSwapBuff=0L, updateTime=0L;
     String time, timeCatch;
     Handler customHandler = new Handler();
+    Handler audioHandler = new Handler();
     int counterSound = 0;
     private Toolbar toolbar;
     private Menu menu;
@@ -62,6 +58,7 @@ public class ExperimentMUAProx extends AppCompatActivity implements OnChartValue
     private Thread threadListener;
     private final AtomicBoolean running = new AtomicBoolean(false);
     private int interval;
+    private boolean isFirstTime = true;
 
     Runnable updateTimetThread = new Runnable() {
         @Override
@@ -73,8 +70,17 @@ public class ExperimentMUAProx extends AppCompatActivity implements OnChartValue
                 int milliseconds = (int) (updateTime % 1000);
                 time = secs + "." + String.format("%03d", milliseconds);
                 secsWithMillis = Float.parseFloat(time);
-                addEntry();
+                addEntry(secsWithMillis);
                 customHandler.postDelayed(this, 0);
+        }
+    };
+
+    Runnable audioListener = new Runnable() {
+        @Override
+        public void run() {
+            if(isOnSensor && isActivatedSensor) {
+                finishTime(timeCatch);
+            }
         }
     };
 
@@ -101,13 +107,12 @@ public class ExperimentMUAProx extends AppCompatActivity implements OnChartValue
         lineChart.setNoDataText("Presione play para visualizar los datos.");
         lineChart.invalidate();
         isActivatedSensor = false;
-        //threadListener = new Thread(dispatcher, "Audio Dispatcher");
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         proximitySensor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
     }
 
-    private void addEntry(){
-        if(isActivatedSensor && secsWithMillis != 0.000) {
+    private void addEntry(float time){
+        if(isActivatedSensor && time != 0.000) {
             LineData data = lineChart.getData();
             if (data == null) {
                 data = new LineData();
@@ -118,7 +123,7 @@ public class ExperimentMUAProx extends AppCompatActivity implements OnChartValue
                 set = createSet();
                 data.addDataSet(set);
             }
-            data.addEntry(new Entry(secsWithMillis, (float) (0.5 * 9.8 * Math.pow(secsWithMillis, 2))), 0);
+            data.addEntry(new Entry(time, (float) (0.5 * 9.8 * Math.pow(time, 2))), 0);
             data.notifyDataChanged();
             lineChart.notifyDataSetChanged();
             lineChart.setVisibleXRangeMaximum(6);
@@ -157,6 +162,7 @@ public class ExperimentMUAProx extends AppCompatActivity implements OnChartValue
                     pauseTime();
                     restartTime();
                     lineChart.clear();
+                    stopThreadAudio();
                     isActivatedSensor = true;
                     getWindow().getDecorView().setBackgroundColor(Color.YELLOW);
                 }else{
@@ -181,19 +187,15 @@ public class ExperimentMUAProx extends AppCompatActivity implements OnChartValue
                     @Override
                     public void handleOnset(final double timeHandle, double salience) {
                         timeCatch = time;
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                if(isOnSensor && isActivatedSensor) {
-                                    finishTime(timeCatch);
-                                }
-                            }
-                        });
+                        runOnUiThread(audioListener);
                     }
                 }, sensitivity, threshold);
 
         dispatcher.addAudioProcessor(mPercussionDetector);
-        new Thread(dispatcher, "Audio dispatcher").start();
+        if(isFirstTime){
+            startThreadAudio();
+            isFirstTime = false;
+        }
     }
 
     @Override
@@ -236,7 +238,6 @@ public class ExperimentMUAProx extends AppCompatActivity implements OnChartValue
         pauseTime();
         restartTime();
         isOnSensor = false;
-        isActivatedSensor = false;
         menu.getItem(0).setVisible(true);
         menu.getItem(1).setVisible(false);
         Toast.makeText(ExperimentMUAProx.this, "Sensor desactivado...", Toast.LENGTH_LONG).show();
@@ -254,5 +255,14 @@ public class ExperimentMUAProx extends AppCompatActivity implements OnChartValue
         timeSwapBuff=0L;
         updateTime=0L;
         timeTextView.setText("");
+    }
+
+    public void startThreadAudio() {
+        threadListener = new Thread(dispatcher, "Audio dispatcher");
+        threadListener.start();
+    }
+
+    public void stopThreadAudio() {
+        customHandler.removeCallbacks(audioListener);
     }
 }
