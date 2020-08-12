@@ -33,6 +33,8 @@ public class ExperimentMURTimer extends AppCompatActivity {
     double sensitivity = 50;
     int counterClap = 0;
     private long startTimeCode;
+    private boolean isFirstTime = true;
+    private Thread threadListener;
 
     Runnable updateTimetThread = new Runnable() {
         @Override
@@ -44,6 +46,14 @@ public class ExperimentMURTimer extends AppCompatActivity {
                 int milliseconds = (int) (updateTime % 1000);
                 time = secs + "." + String.format("%03d", milliseconds);
                 customHandler.postDelayed(this, 0);
+        }
+    };
+
+    Runnable audioListener = new Runnable() {
+        @Override
+        public void run() {
+            timeCatch = time;
+            controlTime(counterClap, timeCatch);
         }
     };
 
@@ -69,18 +79,15 @@ public class ExperimentMURTimer extends AppCompatActivity {
                     new OnsetHandler() {
                         @Override
                         public void handleOnset(final double timeHandle, double salience) {
-                            timeCatch = time;
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    controlTime(counterClap, timeCatch);
-                                }
-                            });
+                            runOnUiThread(audioListener);
                         }
                     }, sensitivity, threshold);
 
-            dispatcher.addAudioProcessor(mPercussionDetector);
-            new Thread(dispatcher, "Audio Dispatcher").start();
+        dispatcher.addAudioProcessor(mPercussionDetector);
+        if(isFirstTime){
+            startThreadAudio();
+            isFirstTime = false;
+        }
     }
 
     @Override
@@ -215,6 +222,15 @@ public class ExperimentMURTimer extends AppCompatActivity {
         timeSwapBuff=0L;
         updateTime=0L;
         textState.setText("");
+    }
+
+    public void startThreadAudio() {
+        threadListener = new Thread(dispatcher, "Audio dispatcher");
+        threadListener.start();
+    }
+
+    public void stopThreadAudio() {
+        customHandler.removeCallbacks(audioListener);
     }
 
 }
