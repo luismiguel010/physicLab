@@ -21,122 +21,30 @@
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="0dp" />
 
-    <ImageButton
-        android:id="@+id/btnMur"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/roundcorner"
-        android:padding="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnMua"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/v_flipper"
-        app:layout_constraintVertical_bias="0.13"
-        app:srcCompat="@drawable/ic_iconmur"
-        tools:ignore="VectorDrawableCompat" />
-
-    <ImageButton
-        android:id="@+id/btnMua"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/roundcorner"
-        android:padding="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnMcu"
-        app:layout_constraintStart_toEndOf="@+id/btnMur"
-        app:layout_constraintTop_toBottomOf="@+id/v_flipper"
-        app:layout_constraintVertical_bias="0.146"
-        app:srcCompat="@drawable/ic_iconmua"
-        tools:ignore="VectorDrawableCompat" />
-
-    <ImageButton
-        android:id="@+id/btnMcu"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/roundcorner"
-        android:padding="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.263"
-        app:layout_constraintStart_toEndOf="@+id/btnMua"
-        app:layout_constraintTop_toBottomOf="@+id/v_flipper"
-        app:layout_constraintVertical_bias="0.144"
-        app:srcCompat="@drawable/ic_iconmuc"
-        tools:ignore="VectorDrawableCompat" />
-
-    <TextView
-        android:id="@+id/titleTE"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/titleTheoryExcercise"
-        app:layout_constraintBottom_toTopOf="@+id/btnMur"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.075"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/v_flipper"
-        app:layout_constraintVertical_bias="0.735" />
-
-    <TextView
-        android:id="@+id/txtmurTe"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/mur"
-        app:layout_constraintEnd_toEndOf="@+id/btnMur"
-        app:layout_constraintStart_toStartOf="@+id/btnMur"
-        app:layout_constraintTop_toBottomOf="@+id/btnMur" />
-
-    <TextView
-        android:id="@+id/txtmuaTe"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/mua"
-        app:layout_constraintEnd_toEndOf="@+id/btnMua"
-        app:layout_constraintStart_toStartOf="@+id/btnMua"
-        app:layout_constraintTop_toBottomOf="@+id/btnMua" />
-
-    <TextView
-        android:id="@+id/txtmucTe"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/muc"
-        app:layout_constraintEnd_toEndOf="@+id/btnMcu"
-        app:layout_constraintHorizontal_bias="0.538"
-        app:layout_constraintStart_toStartOf="@+id/btnMcu"
-        app:layout_constraintTop_toBottomOf="@+id/btnMcu" />
-
     <TextView
         android:id="@+id/titleExperiment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
         android:text="@string/ExperimentsTilte"
-        app:layout_constraintBottom_toTopOf="@+id/btnMuaExp"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.116"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtmuaTe"
-        app:layout_constraintVertical_bias="0.72" />
+        app:layout_constraintTop_toBottomOf="@+id/v_flipper" />
 
     <ImageButton
         android:id="@+id/btnMurExp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
         android:background="@drawable/roundcorner"
         android:padding="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/txtMuaEx"
-        app:layout_constraintEnd_toStartOf="@+id/btnMuaExp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/btnMuaExp"
+        app:layout_constraintTop_toBottomOf="@+id/titleExperiment"
         app:srcCompat="@drawable/ic_iconmur"
         tools:ignore="VectorDrawableCompat" />
 
@@ -144,15 +52,14 @@
         android:id="@+id/btnMuaExp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
         android:background="@drawable/roundcorner"
         android:padding="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnMucExp"
         app:layout_constraintStart_toEndOf="@+id/btnMurExp"
-        app:layout_constraintTop_toBottomOf="@+id/txtmucTe"
-        app:layout_constraintVertical_bias="0.2"
+        app:layout_constraintTop_toBottomOf="@+id/titleExperiment"
         app:srcCompat="@drawable/ic_iconmua"
         tools:ignore="VectorDrawableCompat" />
 
@@ -160,14 +67,12 @@
         android:id="@+id/btnMucExp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
         android:background="@drawable/roundcorner"
         android:padding="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.4"
-        app:layout_constraintStart_toEndOf="@+id/btnMuaExp"
-        app:layout_constraintTop_toBottomOf="@+id/txtmucTe"
-        app:layout_constraintVertical_bias="0.221"
+        app:layout_constraintTop_toBottomOf="@+id/titleExperiment"
         app:srcCompat="@drawable/ic_iconmuc"
         tools:ignore="VectorDrawableCompat" />
 
