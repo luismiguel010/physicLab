@@ -19,7 +19,6 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.physiclab.R;
-import com.example.physiclab.features.sensors.movement.GyroscopeView;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
@@ -33,18 +32,20 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 
-public class Magnetometer extends AppCompatActivity implements OnChartValueSelectedListener, SensorEventListener {
+public class Orientation extends AppCompatActivity implements OnChartValueSelectedListener, SensorEventListener {
 
     private Toolbar toolbar;
     private Menu menu;
     private LineChart lineChartX, lineChartY, lineChartZ;
     private SensorManager sensorManager;
-    private Sensor magnetometer;
+    private Sensor accelerometer, magnetometer;
     private boolean isSensorOn = false;
     long startTime=0L, timeInNanoSeconds =0L, timeSwapBuff=0L, updateTime=0L;
     private float secsWithMillis;
     Handler customHandler = new Handler();
-    ArrayList<Float> vectorTime, vectorAxisX, vectorAxisY, vectorAxisZ;
+    ArrayList<Float> vectorTime, vectorAzimut, vectorPith, vectorRoll;
+    float[] mGravity;
+    float[] mGeomagnetic;
 
     Runnable updateTimetThread = new Runnable() {
         @Override
@@ -61,16 +62,17 @@ public class Magnetometer extends AppCompatActivity implements OnChartValueSelec
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_megnetometer);
+        setContentView(R.layout.activity_orientation);
         initComponents();
     }
 
     public void initComponents(){
         toolbar = findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Magnetómetro");
+        getSupportActionBar().setTitle("Orientación");
         toolbar.setTitleTextColor(Color.WHITE);
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         magnetometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
         lineChartX = findViewById(R.id.linear_chartX);
         lineChartX.setOnChartValueSelectedListener(this);
@@ -90,15 +92,16 @@ public class Magnetometer extends AppCompatActivity implements OnChartValueSelec
         lineChartZ.getDescription().setEnabled(false);
         lineChartZ.setNoDataText("Presione play para visualizar los datos.");
         lineChartZ.invalidate();
-        vectorAxisX = new ArrayList<>();
-        vectorAxisY = new ArrayList<>();
-        vectorAxisZ = new ArrayList<>();
+        vectorAzimut = new ArrayList<>();
+        vectorPith = new ArrayList<>();
+        vectorRoll = new ArrayList<>();
         vectorTime = new ArrayList<>();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
         sensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
@@ -130,18 +133,18 @@ public class Magnetometer extends AppCompatActivity implements OnChartValueSelec
                 runTime();
                 menu.getItem(0).setVisible(false);
                 menu.getItem(1).setVisible(true);
-                Toast.makeText(Magnetometer.this, "Magnetómetro activado.", Toast.LENGTH_LONG).show();
+                Toast.makeText(Orientation.this, "Sensor de orientación activado.", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.stop:
                 isSensorOn = false;
                 pauseTime();
                 menu.getItem(0).setVisible(true);
                 menu.getItem(1).setVisible(false);
-                Toast.makeText(Magnetometer.this, "Magnetómetro desactivado.", Toast.LENGTH_LONG).show();
+                Toast.makeText(Orientation.this, "Sensor de orientació desactivado.", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.exportData:
                 export();
-                Toast.makeText(Magnetometer.this, "Exportar datos.", Toast.LENGTH_LONG).show();
+                Toast.makeText(Orientation.this, "Exportar datos.", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.actionClear: {
                 restartTime();
@@ -178,7 +181,7 @@ public class Magnetometer extends AppCompatActivity implements OnChartValueSelec
     }
 
     private LineDataSet createSetX() {
-        LineDataSet set = new LineDataSet(null, "Fuerza campo magnético junto al eje X μT");
+        LineDataSet set = new LineDataSet(null, "Azimuth (ángulo en torno al eje z) en grados.");
         set.setDrawCircles(false);
         set.setLineWidth(2.5f);
         set.setColor(Color.rgb(0, 110, 71));
@@ -206,7 +209,7 @@ public class Magnetometer extends AppCompatActivity implements OnChartValueSelec
     }
 
     private LineDataSet createSetY() {
-        LineDataSet set = new LineDataSet(null, "Fuerza campo magnético junto al eje Y μT");
+        LineDataSet set = new LineDataSet(null, "Pitch (ángulo en torno al eje x) en grados.");
         set.setDrawCircles(false);
         set.setLineWidth(2.5f);
         set.setColor(Color.rgb(255, 192, 0));
@@ -234,7 +237,7 @@ public class Magnetometer extends AppCompatActivity implements OnChartValueSelec
     }
 
     private LineDataSet createSetZ() {
-        LineDataSet set = new LineDataSet(null, "Fuerza campo magnético junto al eje Z μT");
+        LineDataSet set = new LineDataSet(null, "Roll (ángulo en torno al eje y) en grados.");
         set.setDrawCircles(false);
         set.setLineWidth(2.5f);
         set.setColor(Color.rgb(33, 150, 243));
@@ -251,15 +254,28 @@ public class Magnetometer extends AppCompatActivity implements OnChartValueSelec
     public void onNothingSelected() {}
 
     @Override
-    public void onSensorChanged(SensorEvent sensorEvent) {
+    public void onSensorChanged(SensorEvent event) {
         if(isSensorOn) {
-            float axisX = sensorEvent.values[0];
-            float axisY = sensorEvent.values[1];
-            float axisZ = sensorEvent.values[2];
-            addEntryX(secsWithMillis, axisX);
-            addEntryY(secsWithMillis, axisY);
-            addEntryZ(secsWithMillis, axisZ);
-            saveData(secsWithMillis, axisX, axisY, axisZ);
+            if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER)
+                mGravity = event.values;
+            if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD)
+                mGeomagnetic = event.values;
+            if (mGravity != null && mGeomagnetic != null) {
+                float R[] = new float[9];
+                float I[] = new float[9];
+                boolean success = SensorManager.getRotationMatrix(R, I, mGravity, mGeomagnetic);
+                if (success) {
+                    float orientation[] = new float[3];
+                    SensorManager.getOrientation(R, orientation);
+                    float azimut = (float) (orientation[0] * 180/Math.PI); // orientation contains: azimut, pitch and roll
+                    float pitch = (float) (orientation[1] * 180/Math.PI);
+                    float roll = (float) (orientation[2] * 180/Math.PI);
+                    addEntryX(secsWithMillis, azimut);
+                    addEntryY(secsWithMillis, pitch);
+                    addEntryZ(secsWithMillis, roll);
+                    saveData(secsWithMillis, azimut, pitch, roll);
+                }
+            }
         }
     }
 
@@ -288,26 +304,26 @@ public class Magnetometer extends AppCompatActivity implements OnChartValueSelec
     private void saveData(float secsWithMillis, float axisX, float axisY, float axisZ) {
         if(isSensorOn) {
             vectorTime.add(secsWithMillis);
-            vectorAxisX.add(axisX);
-            vectorAxisY.add(axisY);
-            vectorAxisZ.add(axisZ);
+            vectorAzimut.add(axisX);
+            vectorPith.add(axisY);
+            vectorRoll.add(axisZ);
         }
     }
 
     public void export(){
-        String nameFile = "DataMagnetometer";
+        String nameFile = "DataOrientation";
         StringBuilder data = new StringBuilder();
-        data.append("Tiempo,EjeX,EjeY,EjeZ");
+        data.append("Tiempo,Azimuth,Pitch,Roll");
         for(int i = 0; i < vectorTime.size(); i++){
-            data.append("\n" + vectorTime.get(i).toString() + "," + vectorAxisX.get(i).toString()
-                    + "," + vectorAxisY.get(i).toString() + "," + vectorAxisZ.get(i).toString());
+            data.append("\n" + vectorTime.get(i).toString() + "," + vectorAzimut.get(i).toString()
+                    + "," + vectorPith.get(i).toString() + "," + vectorRoll.get(i).toString());
         }
         try{
-            FileOutputStream out = openFileOutput("magnetometer.csv", Context.MODE_PRIVATE);
+            FileOutputStream out = openFileOutput("orientation.csv", Context.MODE_PRIVATE);
             out.write((data.toString()).getBytes());
             out.close();
             Context context = getApplicationContext();
-            File filelocation = new File(getFilesDir(), "magnetometer.csv");
+            File filelocation = new File(getFilesDir(), "orientation.csv");
             Uri path = FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName() +".fileprovider", filelocation);
             Intent fileIntent = new Intent(Intent.ACTION_SEND);
             fileIntent.setType("text/csv");
