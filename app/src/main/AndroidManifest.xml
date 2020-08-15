@@ -18,7 +18,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".features.sensors.position.Orientation"></activity>
+        <activity android:name=".features.sensors.position.Proximity"></activity>
+        <activity android:name=".features.sensors.position.Orientation" />
         <activity android:name=".features.sensors.position.Magnetometer" />
         <activity android:name=".features.sensors.position.MenuPositionSensor" />
         <activity android:name=".features.sensors.movement.GyroscopeView" />

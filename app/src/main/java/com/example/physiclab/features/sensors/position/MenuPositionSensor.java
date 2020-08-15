@@ -60,5 +60,18 @@ public class MenuPositionSensor extends AppCompatActivity {
             btnOrientation.setEnabled(false);
         }
 
+        if (sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY) != null){
+            btnProximity.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intentProx = new Intent(getApplicationContext(), Proximity.class);
+                    startActivity(intentProx);
+                }
+            });
+        }else{
+            disableProximity.setText("*No disponible");
+            btnProximity.setClickable(false);
+            btnProximity.setEnabled(false);
+        }
     }
 }
