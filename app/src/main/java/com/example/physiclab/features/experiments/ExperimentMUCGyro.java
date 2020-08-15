@@ -47,7 +47,6 @@ public class ExperimentMUCGyro extends AppCompatActivity implements OnChartValue
     private float radio;
     private int samplingPeriodUsGyro = 1000000;
     boolean isSensorOn = false;
-    private float mAccel, mAccelCurrent, mAccelLast;
     long startTime=0L, timeInNanoSeconds =0L, timeSwapBuff=0L, updateTime=0L;
     String time;
     Handler customHandler = new Handler();
@@ -90,9 +89,6 @@ public class ExperimentMUCGyro extends AppCompatActivity implements OnChartValue
         lineChart.getDescription().setEnabled(false);
         lineChart.setNoDataText("Presione play para visualizar los datos.");
         lineChart.invalidate();
-        mAccel = 0.00f;
-        mAccelCurrent = SensorManager.GRAVITY_EARTH;
-        mAccelLast = SensorManager.GRAVITY_EARTH;
         sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
         sensorGyroscope = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
         if(sensorGyroscope == null){
@@ -173,15 +169,6 @@ public class ExperimentMUCGyro extends AppCompatActivity implements OnChartValue
                 menu.getItem(0).setVisible(true);
                 menu.getItem(1).setVisible(false);
                 Toast.makeText(ExperimentMUCGyro.this, "Sensor desactivado.", Toast.LENGTH_LONG).show();
-                return true;
-            case R.id.enableRemote:
-                CheckBox checkBox= (CheckBox) item.getActionView();
-                item.setChecked(!item.isChecked());
-                if(item.isChecked()){
-                    Toast.makeText(ExperimentMUCGyro.this, "Habilitado remoto.", Toast.LENGTH_LONG).show();
-                }else{
-                    Toast.makeText(ExperimentMUCGyro.this, "Deshabilitado remoto.", Toast.LENGTH_LONG).show();
-                }
                 return true;
             case R.id.exportData:
                 export();

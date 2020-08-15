@@ -18,7 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".features.guides.MUCGuide"></activity>
+        <activity android:name=".features.sensors.movement.AccelerometerView"></activity>
+        <activity android:name=".features.sensors.movement.MenuMovementSensor" />
+        <activity android:name=".features.guides.MUCGuide" />
         <activity android:name=".features.guides.MUAGuide" />
         <activity android:name=".features.guides.MURGuide" />
         <activity android:name=".features.experiments.ExperimentMUCGyro" />

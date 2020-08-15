@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#006E47"
+    android:background="@color/colorPrimary"
     tools:context=".MurIntroduction">
 
     <pl.droidsonroids.gif.GifImageView
@@ -47,6 +47,7 @@
         android:text="@string/theoryMur"
         android:textColor="#FFFFFF"
         android:textSize="30dp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.55"
         app:layout_constraintStart_toStartOf="parent"

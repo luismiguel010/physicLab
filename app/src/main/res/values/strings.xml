@@ -5,7 +5,7 @@
     <string name="mur">MUR</string>
     <string name="mua">MUA</string>
     <string name="muc">MCU</string>
-    <string name="ExperimentsTilte">Experimentos con mi teléfono</string>
+    <string name="ExperimentsTilte">Experimentos con mi smartphone</string>
     <string name="murText">Desliza el avión y sabrá con qué velocidad lo hizo</string>
     <string name="txtmua">Deje caer su celular sobre una superficie blanda para saber la distancia que recorre</string>
     <string name="txtmuc">Antes de iniciar ingrese el número de vueltas y el radio en el que va a hacer girar el celular.</string>
@@ -30,5 +30,12 @@
     <string name="digiteLaps">Vueltas</string>
     <string name="description">Image for move</string>
     <string name="murexperimentsound">Vamos a calcular la velocidad del sonido</string>
+    <string name="title_menu_sensor">Sensores de mi smartphone</string>
+    <string name="label_mov">De movimiento</string>
+    <string name="label_pos">De posición</string>
+    <string name="label_amb">De ambiente</string>
+    <string name="info_accel">Indica la fuerza de aceleración en el eje X, Y y Z (incluida la gravedad) en m/s².</string>
+    <string name="info_accelWhithout">Indica la fuerza de aceleración en el eje X, Y y Z (sin incluir la gravedad) en m/s².</string>
+    <string name="info_gyro">Indica la rotación alrededor del eje X, Y y Z en rad/s.</string>
 
 </resources>
