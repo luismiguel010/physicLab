@@ -18,7 +18,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".features.sensors.movement.AccelerometerWithoutG"></activity>
+        <activity android:name=".features.sensors.movement.GyroscopeView"></activity>
+        <activity android:name=".features.sensors.movement.AccelerometerWithoutG" />
         <activity android:name=".features.sensors.movement.AccelerometerView" />
         <activity android:name=".features.sensors.movement.MenuMovementSensor" />
         <activity android:name=".features.guides.MUCGuide" />

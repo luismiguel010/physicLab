@@ -32,19 +32,19 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 
-public class AccelerometerWithoutG extends AppCompatActivity implements OnChartValueSelectedListener, SensorEventListener {
+public class GyroscopeView extends AppCompatActivity implements OnChartValueSelectedListener, SensorEventListener {
 
     private Toolbar toolbar;
     private Menu menu;
     private LineChart lineChartX, lineChartY, lineChartZ;
     private SensorManager sensorManager;
-    private Sensor accelerometer;
+    private Sensor gyroscope;
     private boolean isSensorOn = false;
     long startTime=0L, timeInNanoSeconds =0L, timeSwapBuff=0L, updateTime=0L;
     private float secsWithMillis;
     Handler customHandler = new Handler();
     ArrayList<Float> vectorTime, vectorAxisX, vectorAxisY, vectorAxisZ;
-    private int samplingPeriodUsAcc = 1000000;
+    private int samplingPeriodUsGyro = 1000000;
 
     Runnable updateTimetThread = new Runnable() {
         @Override
@@ -61,17 +61,17 @@ public class AccelerometerWithoutG extends AppCompatActivity implements OnChartV
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_accelerometer_without_g);
+        setContentView(R.layout.activity_gyroscope_view);
         initComponents();
     }
 
     public void initComponents(){
         toolbar = findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Acelerómetro sin gravedad");
+        getSupportActionBar().setTitle("Giroscopio");
         toolbar.setTitleTextColor(Color.WHITE);
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
+        gyroscope = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
         lineChartX = findViewById(R.id.linear_chartX);
         lineChartX.setOnChartValueSelectedListener(this);
         lineChartX.setDrawGridBackground(false);
@@ -99,7 +99,7 @@ public class AccelerometerWithoutG extends AppCompatActivity implements OnChartV
     @Override
     protected void onResume() {
         super.onResume();
-        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(this, gyroscope, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     @Override
@@ -130,18 +130,18 @@ public class AccelerometerWithoutG extends AppCompatActivity implements OnChartV
                 runTime();
                 menu.getItem(0).setVisible(false);
                 menu.getItem(1).setVisible(true);
-                Toast.makeText(AccelerometerWithoutG.this, "Acelerómetro activado.", Toast.LENGTH_LONG).show();
+                Toast.makeText(GyroscopeView.this, "Giroscopio activado.", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.stop:
                 isSensorOn = false;
                 pauseTime();
                 menu.getItem(0).setVisible(true);
                 menu.getItem(1).setVisible(false);
-                Toast.makeText(AccelerometerWithoutG.this, "Acelerómetro desactivado.", Toast.LENGTH_LONG).show();
+                Toast.makeText(GyroscopeView.this, "Giroscopio desactivado.", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.exportData:
                 export();
-                Toast.makeText(AccelerometerWithoutG.this, "Exportar datos.", Toast.LENGTH_LONG).show();
+                Toast.makeText(GyroscopeView.this, "Exportar datos.", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.actionClear: {
                 restartTime();
@@ -178,7 +178,7 @@ public class AccelerometerWithoutG extends AppCompatActivity implements OnChartV
     }
 
     private LineDataSet createSetX() {
-        LineDataSet set = new LineDataSet(null, "Aceleración en X m/s²");
+        LineDataSet set = new LineDataSet(null, "Rotación en X rad/s");
         set.setDrawCircles(false);
         set.setLineWidth(2.5f);
         set.setColor(Color.rgb(0, 110, 71));
@@ -206,7 +206,7 @@ public class AccelerometerWithoutG extends AppCompatActivity implements OnChartV
     }
 
     private LineDataSet createSetY() {
-        LineDataSet set = new LineDataSet(null, "Aceleración en Y m/s²");
+        LineDataSet set = new LineDataSet(null, "Rotación en Y rad/s");
         set.setDrawCircles(false);
         set.setLineWidth(2.5f);
         set.setColor(Color.rgb(255, 192, 0));
@@ -234,13 +234,15 @@ public class AccelerometerWithoutG extends AppCompatActivity implements OnChartV
     }
 
     private LineDataSet createSetZ() {
-        LineDataSet set = new LineDataSet(null, "Aceleración en Z m/s²");
+        LineDataSet set = new LineDataSet(null, "Rotación en Z rad/s");
         set.setDrawCircles(false);
         set.setLineWidth(2.5f);
         set.setColor(Color.rgb(33, 150, 243));
         set.setAxisDependency(YAxis.AxisDependency.LEFT);
         return set;
     }
+
+
 
     @Override
     public void onValueSelected(Entry e, Highlight h) {
@@ -295,7 +297,7 @@ public class AccelerometerWithoutG extends AppCompatActivity implements OnChartV
     }
 
     public void export(){
-        String nameFile = "DataAccelerometerWithoutG";
+        String nameFile = "DataGyroscope";
         StringBuilder data = new StringBuilder();
         data.append("Tiempo,EjeX,EjeY,EjeZ");
         for(int i = 0; i < vectorTime.size(); i++){
@@ -303,11 +305,11 @@ public class AccelerometerWithoutG extends AppCompatActivity implements OnChartV
                     + "," + vectorAxisY.get(i).toString() + "," + vectorAxisZ.get(i).toString());
         }
         try{
-            FileOutputStream out = openFileOutput("accelerometer.csv", Context.MODE_PRIVATE);
+            FileOutputStream out = openFileOutput("gyroscope.csv", Context.MODE_PRIVATE);
             out.write((data.toString()).getBytes());
             out.close();
             Context context = getApplicationContext();
-            File filelocation = new File(getFilesDir(), "accelerometer.csv");
+            File filelocation = new File(getFilesDir(), "gyroscope.csv");
             Uri path = FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName() +".fileprovider", filelocation);
             Intent fileIntent = new Intent(Intent.ACTION_SEND);
             fileIntent.setType("text/csv");
@@ -320,5 +322,4 @@ public class AccelerometerWithoutG extends AppCompatActivity implements OnChartV
             e.printStackTrace();
         }
     }
-
 }

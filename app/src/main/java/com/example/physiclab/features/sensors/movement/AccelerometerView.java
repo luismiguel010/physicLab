@@ -178,7 +178,7 @@ public class AccelerometerView extends AppCompatActivity implements OnChartValue
     }
 
     private LineDataSet createSetX() {
-        LineDataSet set = new LineDataSet(null, "Aceleración en X m/s");
+        LineDataSet set = new LineDataSet(null, "Aceleración en X  m/s²");
         set.setDrawCircles(false);
         set.setLineWidth(2.5f);
         set.setColor(Color.rgb(0, 110, 71));
@@ -206,7 +206,7 @@ public class AccelerometerView extends AppCompatActivity implements OnChartValue
     }
 
     private LineDataSet createSetY() {
-        LineDataSet set = new LineDataSet(null, "Aceleración en Y m/s");
+        LineDataSet set = new LineDataSet(null, "Aceleración en Y  m/s²");
         set.setDrawCircles(false);
         set.setLineWidth(2.5f);
         set.setColor(Color.rgb(255, 192, 0));
@@ -234,7 +234,7 @@ public class AccelerometerView extends AppCompatActivity implements OnChartValue
     }
 
     private LineDataSet createSetZ() {
-        LineDataSet set = new LineDataSet(null, "Aceleración en Z m/s");
+        LineDataSet set = new LineDataSet(null, "Aceleración en Z  m/s²");
         set.setDrawCircles(false);
         set.setLineWidth(2.5f);
         set.setColor(Color.rgb(33, 150, 243));
