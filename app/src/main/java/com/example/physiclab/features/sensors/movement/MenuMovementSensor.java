@@ -11,19 +11,28 @@ import com.example.physiclab.R;
 
 public class MenuMovementSensor extends AppCompatActivity {
 
-    private ImageButton btnAccelerometer;
+    private ImageButton btnAccelerometer, btnAccelerometer2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_movement_sensor);
         btnAccelerometer = findViewById(R.id.btnAccelerometer);
+        btnAccelerometer2 = findViewById(R.id.btnAccelerometer2);
 
         btnAccelerometer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intentAccelView = new Intent(getApplicationContext(), AccelerometerView.class);
                 startActivity(intentAccelView);
+            }
+        });
+
+        btnAccelerometer2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intentAccelWithouGView = new Intent(getApplicationContext(), AccelerometerWithoutG.class);
+                startActivity(intentAccelWithouGView);
             }
         });
     }

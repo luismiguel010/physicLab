@@ -27,13 +27,12 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 
-public class AccelerometerView extends AppCompatActivity implements OnChartValueSelectedListener, SensorEventListener {
+public class AccelerometerWithoutG extends AppCompatActivity implements OnChartValueSelectedListener, SensorEventListener {
 
     private Toolbar toolbar;
     private Menu menu;
@@ -61,17 +60,17 @@ public class AccelerometerView extends AppCompatActivity implements OnChartValue
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_accelerometer_view);
+        setContentView(R.layout.activity_accelerometer_without_g);
         initComponents();
     }
 
     public void initComponents(){
         toolbar = findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Acelerómetro");
+        getSupportActionBar().setTitle("Acelerómetro sin gravedad");
         toolbar.setTitleTextColor(Color.WHITE);
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
         lineChartX = findViewById(R.id.linear_chartX);
         lineChartX.setOnChartValueSelectedListener(this);
         lineChartX.setDrawGridBackground(false);
@@ -130,18 +129,18 @@ public class AccelerometerView extends AppCompatActivity implements OnChartValue
                 runTime();
                 menu.getItem(0).setVisible(false);
                 menu.getItem(1).setVisible(true);
-                Toast.makeText(AccelerometerView.this, "Acelerómetro activado.", Toast.LENGTH_LONG).show();
+                Toast.makeText(AccelerometerWithoutG.this, "Acelerómetro activado.", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.stop:
                 isSensorOn = false;
                 pauseTime();
                 menu.getItem(0).setVisible(true);
                 menu.getItem(1).setVisible(false);
-                Toast.makeText(AccelerometerView.this, "Acelerómetro desactivado.", Toast.LENGTH_LONG).show();
+                Toast.makeText(AccelerometerWithoutG.this, "Acelerómetro desactivado.", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.exportData:
                 export();
-                Toast.makeText(AccelerometerView.this, "Exportar datos.", Toast.LENGTH_LONG).show();
+                Toast.makeText(AccelerometerWithoutG.this, "Exportar datos.", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.actionClear: {
                 restartTime();
@@ -242,8 +241,6 @@ public class AccelerometerView extends AppCompatActivity implements OnChartValue
         return set;
     }
 
-
-
     @Override
     public void onValueSelected(Entry e, Highlight h) {
         Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
@@ -297,7 +294,7 @@ public class AccelerometerView extends AppCompatActivity implements OnChartValue
     }
 
     public void export(){
-        String nameFile = "DataAccelerometer";
+        String nameFile = "DataAccelerometerWithoutG";
         StringBuilder data = new StringBuilder();
         data.append("Tiempo,EjeX,EjeY,EjeZ");
         for(int i = 0; i < vectorTime.size(); i++){
@@ -322,4 +319,5 @@ public class AccelerometerView extends AppCompatActivity implements OnChartValue
             e.printStackTrace();
         }
     }
+
 }
