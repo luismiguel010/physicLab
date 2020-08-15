@@ -6,15 +6,15 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
     android:orientation="vertical"
-    tools:context=".features.sensors.movement.MenuMovementSensor">
+    tools:context=".features.sensors.position.MenuPositionSensor">
 
     <TextView
-        android:id="@+id/titleMenuSensorMov"
+        android:id="@+id/titleMenuSensorPos"
         android:layout_width="wrap_content"
         android:layout_gravity="center"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Sensores de movimiento"
+        android:text="Sensores de posición"
         android:textColor="#FFFFFF"
         android:textSize="30dp"
         android:textStyle="bold"
@@ -27,50 +27,42 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <ImageButton
-            android:id="@+id/btnAccelerometer"
+            android:id="@+id/btnMagnetometer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/roundcorner_white"
             android:padding="20dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/titleMenuSensorMov"
             app:srcCompat="@drawable/ic_book" />
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-        <TextView
-            android:id="@+id/textView6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Acelerómetro"
-            android:textColor="#FFFFFF"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/btnAccelerometer"
-            app:layout_constraintTop_toBottomOf="@+id/titleMenuSensorMov" />
-        <TextView
-            android:id="@+id/textView9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/info_accelWhithout"
-            android:textColor="#FFFFFF"
-            app:layout_constraintStart_toEndOf="@+id/btnAccelerometer2"
-            app:layout_constraintTop_toBottomOf="@+id/textView8" />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Magnetómetro"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/info_magne"
+                android:textColor="#FFFFFF"/>
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <ImageButton
-            android:id="@+id/btnAccelerometer2"
+            android:id="@+id/btnOrientation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/roundcorner_white"
             android:padding="20dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnAccelerometer"
             app:srcCompat="@drawable/ic_book" />
         <LinearLayout
             android:layout_width="wrap_content"
@@ -81,19 +73,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Acelerómetro (Sin gravedad)"
+                android:text="Orientación"
                 android:textColor="#FFFFFF"
-                android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@+id/btnAccelerometer2"
-                app:layout_constraintTop_toBottomOf="@+id/textView7" />
+                android:textStyle="bold"/>
             <TextView
                 android:id="@+id/textView7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/info_accel"
-                android:textColor="#FFFFFF"
-                app:layout_constraintStart_toEndOf="@+id/btnAccelerometer"
-                app:layout_constraintTop_toBottomOf="@+id/textView6" />
+                android:text="@string/info_orientation"
+                android:textColor="#FFFFFF"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -101,13 +89,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <ImageButton
-            android:id="@+id/btnGyro"
+            android:id="@+id/btnProx"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/roundcorner_white"
             android:padding="20dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnAccelerometer2"
             app:srcCompat="@drawable/ic_book" />
         <LinearLayout
             android:layout_width="wrap_content"
@@ -118,19 +104,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Giroscopio"
+                android:text="Proximidad"
                 android:textColor="#FFFFFF"
-                android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@+id/btnGyro"
-                app:layout_constraintTop_toBottomOf="@+id/textView9" />
+                android:textStyle="bold"/>
             <TextView
                 android:id="@+id/textView10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/info_gyro"
-                android:textColor="#FFFFFF"
-                app:layout_constraintStart_toEndOf="@+id/btnGyro"
-                app:layout_constraintTop_toBottomOf="@+id/textView11" />
+                android:text="@string/info_proximity"
+                android:textColor="#FFFFFF" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

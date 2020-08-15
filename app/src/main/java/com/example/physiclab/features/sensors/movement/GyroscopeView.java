@@ -44,7 +44,6 @@ public class GyroscopeView extends AppCompatActivity implements OnChartValueSele
     private float secsWithMillis;
     Handler customHandler = new Handler();
     ArrayList<Float> vectorTime, vectorAxisX, vectorAxisY, vectorAxisZ;
-    private int samplingPeriodUsGyro = 1000000;
 
     Runnable updateTimetThread = new Runnable() {
         @Override
@@ -111,7 +110,7 @@ public class GyroscopeView extends AppCompatActivity implements OnChartValueSele
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         this.menu = menu;
-        getMenuInflater().inflate(R.menu.menu_sensor_movement, menu);
+        getMenuInflater().inflate(R.menu.menu_sensor, menu);
         return true;
     }
 

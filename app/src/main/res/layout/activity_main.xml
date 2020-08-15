@@ -1,32 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
+    android:orientation="vertical"
     tools:context=".MainActivity">
-
-    <TextView
-        android:id="@+id/txtAmb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/label_amb"
-        app:layout_constraintEnd_toEndOf="@+id/btnSensorAmb"
-        app:layout_constraintStart_toStartOf="@+id/btnSensorAmb"
-        app:layout_constraintTop_toBottomOf="@+id/btnSensorAmb" />
-
-    <ImageButton
-        android:id="@+id/btnSensorMov"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:background="@drawable/roundcorner"
-        android:padding="20dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3"
-        app:srcCompat="@drawable/ic_iconmur"
-        tools:ignore="VectorDrawableCompat" />
 
     <include
         android:id="@+id/tool_bar"
@@ -44,6 +24,7 @@
 
     <TextView
         android:id="@+id/titleExperiment"
+        android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -55,119 +36,78 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/v_flipper" />
 
-    <ImageButton
-        android:id="@+id/btnMurExp"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:background="@drawable/roundcorner"
-        android:padding="20dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleExperiment"
-        app:srcCompat="@drawable/ic_iconmur"
-        tools:ignore="VectorDrawableCompat" />
-
-    <ImageButton
-        android:id="@+id/btnMuaExp"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/roundcorner"
-        android:padding="20dp"
-        app:layout_constraintEnd_toStartOf="@+id/btnMucExp"
-        app:layout_constraintStart_toEndOf="@+id/btnMurExp"
-        app:layout_constraintTop_toBottomOf="@+id/titleExperiment"
-        app:srcCompat="@drawable/ic_iconmua"
-        tools:ignore="VectorDrawableCompat" />
-
-    <ImageButton
-        android:id="@+id/btnSensorPos"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/roundcorner"
-        android:padding="20dp"
-        app:layout_constraintEnd_toStartOf="@+id/btnSensorAmb"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/btnSensorMov"
-        app:layout_constraintTop_toBottomOf="@+id/textView3"
-        app:srcCompat="@drawable/ic_iconmua"
-        tools:ignore="VectorDrawableCompat" />
-
-    <ImageButton
-        android:id="@+id/btnMucExp"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/roundcorner"
-        android:padding="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleExperiment"
-        app:srcCompat="@drawable/ic_iconmuc"
-        tools:ignore="VectorDrawableCompat" />
-
-    <ImageButton
-        android:id="@+id/btnSensorAmb"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/roundcorner"
-        android:padding="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3"
-        app:srcCompat="@drawable/ic_iconmuc"
-        tools:ignore="VectorDrawableCompat" />
-
-    <TextView
-        android:id="@+id/txtMurEx"
+    <LinearLayout
+        android:layout_gravity="center"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/mur"
-        app:layout_constraintEnd_toEndOf="@+id/btnMurExp"
-        app:layout_constraintStart_toStartOf="@+id/btnMurExp"
-        app:layout_constraintTop_toBottomOf="@+id/btnMurExp" />
+        android:layout_height="wrap_content">
+        <ImageButton
+            android:id="@+id/btnMurExp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/roundcorner"
+            android:padding="20dp"
+            app:srcCompat="@drawable/ic_iconmur"
+            tools:ignore="VectorDrawableCompat" />
+        <ImageButton
+            android:id="@+id/btnMuaExp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/roundcorner"
+            android:padding="20dp"
+            app:layout_constraintStart_toEndOf="@+id/btnMurExp"
+            app:layout_constraintTop_toBottomOf="@+id/titleExperiment"
+            app:srcCompat="@drawable/ic_iconmua"
+            tools:ignore="VectorDrawableCompat" />
+        <ImageButton
+            android:id="@+id/btnMucExp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/roundcorner"
+            android:padding="20dp"
+            app:layout_constraintStart_toEndOf="@+id/btnMuaExp"
+            app:layout_constraintTop_toBottomOf="@+id/titleExperiment"
+            app:srcCompat="@drawable/ic_iconmuc"
+            tools:ignore="VectorDrawableCompat" />
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/txtMov"
+    <LinearLayout
+        android:layout_gravity="center"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/label_mov"
-        app:layout_constraintEnd_toEndOf="@+id/btnSensorMov"
-        app:layout_constraintStart_toStartOf="@+id/btnSensorMov"
-        app:layout_constraintTop_toBottomOf="@+id/btnSensorMov" />
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/txtMurEx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/mur"
+            app:layout_constraintEnd_toEndOf="@+id/btnMurExp"
+            app:layout_constraintStart_toStartOf="@+id/btnMurExp"
+            app:layout_constraintTop_toBottomOf="@+id/btnMurExp" />
+        <TextView
+            android:id="@+id/txtMuaEx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="67dp"
+            android:text="@string/mua"
+            app:layout_constraintEnd_toEndOf="@+id/btnMuaExp"
+            app:layout_constraintHorizontal_bias="0.493"
+            app:layout_constraintStart_toStartOf="@+id/btnMuaExp"
+            app:layout_constraintTop_toBottomOf="@+id/btnMuaExp" />
 
-    <TextView
-        android:id="@+id/txtPos"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/label_pos"
-        app:layout_constraintEnd_toEndOf="@+id/btnSensorPos"
-        app:layout_constraintStart_toStartOf="@+id/btnSensorPos"
-        app:layout_constraintTop_toBottomOf="@+id/btnSensorPos" />
-
-    <TextView
-        android:id="@+id/txtMuaEx"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/mua"
-        app:layout_constraintEnd_toEndOf="@+id/btnMuaExp"
-        app:layout_constraintHorizontal_bias="0.493"
-        app:layout_constraintStart_toStartOf="@+id/btnMuaExp"
-        app:layout_constraintTop_toBottomOf="@+id/btnMuaExp" />
-
-    <TextView
-        android:id="@+id/txtMucEx"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/muc"
-        app:layout_constraintEnd_toEndOf="@+id/btnMucExp"
-        app:layout_constraintStart_toStartOf="@+id/btnMucExp"
-        app:layout_constraintTop_toBottomOf="@+id/btnMucExp" />
+        <TextView
+            android:id="@+id/txtMucEx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="65dp"
+            android:text="@string/muc"
+            app:layout_constraintEnd_toEndOf="@+id/btnMucExp"
+            app:layout_constraintStart_toStartOf="@+id/btnMucExp"
+            app:layout_constraintTop_toBottomOf="@+id/btnMucExp" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/textView3"
+        android:layout_marginTop="8dp"
+        android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/title_menu_sensor"
@@ -178,5 +118,72 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtMuaEx" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageButton
+            android:id="@+id/btnSensorMov"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/roundcorner"
+            android:padding="20dp"
+            app:srcCompat="@drawable/ic_iconmur"
+            tools:ignore="VectorDrawableCompat" />
+        <ImageButton
+            android:id="@+id/btnSensorPos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/roundcorner"
+            android:padding="20dp"
+            app:layout_constraintStart_toEndOf="@+id/btnSensorMov"
+            app:layout_constraintTop_toBottomOf="@+id/textView3"
+            app:srcCompat="@drawable/ic_iconmua"
+            tools:ignore="VectorDrawableCompat" />
+        <ImageButton
+            android:id="@+id/btnSensorAmb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/roundcorner"
+            android:padding="20dp"
+            app:layout_constraintStart_toEndOf="@+id/btnSensorPos"
+            app:layout_constraintTop_toBottomOf="@+id/textView3"
+            app:srcCompat="@drawable/ic_iconmuc"
+            tools:ignore="VectorDrawableCompat" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/txtMov"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_mov"
+            app:layout_constraintEnd_toEndOf="@+id/btnSensorMov"
+            app:layout_constraintStart_toStartOf="@+id/btnSensorMov"
+            app:layout_constraintTop_toBottomOf="@+id/btnSensorMov" />
+        <TextView
+            android:id="@+id/txtPos"
+            android:layout_marginLeft="17dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_pos"
+            app:layout_constraintEnd_toEndOf="@+id/btnSensorPos"
+            app:layout_constraintStart_toStartOf="@+id/btnSensorPos"
+            app:layout_constraintTop_toBottomOf="@+id/btnSensorPos" />
+
+        <TextView
+            android:id="@+id/txtAmb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="27dp"
+            android:text="@string/label_amb"
+            app:layout_constraintEnd_toEndOf="@+id/btnSensorAmb"
+            app:layout_constraintStart_toStartOf="@+id/btnSensorAmb"
+            app:layout_constraintTop_toBottomOf="@+id/btnSensorAmb" />
+    </LinearLayout>
+
+</LinearLayout>
 

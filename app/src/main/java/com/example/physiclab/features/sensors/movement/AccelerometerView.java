@@ -27,7 +27,6 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -111,7 +110,7 @@ public class AccelerometerView extends AppCompatActivity implements OnChartValue
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         this.menu = menu;
-        getMenuInflater().inflate(R.menu.menu_sensor_movement, menu);
+        getMenuInflater().inflate(R.menu.menu_sensor, menu);
         return true;
     }
 

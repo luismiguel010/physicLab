@@ -18,6 +18,7 @@ import com.example.physiclab.features.cuestionaries.ProblemsMua;
 import com.example.physiclab.features.cuestionaries.ProblemsMuc;
 import com.example.physiclab.features.cuestionaries.ProblemsMur;
 import com.example.physiclab.features.sensors.movement.MenuMovementSensor;
+import com.example.physiclab.features.sensors.position.MenuPositionSensor;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -25,10 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private Menu menu;
     ViewFlipper v_flipper;
-    private ImageButton btnMurExp;
-    private ImageButton btnMuaExp;
-    private ImageButton btnMucExp;
-    private ImageButton btnSensorMov;
+    private ImageButton btnMurExp, btnMuaExp, btnMucExp, btnSensorMov, btnSensorPos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,11 +35,11 @@ public class MainActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
         toolbar.setTitleTextColor(Color.WHITE);
-        //toolbar.setLogo(R.drawable.ic_logo_without_border);
-        btnMurExp = (ImageButton) findViewById(R.id.btnMurExp);
-        btnMuaExp = (ImageButton) findViewById(R.id.btnMuaExp);
-        btnMucExp = (ImageButton) findViewById(R.id.btnMucExp);
+        btnMurExp = findViewById(R.id.btnMurExp);
+        btnMuaExp = findViewById(R.id.btnMuaExp);
+        btnMucExp = findViewById(R.id.btnMucExp);
         btnSensorMov = findViewById(R.id.btnSensorMov);
+        btnSensorPos = findViewById(R.id.btnSensorPos);
 
         btnMurExp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,6 +70,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intentMenuMov = new Intent(getApplicationContext(), MenuMovementSensor.class);
                 startActivity(intentMenuMov);
+            }
+        });
+
+        btnSensorPos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentMenuPos = new Intent(getApplicationContext(), MenuPositionSensor.class);
+                startActivity(intentMenuPos);
             }
         });
 
