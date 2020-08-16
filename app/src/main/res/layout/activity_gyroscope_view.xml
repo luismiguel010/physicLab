@@ -12,20 +12,44 @@
         android:id="@+id/tool_bar"
         layout="@layout/tool_bar" />
 
-    <com.github.mikephil.charting.charts.LineChart
+    <TextView
+        android:layout_marginLeft="8dp"
+        android:id="@+id/viewX"
         android:layout_marginTop="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/colorPrimary"/>
+
+    <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/linear_chartX"
         android:layout_width="match_parent"
         android:layout_height="129dp" />
 
-    <com.github.mikephil.charting.charts.LineChart
+    <TextView
+        android:layout_marginLeft="8dp"
+        android:id="@+id/viewY"
         android:layout_marginTop="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/colorAccent"/>
+
+    <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/linear_chartY"
         android:layout_width="match_parent"
         android:layout_height="129dp" />
 
-    <com.github.mikephil.charting.charts.LineChart
+    <TextView
+        android:layout_marginLeft="8dp"
+        android:id="@+id/viewZ"
         android:layout_marginTop="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/colorBlue"/>
+
+    <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/linear_chartZ"
         android:layout_width="match_parent"
         android:layout_height="129dp"/>

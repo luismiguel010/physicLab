@@ -18,7 +18,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".features.sensors.position.Proximity"></activity>
+        <activity android:name=".features.sensors.environmental.Temprature"></activity>
+        <activity android:name=".features.sensors.environmental.MenuEnvironmental" />
+        <activity android:name=".features.sensors.position.GPSView" />
+        <activity android:name=".features.sensors.position.Proximity" />
         <activity android:name=".features.sensors.position.Orientation" />
         <activity android:name=".features.sensors.position.Magnetometer" />
         <activity android:name=".features.sensors.position.MenuPositionSensor" />

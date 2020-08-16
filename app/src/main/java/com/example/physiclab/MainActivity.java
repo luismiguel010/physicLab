@@ -17,6 +17,7 @@ import android.widget.ViewFlipper;
 import com.example.physiclab.features.cuestionaries.ProblemsMua;
 import com.example.physiclab.features.cuestionaries.ProblemsMuc;
 import com.example.physiclab.features.cuestionaries.ProblemsMur;
+import com.example.physiclab.features.sensors.environmental.MenuEnvironmental;
 import com.example.physiclab.features.sensors.movement.MenuMovementSensor;
 import com.example.physiclab.features.sensors.position.MenuPositionSensor;
 
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private Menu menu;
     ViewFlipper v_flipper;
-    private ImageButton btnMurExp, btnMuaExp, btnMucExp, btnSensorMov, btnSensorPos;
+    private ImageButton btnMurExp, btnMuaExp, btnMucExp, btnSensorMov, btnSensorPos, btnSensorEnv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         btnMucExp = findViewById(R.id.btnMucExp);
         btnSensorMov = findViewById(R.id.btnSensorMov);
         btnSensorPos = findViewById(R.id.btnSensorPos);
+        btnSensorEnv = findViewById(R.id.btnSensorAmb);
 
         btnMurExp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,6 +83,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        btnSensorEnv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentMenuAmb = new Intent(getApplicationContext(), MenuEnvironmental.class);
+                startActivity(intentMenuAmb);
+            }
+        });
+
         int images[] = new int[] {R.drawable.slidemain1, R.drawable.slidemain2, R.drawable.slidemain3};
 
         v_flipper = findViewById(R.id.v_flipper);
@@ -103,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
         imageView.setBackgroundResource(image);
 
         v_flipper.addView(imageView);
-        v_flipper.setFlipInterval(5000);
+        v_flipper.setFlipInterval(10000);
         v_flipper.setAutoStart(true);
 
         v_flipper.setInAnimation(this, android.R.anim.slide_in_left);

@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.physiclab.R;
@@ -44,6 +45,7 @@ public class GyroscopeView extends AppCompatActivity implements OnChartValueSele
     private float secsWithMillis;
     Handler customHandler = new Handler();
     ArrayList<Float> vectorTime, vectorAxisX, vectorAxisY, vectorAxisZ;
+    private TextView viewX, viewY, viewZ;
 
     Runnable updateTimetThread = new Runnable() {
         @Override
@@ -93,6 +95,9 @@ public class GyroscopeView extends AppCompatActivity implements OnChartValueSele
         vectorAxisY = new ArrayList<>();
         vectorAxisZ = new ArrayList<>();
         vectorTime = new ArrayList<>();
+        viewX = findViewById(R.id.viewX);
+        viewY = findViewById(R.id.viewY);
+        viewZ = findViewById(R.id.viewZ);
     }
 
     @Override
@@ -257,6 +262,9 @@ public class GyroscopeView extends AppCompatActivity implements OnChartValueSele
             float axisX = sensorEvent.values[0];
             float axisY = sensorEvent.values[1];
             float axisZ = sensorEvent.values[2];
+            viewX.setText(axisX + " rad/s");
+            viewY.setText(axisY + " rad/s");
+            viewZ.setText(axisZ + " rad/s");
             addEntryX(secsWithMillis, axisX);
             addEntryY(secsWithMillis, axisY);
             addEntryZ(secsWithMillis, axisZ);

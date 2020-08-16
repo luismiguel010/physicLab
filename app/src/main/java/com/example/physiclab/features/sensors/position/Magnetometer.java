@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.physiclab.R;
@@ -45,6 +46,7 @@ public class Magnetometer extends AppCompatActivity implements OnChartValueSelec
     private float secsWithMillis;
     Handler customHandler = new Handler();
     ArrayList<Float> vectorTime, vectorAxisX, vectorAxisY, vectorAxisZ;
+    private TextView viewX, viewY, viewZ;
 
     Runnable updateTimetThread = new Runnable() {
         @Override
@@ -94,6 +96,9 @@ public class Magnetometer extends AppCompatActivity implements OnChartValueSelec
         vectorAxisY = new ArrayList<>();
         vectorAxisZ = new ArrayList<>();
         vectorTime = new ArrayList<>();
+        viewX = findViewById(R.id.viewX);
+        viewY = findViewById(R.id.viewY);
+        viewZ = findViewById(R.id.viewZ);
     }
 
     @Override
@@ -256,6 +261,9 @@ public class Magnetometer extends AppCompatActivity implements OnChartValueSelec
             float axisX = sensorEvent.values[0];
             float axisY = sensorEvent.values[1];
             float axisZ = sensorEvent.values[2];
+            viewX.setText(axisX + " μT");
+            viewY.setText(axisY + " μT");
+            viewZ.setText(axisZ + " μT");
             addEntryX(secsWithMillis, axisX);
             addEntryY(secsWithMillis, axisY);
             addEntryZ(secsWithMillis, axisZ);

@@ -33,11 +33,15 @@
     <string name="title_menu_sensor">Sensores de mi smartphone</string>
     <string name="label_mov">De movimiento</string>
     <string name="label_pos">De posición</string>
-    <string name="label_amb">De ambiente</string>
+    <string name="label_amb">De entorno</string>
     <string name="info_accel">Indica la fuerza de aceleración en el eje X, Y y Z (incluida la gravedad) en m/s². Detección de movimiento (agitación, inclinación, etc.).</string>
     <string name="info_accelWhithout">Indica la fuerza de aceleración en el eje X, Y y Z (sin incluir la gravedad) en m/s². Supervisa la aceleración a lo largo de un solo eje.</string>
     <string name="info_gyro">Indica la rotación alrededor del eje X, Y y Z en rad/s. Sirve para la detección de rotación (agitación, giro, etc.).</string>
     <string name="info_magne">Mide el campo geomagnético ambiental de los tres ejes físicos (x, y, z) en μT. Sirve para la creación de una brújula o detección de imanes.</string>
     <string name="info_orientation">Mide los grados de rotación de un dispositivo alrededor de los tres ejes físicos (x, y, z). Determina la posición del dispositivo.</string>
     <string name="info_proximity">Mide en cm la proximidad de un objeto con respecto a la pantalla de visualización de un dispositivo. Este sensor en general se usa para determinar si un dispositivo manual se está sosteniendo cerca del oído de una persona.</string>
+    <string name="info_gps">Determina la latitud, longitud, altitud del dispositivo</string>
+    <string name="info_temp">Mide la temperatura ambiente de la habitación en grados Celsius (°C).</string>
+    <string name="info_light">Mide el nivel de luz ambiental (iluminación) en lx. Es útil en el dispositivo para el control del brillo de la pantalla.</string>
+    <string name="info_pressure">Mide la presión del aire del ambiente en hPa o mbar..</string>
 </resources>

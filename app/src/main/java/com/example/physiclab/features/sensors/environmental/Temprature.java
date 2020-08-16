@@ -1,4 +1,4 @@
-package com.example.physiclab.features.sensors.position;
+package com.example.physiclab.features.sensors.environmental;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -33,21 +33,19 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 
-public class Orientation extends AppCompatActivity implements OnChartValueSelectedListener, SensorEventListener {
+public class Temprature extends AppCompatActivity implements OnChartValueSelectedListener, SensorEventListener {
 
     private Toolbar toolbar;
     private Menu menu;
-    private LineChart lineChartX, lineChartY, lineChartZ;
+    private LineChart lineChartC, lineChartK, lineChartF;
     private SensorManager sensorManager;
-    private Sensor accelerometer, magnetometer;
+    private Sensor temperature;
     private boolean isSensorOn = false;
     long startTime=0L, timeInNanoSeconds =0L, timeSwapBuff=0L, updateTime=0L;
     private float secsWithMillis;
     Handler customHandler = new Handler();
-    ArrayList<Float> vectorTime, vectorAzimut, vectorPith, vectorRoll;
-    float[] mGravity;
-    float[] mGeomagnetic;
-    private TextView viewX, viewY, viewZ;
+    ArrayList<Float> vectorTime, vectorC, vectorK, vectorF;
+    private TextView viewC, viewK, viewF;
 
     Runnable updateTimetThread = new Runnable() {
         @Override
@@ -64,50 +62,48 @@ public class Orientation extends AppCompatActivity implements OnChartValueSelect
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_orientation);
+        setContentView(R.layout.activity_temprature);
         initComponents();
     }
 
     public void initComponents(){
         toolbar = findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Orientación");
+        getSupportActionBar().setTitle("Magnetómetro");
         toolbar.setTitleTextColor(Color.WHITE);
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        magnetometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
-        lineChartX = findViewById(R.id.linear_chartX);
-        lineChartX.setOnChartValueSelectedListener(this);
-        lineChartX.setDrawGridBackground(false);
-        lineChartX.getDescription().setEnabled(false);
-        lineChartX.setNoDataText("Presione play para visualizar los datos.");
-        lineChartX.invalidate();
-        lineChartY = findViewById(R.id.linear_chartY);
-        lineChartY.setOnChartValueSelectedListener(this);
-        lineChartY.setDrawGridBackground(false);
-        lineChartY.getDescription().setEnabled(false);
-        lineChartY.setNoDataText("Presione play para visualizar los datos.");
-        lineChartY.invalidate();
-        lineChartZ = findViewById(R.id.linear_chartZ);
-        lineChartZ.setOnChartValueSelectedListener(this);
-        lineChartZ.setDrawGridBackground(false);
-        lineChartZ.getDescription().setEnabled(false);
-        lineChartZ.setNoDataText("Presione play para visualizar los datos.");
-        lineChartZ.invalidate();
-        vectorAzimut = new ArrayList<>();
-        vectorPith = new ArrayList<>();
-        vectorRoll = new ArrayList<>();
+        temperature = sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
+        lineChartC = findViewById(R.id.linear_chartC);
+        lineChartC.setOnChartValueSelectedListener(this);
+        lineChartC.setDrawGridBackground(false);
+        lineChartC.getDescription().setEnabled(false);
+        lineChartC.setNoDataText("Presione play para visualizar los datos.");
+        lineChartC.invalidate();
+        lineChartK = findViewById(R.id.linear_chartK);
+        lineChartK.setOnChartValueSelectedListener(this);
+        lineChartK.setDrawGridBackground(false);
+        lineChartK.getDescription().setEnabled(false);
+        lineChartK.setNoDataText("Presione play para visualizar los datos.");
+        lineChartK.invalidate();
+        lineChartF = findViewById(R.id.linear_chartF);
+        lineChartF.setOnChartValueSelectedListener(this);
+        lineChartF.setDrawGridBackground(false);
+        lineChartF.getDescription().setEnabled(false);
+        lineChartF.setNoDataText("Presione play para visualizar los datos.");
+        lineChartF.invalidate();
+        vectorC = new ArrayList<>();
+        vectorK = new ArrayList<>();
+        vectorF = new ArrayList<>();
         vectorTime = new ArrayList<>();
-        viewX = findViewById(R.id.viewX);
-        viewY = findViewById(R.id.viewY);
-        viewZ = findViewById(R.id.viewZ);
+        viewC = findViewById(R.id.viewTempC);
+        viewK = findViewById(R.id.viewTempK);
+        viewF = findViewById(R.id.viewTempF);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
-        sensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(this, temperature, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     @Override
@@ -127,66 +123,66 @@ public class Orientation extends AppCompatActivity implements OnChartValueSelect
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.play:
-                lineChartX.clear();
-                lineChartY.clear();
-                lineChartZ.clear();
-                lineChartX.removeAllViews();
-                lineChartY.removeAllViews();
-                lineChartZ.removeAllViews();
+                lineChartC.clear();
+                lineChartK.clear();
+                lineChartF.clear();
+                lineChartC.removeAllViews();
+                lineChartK.removeAllViews();
+                lineChartF.removeAllViews();
                 isSensorOn = true;
                 restartTime();
                 runTime();
                 menu.getItem(0).setVisible(false);
                 menu.getItem(1).setVisible(true);
-                Toast.makeText(Orientation.this, "Sensor de orientación activado.", Toast.LENGTH_LONG).show();
+                Toast.makeText(Temprature.this, "Magnetómetro activado.", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.stop:
                 isSensorOn = false;
                 pauseTime();
                 menu.getItem(0).setVisible(true);
                 menu.getItem(1).setVisible(false);
-                Toast.makeText(Orientation.this, "Sensor de orientació desactivado.", Toast.LENGTH_LONG).show();
+                Toast.makeText(Temprature.this, "Magnetómetro desactivado.", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.exportData:
                 export();
-                Toast.makeText(Orientation.this, "Exportar datos.", Toast.LENGTH_LONG).show();
+                Toast.makeText(Temprature.this, "Exportar datos.", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.actionClear: {
                 restartTime();
-                lineChartX.clear();
-                lineChartY.clear();
-                lineChartZ.clear();
-                lineChartX.removeAllViews();
-                lineChartY.removeAllViews();
-                lineChartZ.removeAllViews();
+                lineChartC.clear();
+                lineChartK.clear();
+                lineChartF.clear();
+                lineChartC.removeAllViews();
+                lineChartK.removeAllViews();
+                lineChartF.removeAllViews();
                 break;
             }
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void addEntryX(float secsWithMillis, float axisX){
-        LineData data = lineChartX.getData();
+    private void addEntryC(float secsWithMillis, float axisX){
+        LineData data = lineChartC.getData();
         if (data == null) {
             data = new LineData();
-            lineChartX.setData(data);
+            lineChartC.setData(data);
         }
         ILineDataSet set = data.getDataSetByIndex(0);
         if (set == null) {
-            set = createSetX();
+            set = createSetC();
             data.addDataSet(set);
         }
         data.addEntry(new Entry(secsWithMillis, axisX), 0);
         data.notifyDataChanged();
         data.setDrawValues(false);
-        lineChartX.setDrawMarkers(false);
-        lineChartX.notifyDataSetChanged();
-        lineChartX.setVisibleXRangeMaximum(6);
-        lineChartX.moveViewTo(data.getEntryCount() - 7, 50f, YAxis.AxisDependency.LEFT);
+        lineChartC.setDrawMarkers(false);
+        lineChartC.notifyDataSetChanged();
+        lineChartC.setVisibleXRangeMaximum(6);
+        lineChartC.moveViewTo(data.getEntryCount() - 7, 50f, YAxis.AxisDependency.LEFT);
     }
 
-    private LineDataSet createSetX() {
-        LineDataSet set = new LineDataSet(null, "Azimuth (ángulo en torno al eje z) en grados.");
+    private LineDataSet createSetC() {
+        LineDataSet set = new LineDataSet(null, "Temperatura en °C");
         set.setDrawCircles(false);
         set.setLineWidth(2.5f);
         set.setColor(Color.rgb(0, 110, 71));
@@ -194,27 +190,27 @@ public class Orientation extends AppCompatActivity implements OnChartValueSelect
         return set;
     }
 
-    private void addEntryY(float secsWithMillis, float axisY){
-        LineData data = lineChartY.getData();
+    private void addEntryK(float secsWithMillis, float axisY){
+        LineData data = lineChartK.getData();
         if (data == null) {
             data = new LineData();
-            lineChartY.setData(data);
+            lineChartK.setData(data);
         }
         ILineDataSet set = data.getDataSetByIndex(0);
         if (set == null) {
-            set = createSetY();
+            set = createSetK();
             data.addDataSet(set);
         }
         data.addEntry(new Entry(secsWithMillis, axisY), 0);
         data.notifyDataChanged();
         data.setDrawValues(false);
-        lineChartY.notifyDataSetChanged();
-        lineChartY.setVisibleXRangeMaximum(6);
-        lineChartY.moveViewTo(data.getEntryCount() - 7, 50f, YAxis.AxisDependency.LEFT);
+        lineChartK.notifyDataSetChanged();
+        lineChartK.setVisibleXRangeMaximum(6);
+        lineChartK.moveViewTo(data.getEntryCount() - 7, 50f, YAxis.AxisDependency.LEFT);
     }
 
-    private LineDataSet createSetY() {
-        LineDataSet set = new LineDataSet(null, "Pitch (ángulo en torno al eje x) en grados.");
+    private LineDataSet createSetK() {
+        LineDataSet set = new LineDataSet(null, "Temperatura en K");
         set.setDrawCircles(false);
         set.setLineWidth(2.5f);
         set.setColor(Color.rgb(255, 192, 0));
@@ -222,27 +218,27 @@ public class Orientation extends AppCompatActivity implements OnChartValueSelect
         return set;
     }
 
-    private void addEntryZ(float secsWithMillis, float axisZ){
-        LineData data = lineChartZ.getData();
+    private void addEntryF(float secsWithMillis, float axisZ){
+        LineData data = lineChartF.getData();
         if (data == null) {
             data = new LineData();
-            lineChartZ.setData(data);
+            lineChartF.setData(data);
         }
         ILineDataSet set = data.getDataSetByIndex(0);
         if (set == null) {
-            set = createSetZ();
+            set = createSetF();
             data.addDataSet(set);
         }
         data.addEntry(new Entry(secsWithMillis, axisZ), 0);
         data.notifyDataChanged();
         data.setDrawValues(false);
-        lineChartZ.notifyDataSetChanged();
-        lineChartZ.setVisibleXRangeMaximum(6);
-        lineChartZ.moveViewTo(data.getEntryCount() - 7, 50f, YAxis.AxisDependency.LEFT);
+        lineChartF.notifyDataSetChanged();
+        lineChartF.setVisibleXRangeMaximum(6);
+        lineChartF.moveViewTo(data.getEntryCount() - 7, 50f, YAxis.AxisDependency.LEFT);
     }
 
-    private LineDataSet createSetZ() {
-        LineDataSet set = new LineDataSet(null, "Roll (ángulo en torno al eje y) en grados.");
+    private LineDataSet createSetF() {
+        LineDataSet set = new LineDataSet(null, "Temperatura en °F");
         set.setDrawCircles(false);
         set.setLineWidth(2.5f);
         set.setColor(Color.rgb(33, 150, 243));
@@ -259,31 +255,18 @@ public class Orientation extends AppCompatActivity implements OnChartValueSelect
     public void onNothingSelected() {}
 
     @Override
-    public void onSensorChanged(SensorEvent event) {
+    public void onSensorChanged(SensorEvent sensorEvent) {
         if(isSensorOn) {
-            if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER)
-                mGravity = event.values;
-            if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD)
-                mGeomagnetic = event.values;
-            if (mGravity != null && mGeomagnetic != null) {
-                float R[] = new float[9];
-                float I[] = new float[9];
-                boolean success = SensorManager.getRotationMatrix(R, I, mGravity, mGeomagnetic);
-                if (success) {
-                    float orientation[] = new float[3];
-                    SensorManager.getOrientation(R, orientation);
-                    float azimut = (float) (orientation[0] * 180/Math.PI); // orientation contains: azimut, pitch and roll
-                    float pitch = (float) (orientation[1] * 180/Math.PI);
-                    float roll = (float) (orientation[2] * 180/Math.PI);
-                    viewX.setText(azimut + " °");
-                    viewY.setText(pitch + " °");
-                    viewZ.setText(roll + " °");
-                    addEntryX(secsWithMillis, azimut);
-                    addEntryY(secsWithMillis, pitch);
-                    addEntryZ(secsWithMillis, roll);
-                    saveData(secsWithMillis, azimut, pitch, roll);
-                }
-            }
+            float axisC = sensorEvent.values[0];
+            float axisK = (float) (axisC + 273.15);
+            float axisF = (float) ((axisC * 1.8) + 32);
+            viewC.setText(Float.toString(axisC));
+            viewK.setText(Float.toString(axisK));
+            viewF.setText(Float.toString(axisF));
+            addEntryC(secsWithMillis, axisC);
+            addEntryK(secsWithMillis, axisK);
+            addEntryF(secsWithMillis, axisF);
+            saveData(secsWithMillis, axisC, axisK, axisF);
         }
     }
 
@@ -309,29 +292,29 @@ public class Orientation extends AppCompatActivity implements OnChartValueSelect
         updateTime=0L;
     }
 
-    private void saveData(float secsWithMillis, float axisX, float axisY, float axisZ) {
+    private void saveData(float secsWithMillis, float axisC, float axisK, float axisF) {
         if(isSensorOn) {
             vectorTime.add(secsWithMillis);
-            vectorAzimut.add(axisX);
-            vectorPith.add(axisY);
-            vectorRoll.add(axisZ);
+            vectorC.add(axisC);
+            vectorK.add(axisK);
+            vectorF.add(axisF);
         }
     }
 
     public void export(){
-        String nameFile = "DataOrientation";
+        String nameFile = "DataTemperature";
         StringBuilder data = new StringBuilder();
-        data.append("Tiempo,Azimuth,Pitch,Roll");
+        data.append("Tiempo,Celcius,Kelvin,Fahrenheit");
         for(int i = 0; i < vectorTime.size(); i++){
-            data.append("\n" + vectorTime.get(i).toString() + "," + vectorAzimut.get(i).toString()
-                    + "," + vectorPith.get(i).toString() + "," + vectorRoll.get(i).toString());
+            data.append("\n" + vectorTime.get(i).toString() + "," + vectorC.get(i).toString()
+                    + "," + vectorK.get(i).toString() + "," + vectorF.get(i).toString());
         }
         try{
-            FileOutputStream out = openFileOutput("orientation.csv", Context.MODE_PRIVATE);
+            FileOutputStream out = openFileOutput("temperature.csv", Context.MODE_PRIVATE);
             out.write((data.toString()).getBytes());
             out.close();
             Context context = getApplicationContext();
-            File filelocation = new File(getFilesDir(), "orientation.csv");
+            File filelocation = new File(getFilesDir(), "temperature.csv");
             Uri path = FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName() +".fileprovider", filelocation);
             Intent fileIntent = new Intent(Intent.ACTION_SEND);
             fileIntent.setType("text/csv");
