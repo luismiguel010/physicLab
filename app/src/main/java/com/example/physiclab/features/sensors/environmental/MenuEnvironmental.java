@@ -62,5 +62,19 @@ public class MenuEnvironmental extends AppCompatActivity {
             btnLight.setClickable(false);
             btnLight.setEnabled(false);
         }
+
+        if (sensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE) != null){
+            btnPressure.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intentPressure = new Intent(getApplicationContext(), Light.class);
+                    startActivity(intentPressure);
+                }
+            });
+        } else {
+            disablePress.setText("*No disponible");
+            btnPressure.setClickable(false);
+            btnPressure.setEnabled(false);
+        }
     }
 }

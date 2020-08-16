@@ -18,7 +18,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".features.sensors.environmental.Light"></activity>
+        <activity android:name=".features.sensors.environmental.Pressure"></activity>
+        <activity android:name=".features.sensors.environmental.Light" />
         <activity android:name=".features.sensors.environmental.Temprature" />
         <activity android:name=".features.sensors.environmental.MenuEnvironmental" />
         <activity android:name=".features.sensors.position.GPSView" />
