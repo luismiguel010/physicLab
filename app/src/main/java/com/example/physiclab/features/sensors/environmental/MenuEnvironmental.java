@@ -1,12 +1,15 @@
 package com.example.physiclab.features.sensors.environmental;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -21,6 +24,8 @@ public class MenuEnvironmental extends AppCompatActivity {
     private ImageButton btnTemp, btnLight, btnPressure;
     private SensorManager sensorManager;
     private TextView dissableTemp, disableLigh, disablePress;
+    private Toolbar toolbar;
+    private Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +38,10 @@ public class MenuEnvironmental extends AppCompatActivity {
         dissableTemp = findViewById(R.id.disable_temp);
         disableLigh = findViewById(R.id.disable_light);
         disablePress = findViewById(R.id.disable_pressure);
+        toolbar = findViewById(R.id.tool_bar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Sensores de entorno");
+        toolbar.setTitleTextColor(Color.WHITE);
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         if (sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE) != null){
@@ -76,5 +85,13 @@ public class MenuEnvironmental extends AppCompatActivity {
             btnPressure.setClickable(false);
             btnPressure.setEnabled(false);
         }
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        this.menu = menu;
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
     }
 }

@@ -1,12 +1,15 @@
 package com.example.physiclab.features.sensors.movement;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -18,6 +21,8 @@ public class MenuMovementSensor extends AppCompatActivity {
     private ImageButton btnAccelerometer, btnAccelerometer2, btnGyro;
     private SensorManager sensorManager;
     private TextView dissableAccelerometer, disableAccelerometer2, disableGyro;
+    private Toolbar toolbar;
+    private Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +35,10 @@ public class MenuMovementSensor extends AppCompatActivity {
         dissableAccelerometer = findViewById(R.id.disable_accelerometer);
         disableAccelerometer2 = findViewById(R.id.disable_accelerometerwithoutG);
         disableGyro = findViewById(R.id.disable_gyro);
+        toolbar = findViewById(R.id.tool_bar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Sensores de movimiento");
+        toolbar.setTitleTextColor(Color.WHITE);
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         if (sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null){
@@ -76,10 +85,13 @@ public class MenuMovementSensor extends AppCompatActivity {
             btnGyro.setClickable(false);
             btnGyro.setEnabled(false);
         }
+    }
 
-
-
-
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        this.menu = menu;
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
     }
 
 

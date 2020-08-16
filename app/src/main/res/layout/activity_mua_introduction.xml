@@ -17,7 +17,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:gravity="center"
-        android:text="@string/theoryMua"
+        android:text="Movimiento Acelerado Uniforme (MAU)"
         android:textColor="#FFFFFF"
         android:textSize="30dp"
         android:textStyle="bold"/>

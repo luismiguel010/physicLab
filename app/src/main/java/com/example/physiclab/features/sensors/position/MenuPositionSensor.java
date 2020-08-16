@@ -1,12 +1,15 @@
 package com.example.physiclab.features.sensors.position;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -18,6 +21,9 @@ public class MenuPositionSensor extends AppCompatActivity {
     private ImageButton btnMagnetometer, btnOrientation, btnProximity;
     private TextView disableMagne, disableOrientation, disableProximity;
     private SensorManager sensorManager;
+    private Toolbar toolbar;
+    private Menu menu;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +36,10 @@ public class MenuPositionSensor extends AppCompatActivity {
         disableOrientation = findViewById(R.id.disable_orientation);
         disableProximity = findViewById(R.id.disable_proximity);
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        toolbar = findViewById(R.id.tool_bar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Sensores de posición");
+        toolbar.setTitleTextColor(Color.WHITE);
 
         if (sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD) != null){
             btnMagnetometer.setOnClickListener(new View.OnClickListener() {
@@ -73,5 +83,12 @@ public class MenuPositionSensor extends AppCompatActivity {
             btnProximity.setClickable(false);
             btnProximity.setEnabled(false);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        this.menu = menu;
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
     }
 }

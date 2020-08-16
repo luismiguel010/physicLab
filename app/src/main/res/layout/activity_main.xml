@@ -52,7 +52,7 @@
             android:background="@null"
             app:layout_constraintStart_toEndOf="@+id/btnSensorPos"
             app:layout_constraintTop_toBottomOf="@+id/textView3"
-            app:srcCompat="@drawable/ic_muc"
+            app:srcCompat="@drawable/ic_muca"
             tools:ignore="VectorDrawableCompat" />
     </LinearLayout>
 

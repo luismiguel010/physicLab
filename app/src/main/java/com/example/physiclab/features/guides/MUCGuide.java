@@ -30,7 +30,7 @@ public class MUCGuide extends AppCompatActivity {
     private Toolbar toolbar;
     private Menu menu;
     private static final int PERMISSION_REQUEST = 255;
-    private String nameFile = "muca_guide.pdf";
+    private String nameFile = "muc_guide.pdf";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
