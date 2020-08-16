@@ -39,7 +39,7 @@ public class MenuEnvironmental extends AppCompatActivity {
             btnTemp.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intentTemp= new Intent(getApplicationContext(), Temprature.class);
+                    Intent intentTemp = new Intent(getApplicationContext(), Temprature.class);
                     startActivity(intentTemp);
                 }
             });
@@ -47,6 +47,20 @@ public class MenuEnvironmental extends AppCompatActivity {
             dissableTemp.setText("*No disponible");
             btnTemp.setClickable(false);
             btnTemp.setEnabled(false);
+        }
+
+        if (sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT) != null){
+            btnLight.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intentLight = new Intent(getApplicationContext(), Light.class);
+                    startActivity(intentLight);
+                }
+            });
+        } else {
+            disableLigh.setText("*No disponible");
+            btnLight.setClickable(false);
+            btnLight.setEnabled(false);
         }
     }
 }

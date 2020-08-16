@@ -33,19 +33,19 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 
-public class Temprature extends AppCompatActivity implements OnChartValueSelectedListener, SensorEventListener {
+public class Light extends AppCompatActivity implements OnChartValueSelectedListener, SensorEventListener {
 
     private Toolbar toolbar;
     private Menu menu;
-    private LineChart lineChartC, lineChartK, lineChartF;
+    private LineChart lineChart;
     private SensorManager sensorManager;
-    private Sensor temperature;
+    private Sensor light;
     private boolean isSensorOn = false;
     long startTime=0L, timeInNanoSeconds =0L, timeSwapBuff=0L, updateTime=0L;
     private float secsWithMillis;
     Handler customHandler = new Handler();
-    ArrayList<Float> vectorTime, vectorC, vectorK, vectorF;
-    private TextView viewC, viewK, viewF;
+    ArrayList<Float> vectorTime, vectorLight;
+    private TextView viewLight;
 
     Runnable updateTimetThread = new Runnable() {
         @Override
@@ -62,48 +62,32 @@ public class Temprature extends AppCompatActivity implements OnChartValueSelecte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_temprature);
+        setContentView(R.layout.activity_light);
         initComponents();
     }
 
     public void initComponents(){
         toolbar = findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Temperatura ambiente");
+        getSupportActionBar().setTitle("Intensidad de luz");
         toolbar.setTitleTextColor(Color.WHITE);
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        temperature = sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
-        lineChartC = findViewById(R.id.linear_chartC);
-        lineChartC.setOnChartValueSelectedListener(this);
-        lineChartC.setDrawGridBackground(false);
-        lineChartC.getDescription().setEnabled(false);
-        lineChartC.setNoDataText("Presione play para visualizar los datos.");
-        lineChartC.invalidate();
-        lineChartK = findViewById(R.id.linear_chartK);
-        lineChartK.setOnChartValueSelectedListener(this);
-        lineChartK.setDrawGridBackground(false);
-        lineChartK.getDescription().setEnabled(false);
-        lineChartK.setNoDataText("Presione play para visualizar los datos.");
-        lineChartK.invalidate();
-        lineChartF = findViewById(R.id.linear_chartF);
-        lineChartF.setOnChartValueSelectedListener(this);
-        lineChartF.setDrawGridBackground(false);
-        lineChartF.getDescription().setEnabled(false);
-        lineChartF.setNoDataText("Presione play para visualizar los datos.");
-        lineChartF.invalidate();
-        vectorC = new ArrayList<>();
-        vectorK = new ArrayList<>();
-        vectorF = new ArrayList<>();
+        light = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+        lineChart = findViewById(R.id.linear_chartLight);
+        lineChart.setOnChartValueSelectedListener(this);
+        lineChart.setDrawGridBackground(false);
+        lineChart.getDescription().setEnabled(false);
+        lineChart.setNoDataText("Presione play para visualizar los datos.");
+        lineChart.invalidate();
+        vectorLight = new ArrayList<>();
         vectorTime = new ArrayList<>();
-        viewC = findViewById(R.id.viewTempC);
-        viewK = findViewById(R.id.viewTempK);
-        viewF = findViewById(R.id.viewTempF);
+        viewLight = findViewById(R.id.viewLux);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        sensorManager.registerListener(this, temperature, SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(this, light, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     @Override
@@ -123,38 +107,30 @@ public class Temprature extends AppCompatActivity implements OnChartValueSelecte
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.play:
-                lineChartC.clear();
-                lineChartK.clear();
-                lineChartF.clear();
-                lineChartC.removeAllViews();
-                lineChartK.removeAllViews();
-                lineChartF.removeAllViews();
+                lineChart.clear();
+                lineChart.removeAllViews();
                 isSensorOn = true;
                 restartTime();
                 runTime();
                 menu.getItem(0).setVisible(false);
                 menu.getItem(1).setVisible(true);
-                Toast.makeText(Temprature.this, "Sensor de temperatura activado.", Toast.LENGTH_LONG).show();
+                Toast.makeText(Light.this, "Sensor de luz activado.", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.stop:
                 isSensorOn = false;
                 pauseTime();
                 menu.getItem(0).setVisible(true);
                 menu.getItem(1).setVisible(false);
-                Toast.makeText(Temprature.this, "Sensor de temperatura desactivado.", Toast.LENGTH_LONG).show();
+                Toast.makeText(Light.this, "Sensor de luz desactivado.", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.exportData:
                 export();
-                Toast.makeText(Temprature.this, "Exportar datos.", Toast.LENGTH_LONG).show();
+                Toast.makeText(Light.this, "Exportar datos.", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.actionClear: {
                 restartTime();
-                lineChartC.clear();
-                lineChartK.clear();
-                lineChartF.clear();
-                lineChartC.removeAllViews();
-                lineChartK.removeAllViews();
-                lineChartF.removeAllViews();
+                lineChart.clear();
+                lineChart.removeAllViews();
                 break;
             }
         }
@@ -162,10 +138,10 @@ public class Temprature extends AppCompatActivity implements OnChartValueSelecte
     }
 
     private void addEntryC(float secsWithMillis, float axisX){
-        LineData data = lineChartC.getData();
+        LineData data = lineChart.getData();
         if (data == null) {
             data = new LineData();
-            lineChartC.setData(data);
+            lineChart.setData(data);
         }
         ILineDataSet set = data.getDataSetByIndex(0);
         if (set == null) {
@@ -175,14 +151,14 @@ public class Temprature extends AppCompatActivity implements OnChartValueSelecte
         data.addEntry(new Entry(secsWithMillis, axisX), 0);
         data.notifyDataChanged();
         data.setDrawValues(false);
-        lineChartC.setDrawMarkers(false);
-        lineChartC.notifyDataSetChanged();
-        lineChartC.setVisibleXRangeMaximum(6);
-        lineChartC.moveViewTo(data.getEntryCount() - 7, 50f, YAxis.AxisDependency.LEFT);
+        lineChart.setDrawMarkers(false);
+        lineChart.notifyDataSetChanged();
+        lineChart.setVisibleXRangeMaximum(6);
+        lineChart.moveViewTo(data.getEntryCount() - 7, 50f, YAxis.AxisDependency.LEFT);
     }
 
     private LineDataSet createSetC() {
-        LineDataSet set = new LineDataSet(null, "Temperatura en °C");
+        LineDataSet set = new LineDataSet(null, "Iluminación en lx");
         set.setDrawCircles(false);
         set.setLineWidth(2.5f);
         set.setColor(Color.rgb(0, 110, 71));
@@ -190,61 +166,7 @@ public class Temprature extends AppCompatActivity implements OnChartValueSelecte
         return set;
     }
 
-    private void addEntryK(float secsWithMillis, float axisY){
-        LineData data = lineChartK.getData();
-        if (data == null) {
-            data = new LineData();
-            lineChartK.setData(data);
-        }
-        ILineDataSet set = data.getDataSetByIndex(0);
-        if (set == null) {
-            set = createSetK();
-            data.addDataSet(set);
-        }
-        data.addEntry(new Entry(secsWithMillis, axisY), 0);
-        data.notifyDataChanged();
-        data.setDrawValues(false);
-        lineChartK.notifyDataSetChanged();
-        lineChartK.setVisibleXRangeMaximum(6);
-        lineChartK.moveViewTo(data.getEntryCount() - 7, 50f, YAxis.AxisDependency.LEFT);
-    }
 
-    private LineDataSet createSetK() {
-        LineDataSet set = new LineDataSet(null, "Temperatura en K");
-        set.setDrawCircles(false);
-        set.setLineWidth(2.5f);
-        set.setColor(Color.rgb(255, 192, 0));
-        set.setAxisDependency(YAxis.AxisDependency.LEFT);
-        return set;
-    }
-
-    private void addEntryF(float secsWithMillis, float axisZ){
-        LineData data = lineChartF.getData();
-        if (data == null) {
-            data = new LineData();
-            lineChartF.setData(data);
-        }
-        ILineDataSet set = data.getDataSetByIndex(0);
-        if (set == null) {
-            set = createSetF();
-            data.addDataSet(set);
-        }
-        data.addEntry(new Entry(secsWithMillis, axisZ), 0);
-        data.notifyDataChanged();
-        data.setDrawValues(false);
-        lineChartF.notifyDataSetChanged();
-        lineChartF.setVisibleXRangeMaximum(6);
-        lineChartF.moveViewTo(data.getEntryCount() - 7, 50f, YAxis.AxisDependency.LEFT);
-    }
-
-    private LineDataSet createSetF() {
-        LineDataSet set = new LineDataSet(null, "Temperatura en °F");
-        set.setDrawCircles(false);
-        set.setLineWidth(2.5f);
-        set.setColor(Color.rgb(33, 150, 243));
-        set.setAxisDependency(YAxis.AxisDependency.LEFT);
-        return set;
-    }
 
     @Override
     public void onValueSelected(Entry e, Highlight h) {
@@ -258,15 +180,9 @@ public class Temprature extends AppCompatActivity implements OnChartValueSelecte
     public void onSensorChanged(SensorEvent sensorEvent) {
         if(isSensorOn) {
             float axisC = sensorEvent.values[0];
-            float axisK = (float) (axisC + 273.15);
-            float axisF = (float) ((axisC * 1.8) + 32);
-            viewC.setText(axisC + " °C");
-            viewK.setText(axisK + " K");
-            viewF.setText(axisF + " °F");
+            viewLight.setText(axisC + " lx");
             addEntryC(secsWithMillis, axisC);
-            addEntryK(secsWithMillis, axisK);
-            addEntryF(secsWithMillis, axisF);
-            saveData(secsWithMillis, axisC, axisK, axisF);
+            saveData(secsWithMillis, axisC);
         }
     }
 
@@ -292,29 +208,26 @@ public class Temprature extends AppCompatActivity implements OnChartValueSelecte
         updateTime=0L;
     }
 
-    private void saveData(float secsWithMillis, float axisC, float axisK, float axisF) {
+    private void saveData(float secsWithMillis, float axisC) {
         if(isSensorOn) {
             vectorTime.add(secsWithMillis);
-            vectorC.add(axisC);
-            vectorK.add(axisK);
-            vectorF.add(axisF);
+            vectorLight.add(axisC);
         }
     }
 
     public void export(){
-        String nameFile = "DataTemperature";
+        String nameFile = "DataLight";
         StringBuilder data = new StringBuilder();
-        data.append("Tiempo,Celcius,Kelvin,Fahrenheit");
+        data.append("Tiempo,Lx");
         for(int i = 0; i < vectorTime.size(); i++){
-            data.append("\n" + vectorTime.get(i).toString() + "," + vectorC.get(i).toString()
-                    + "," + vectorK.get(i).toString() + "," + vectorF.get(i).toString());
+            data.append("\n" + vectorTime.get(i).toString() + "," + vectorLight.get(i).toString());
         }
         try{
-            FileOutputStream out = openFileOutput("temperature.csv", Context.MODE_PRIVATE);
+            FileOutputStream out = openFileOutput("light.csv", Context.MODE_PRIVATE);
             out.write((data.toString()).getBytes());
             out.close();
             Context context = getApplicationContext();
-            File filelocation = new File(getFilesDir(), "temperature.csv");
+            File filelocation = new File(getFilesDir(), "light.csv");
             Uri path = FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName() +".fileprovider", filelocation);
             Intent fileIntent = new Intent(Intent.ACTION_SEND);
             fileIntent.setType("text/csv");
