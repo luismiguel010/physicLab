@@ -29,9 +29,8 @@ public class MUCGuide extends AppCompatActivity {
     PDFView pdfView;
     private Toolbar toolbar;
     private Menu menu;
-    private final static String TAG  = MURGuide.class.getSimpleName();
     private static final int PERMISSION_REQUEST = 255;
-    private String nameFile = "muc_guide.pdf";
+    private String nameFile = "muca_guide.pdf";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +38,7 @@ public class MUCGuide extends AppCompatActivity {
         setContentView(R.layout.activity_m_u_c_guide);
         toolbar = findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("MUC Guía de laboratorio");
+        getSupportActionBar().setTitle("MCUA Guía de laboratorio");
         toolbar.setTitleTextColor(Color.WHITE);
         pdfView = findViewById(R.id.muc_guide);
         pdfView.fromAsset(nameFile).load();

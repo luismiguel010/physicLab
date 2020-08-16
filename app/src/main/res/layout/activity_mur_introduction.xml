@@ -1,43 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@color/colorPrimary"
     tools:context=".MurIntroduction">
 
-    <pl.droidsonroids.gif.GifImageView
-        android:id="@+id/gifmur"
-        android:layout_width="385dp"
-        android:layout_height="258dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:src="@drawable/gif_mur"
-        app:layout_constraintBottom_toTopOf="@+id/imagebutton_book"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.51"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-    <ImageButton
-        android:id="@+id/imagebutton_book"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/roundcorner_white"
-        android:padding="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imagebutton_lab"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gifmur"
-        app:layout_constraintVertical_bias="0.523"
-        app:srcCompat="@drawable/ic_book" />
-
     <TextView
         android:id="@+id/textView2"
+        android:layout_gravity="center"
         android:layout_width="305dp"
         android:layout_height="109dp"
         android:layout_marginStart="8dp"
@@ -53,22 +26,36 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageButton
-        android:id="@+id/imagebutton_lab"
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/gifmur"
+        android:layout_gravity="center"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/roundcorner_white"
-        android:padding="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.563"
-        app:layout_constraintStart_toEndOf="@+id/imagebutton_book"
-        app:layout_constraintTop_toBottomOf="@+id/gifmur"
-        app:layout_constraintVertical_bias="0.503"
-        app:srcCompat="@drawable/ic_lab_experiment" />
+        android:layout_height="290dp"
+        android:src="@drawable/gif_mur" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:id="@+id/imagebutton_book"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            app:srcCompat="@drawable/ic_guide" />
+
+        <ImageButton
+            android:id="@+id/imagebutton_lab"
+            android:layout_marginLeft="62dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            app:srcCompat="@drawable/ic_experiment" />
+    </LinearLayout>
+
+
+
+
+
+</LinearLayout>
