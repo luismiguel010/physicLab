@@ -44,4 +44,6 @@
     <string name="info_temp">Mide la temperatura ambiente de la habitación en grados Celsius (°C).</string>
     <string name="info_light">Mide el nivel de luz ambiental (iluminación) en lx. Es útil en el dispositivo para el control del brillo de la pantalla.</string>
     <string name="info_pressure">Mide la presión del aire del ambiente en hPa o mbar.</string>
+    <string name="label_warning_sensor_proximity">*No es posible realizar este experimento en este dispositivo porque no cuenta con sensor de proximidad</string>
+    <string name="label_warning_sensor_gyro">*No es posible realizar este experimento en este dispositivo porque no cuenta con sensor giroscópico</string>
 </resources>

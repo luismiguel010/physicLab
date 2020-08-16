@@ -23,6 +23,7 @@
         <ImageButton
             android:id="@+id/btnMagnetometer"
             android:layout_marginLeft="8dp"
+            android:layout_marginBottom="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@null"
@@ -59,6 +60,7 @@
         android:layout_height="wrap_content">
         <ImageButton
             android:id="@+id/btnOrientation"
+            android:layout_marginBottom="8dp"
             android:layout_marginLeft="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -96,6 +98,7 @@
         android:layout_height="wrap_content">
         <ImageButton
             android:id="@+id/btnProx"
+            android:layout_marginBottom="8dp"
             android:layout_marginLeft="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

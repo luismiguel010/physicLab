@@ -23,15 +23,15 @@ public class ExperimentMURTimer extends AppCompatActivity {
 
     private Toolbar toolbar;
     private Menu menu;
-    TextView textState, time1, time2, time3, time4, time5;
-    String time;
-    String timeCatch = "";
-    Handler customHandler = new Handler();
-    long startTime=0L, timeInMilliseconds=0L, timeSwapBuff=0L, updateTime=0L;
-    AudioDispatcher dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050, 1024, 0);
-    double threshold = 8;
-    double sensitivity = 50;
-    int counterClap = 0;
+    private TextView textState, time1, time2, time3, time4, time5;
+    private String time;
+    private String timeCatch = "";
+    private Handler customHandler = new Handler();
+    private long startTime=0L, timeInMilliseconds=0L, timeSwapBuff=0L, updateTime=0L;
+    private AudioDispatcher dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050, 1024, 0);
+    private double threshold = 8;
+    private double sensitivity = 50;
+    private int counterClap = 0;
     private long startTimeCode;
     private boolean isFirstTime = true;
     private Thread threadListener;
@@ -71,6 +71,9 @@ public class ExperimentMURTimer extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        customHandler.removeCallbacks(audioListener);
+        customHandler.removeCallbacks(updateTimetThread);
+        isFirstTime = true;
         counterClap = 0;
     }
 

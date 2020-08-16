@@ -46,15 +46,15 @@ public class ExperimentMUCGyro extends AppCompatActivity implements OnChartValue
     private EditText editRadio;
     private float radio;
     private int samplingPeriodUsGyro = 1000000;
-    boolean isSensorOn = false;
-    long startTime=0L, timeInNanoSeconds =0L, timeSwapBuff=0L, updateTime=0L;
-    String time;
-    Handler customHandler = new Handler();
+    private boolean isSensorOn = false;
+    private long startTime=0L, timeInNanoSeconds =0L, timeSwapBuff=0L, updateTime=0L;
+    private String time;
+    private Handler customHandler = new Handler();
     private float omegaMagnitude;
     private final int[] vectorColors = ColorTemplate.VORDIPLOM_COLORS;
     private LineChart lineChart;
     private float secsWithMillis;
-    ArrayList<Float> vectorVelocity, vectorTime;
+    private ArrayList<Float> vectorVelocity, vectorTime;
 
     Runnable updateTimetThread = new Runnable() {
         @Override

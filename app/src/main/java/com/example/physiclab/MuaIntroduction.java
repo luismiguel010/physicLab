@@ -5,51 +5,67 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.physiclab.features.experiments.ExperimentMUAProx;
 import com.example.physiclab.features.guides.MUAGuide;
+import com.example.physiclab.features.sensors.position.Magnetometer;
 import com.example.physiclab.features.theories.MurTheory;
 
 import static android.Manifest.permission.RECORD_AUDIO;
 
 public class MuaIntroduction extends AppCompatActivity {
 
-    private ImageButton btnbook;
-    private ImageButton btnlab;
+    private ImageButton btnbook, btnlab;
     public static final int RequestPermissionCode = 1;
+    private SensorManager sensorManager;
+    private TextView disableProximity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_mua_introduction);
-        btnlab = (ImageButton) findViewById(R.id.imagebutton_lab);
-        btnbook = (ImageButton) findViewById(R.id.imagebutton_book);
+        btnlab = findViewById(R.id.imagebutton_lab);
+        btnbook = findViewById(R.id.imagebutton_book);
+        disableProximity = findViewById(R.id.disable_proximity_experimentMUA);
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 
-        btnlab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(checkPermission()) {
-                    Intent intent = new Intent(getApplicationContext(), ExperimentMUAProx.class);
-                    startActivity(intent);
-                }else {
-                    requestPermission();
-                    if(checkPermission()){
+        if (sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY) != null){
+            btnlab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(checkPermission()) {
                         Intent intent = new Intent(getApplicationContext(), ExperimentMUAProx.class);
                         startActivity(intent);
+                    }else {
+                        requestPermission();
+                        if(checkPermission()){
+                            Intent intent = new Intent(getApplicationContext(), ExperimentMUAProx.class);
+                            startActivity(intent);
+                        }
                     }
                 }
-            }
-        });
+            });
+        }else{
+            disableProximity.setText(R.string.label_warning_sensor_proximity);
+            btnlab.setClickable(false);
+            btnlab.setEnabled(false);
+        }
+
+
 
         btnbook.setOnClickListener(new View.OnClickListener() {
             @Override

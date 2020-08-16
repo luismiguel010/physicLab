@@ -36,21 +36,21 @@ import be.tarsos.dsp.onsets.PercussionOnsetDetector;
 public class ExperimentMUAProx extends AppCompatActivity implements OnChartValueSelectedListener {
 
     private TextView timeTextView;
-    long startTime=0L, timeInMilliseconds =0L, timeSwapBuff=0L, updateTime=0L;
-    String time, timeCatch;
-    Handler customHandler = new Handler();
-    Handler audioHandler = new Handler();
-    int counterSound = 0;
+    private long startTime=0L, timeInMilliseconds =0L, timeSwapBuff=0L, updateTime=0L;
+    private String time, timeCatch;
+    private Handler customHandler = new Handler();
+    private Handler audioHandler = new Handler();
+    private int counterSound = 0;
     private Toolbar toolbar;
     private Menu menu;
     private TextView textSensor;
     boolean isOnSensor = false;
-    AudioDispatcher dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050, 1024, 0);
-    double threshold = 8;
-    double sensitivity = 60;
-    SensorManager sensorManager;
-    Sensor proximitySensor;
-    long startTimeCode;
+    private AudioDispatcher dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050, 1024, 0);
+    private double threshold = 8;
+    private double sensitivity = 60;
+    private SensorManager sensorManager;
+    private Sensor proximitySensor;
+    private long startTimeCode;
     private final int[] vectorColors = ColorTemplate.VORDIPLOM_COLORS;
     private LineChart lineChart;
     private float secsWithMillis;
@@ -92,6 +92,13 @@ public class ExperimentMUAProx extends AppCompatActivity implements OnChartValue
         if(proximitySensor == null){
             Toast.makeText(ExperimentMUAProx.this, "Sensor de proximidad no disponible", Toast.LENGTH_LONG).show();
         }
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        startProximityCatcher();
     }
 
     private void initComponents() {
@@ -147,12 +154,6 @@ public class ExperimentMUAProx extends AppCompatActivity implements OnChartValue
 
     @Override
     public void onNothingSelected() {}
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        startProximityCatcher();
-    }
 
     private void startProximityCatcher() {
         final SensorEventListener proximitySensorListener = new SensorEventListener() {
