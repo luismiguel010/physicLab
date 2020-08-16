@@ -91,7 +91,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        int images[] = new int[] {R.drawable.slidemain1, R.drawable.slidemain2, R.drawable.slidemain3};
+        int images[] = new int[] {R.drawable.slide1, R.drawable.slide2, R.drawable.slide3,
+        R.drawable.slide4, R.drawable.slide5};
 
         v_flipper = findViewById(R.id.v_flipper);
 
