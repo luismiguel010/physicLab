@@ -44,7 +44,7 @@ public class MurIntroduction extends AppCompatActivity {
                     startActivity(intent);
                     }else {
                         requestPermission();
-                        if(checkPermission()){
+                         if(checkPermission()){
                             Intent intent = new Intent(getApplicationContext(), ExperimentMURTimer.class);
                             startActivity(intent);
                         }

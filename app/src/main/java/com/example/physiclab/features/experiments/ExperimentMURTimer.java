@@ -2,7 +2,6 @@ package com.example.physiclab.features.experiments;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -25,15 +24,15 @@ public class ExperimentMURTimer extends AppCompatActivity {
     private Menu menu;
     private TextView textState, time1, time2, time3, time4, time5;
     private String time;
-    private String timeCatch = "";
-    private Handler customHandler = new Handler();
-    private long startTime=0L, timeInMilliseconds=0L, timeSwapBuff=0L, updateTime=0L;
-    private AudioDispatcher dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050, 1024, 0);
-    private double threshold = 8;
-    private double sensitivity = 50;
-    private int counterClap = 0;
+    private String timeCatch;
+    private Handler customHandler;
+    private long startTime, timeInMilliseconds, timeSwapBuff, updateTime;
+    private AudioDispatcher dispatcher;
+    private double threshold;
+    private double sensitivity;
+    private int counterClap;
     private long startTimeCode;
-    private boolean isFirstTime = true;
+    private boolean isFirstTime;
     private Thread threadListener;
 
     Runnable updateTimetThread = new Runnable() {
@@ -68,9 +67,51 @@ public class ExperimentMURTimer extends AppCompatActivity {
         initComponents();
     }
 
+    private void initComponents() {
+        textState = findViewById(R.id.txtState);
+        time1 = findViewById(R.id.time1);
+        time2 = findViewById(R.id.time2);
+        time3 = findViewById(R.id.time3);
+        time4 = findViewById(R.id.time4);
+        time5 = findViewById(R.id.time5);
+        counterClap = 0;
+        timeCatch = "";
+        customHandler = new Handler();
+        startTime = 0L;
+        timeInMilliseconds = 0L;
+        timeSwapBuff = 0L;
+        updateTime = 0L;
+        dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050, 1024, 0);
+        threshold = 8;
+        sensitivity = 50;
+        counterClap = 0;
+        isFirstTime = true;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        dispatcher.stop();
         customHandler.removeCallbacks(audioListener);
         customHandler.removeCallbacks(updateTimetThread);
         isFirstTime = true;
@@ -127,16 +168,6 @@ public class ExperimentMURTimer extends AppCompatActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         return super.onPrepareOptionsMenu(menu);
-    }
-
-    private void initComponents() {
-        textState = findViewById(R.id.txtState);
-        time1 = findViewById(R.id.time1);
-        time2 = findViewById(R.id.time2);
-        time3 = findViewById(R.id.time3);
-        time4 = findViewById(R.id.time4);
-        time5 = findViewById(R.id.time5);
-        counterClap = 0;
     }
 
     public void controlTime(int counter, String timeCatchHandle){

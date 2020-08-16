@@ -94,11 +94,33 @@ public class ExperimentMUAProx extends AppCompatActivity implements OnChartValue
         }
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
 
     @Override
     protected void onResume() {
         super.onResume();
         startProximityCatcher();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        dispatcher.stop();
+        customHandler.removeCallbacks(audioListener);
+        customHandler.removeCallbacks(updateTimetThread);
     }
 
     private void initComponents() {
