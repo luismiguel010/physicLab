@@ -24,7 +24,6 @@ public class MenuPositionSensor extends AppCompatActivity {
     private Toolbar toolbar;
     private Menu menu;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

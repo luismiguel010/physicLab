@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Physics Lab</string>
+    <string name="app_name">PhysicsLab</string>
     <string name="descImagePreStart">Image for pre strart</string>
     <string name="titleTheoryExcercise">Problemas teóricos</string>
     <string name="mur">MUR</string>
@@ -10,19 +10,39 @@
     <string name="txtmua">Deje caer su celular sobre una superficie blanda para saber la distancia que recorre</string>
     <string name="txtmuc">Antes de iniciar ingrese el número de vueltas y el radio en el que va a hacer girar el celular.</string>
     <string name="problemsMur">Problema n° 1) Realizar las siguiente conversiones de unidades:
-        a) de 36 Km/h a m/s.
-        b) de 10 m/s a Km/h.
-        c) de 30 Km/min a cm/s.
-        d) de 50 m/min a Km/h.</string>
-    <string name="problemsMur2">Problema n° 2) Un móvil recorre 98 Km en 2 h, determine:  a) Su velocidad.  b) ¿Cuántos kilómetros recorrerá en 3 horas con la misma velocidad?</string>
+        \n
+        \na) De 36 Km/h a m/s.
+        \nb) De 10 m/s a Km/h.
+        \nc) De 30 Km/min a cm/s.
+        \nd) De 50 m/min a Km/h.</string>
+    <string name="problemsMur2">Problema n° 2) Un móvil recorre 98 Km en 2 h, determine:
+        \n
+        \na) Su velocidad.
+        \nb) ¿Cuántos kilómetros recorrerá en 3 horas con la misma velocidad?</string>
     <string name="problemsMur3">Problema n° 3) Se produce un disparo a 2,04 Km de donde se encuentra un policía, ¿cuánto tarda el policía en oírlo si la velocidad del sonido en el aire es de 330 m/s?</string>
     <string name="titleMur">Ejercicios</string>
-    <string name="problemsMua">Problema n° 1) Un cohete parte del reposo con aceleración constante y logra alcanzar en 30 s una velocidad de 588 m/s. Calcular:  a) Aceleración.  b) ¿Qué espacio recorrió en esos 30 s?</string>
-    <string name="problemsMua2">Problema n° 2) Un móvil que se desplaza con velocidad constante aplica los frenos durante 25 s y recorre 400 m hasta detenerse. Calcular:  a) ¿Qué velocidad tenia el móvil antes de aplicar los frenos?  b) ¿Qué desaceleración produjeron los frenos?</string>
+    <string name="problemsMua">Problema n° 1) Un cohete parte del reposo con aceleración constante y logra alcanzar en 30 s una velocidad de 588 m/s. Calcular:
+        \n
+        \na) Aceleración.
+        \nb) ¿Qué espacio recorrió en esos 30 s?</string>
+    <string name="problemsMua2">Problema n° 2) Un móvil que se desplaza con velocidad constante aplica los frenos durante 25 s y recorre 400 m hasta detenerse. Calcular:
+        \n
+        \na) ¿Qué velocidad tenia el móvil antes de aplicar los frenos?
+        \nb) ¿Qué desaceleración produjeron los frenos?</string>
     <string name="problemsMua3">Problema n° 3) ¿Cuánto tiempo tardará un móvil en alcanzar una velocidad de 60 Km/h, si parte del reposo acelerando constantemente con una aceleración de 20 Km/h²?</string>
-    <string name="problemsMuc">Problema n° 1) a - ¿Cuál es la velocidad angular de un punto dotado de M.C.U. si su período es de 1,4 s?  b - ¿Cuál es la velocidad tangencial si el radio es de 80 cm?</string>
-    <string name="problemsMuc2">Problema n° 2) Si un motor cumple 8000 R.P.M., determinar:  a) ¿Cuál es su velocidad angular?  b) ¿Cuál es su período?</string>
-    <string name="problemsMuc3">Problema n° 3) Un móvil dotado de M.C.U. da 280 vueltas en 20 minutos, si la circunferencia que describe es de 80 cm de radio, hallar:  a) ¿Cuál es su velocidad angular?  b) ¿Cuál es su velocidad tangencial?  c) ¿Cuál es la aceleración centrípeta?</string>
+    <string name="problemsMuc">Problema n° 1)
+        \n
+        \na) ¿Cuál es la velocidad angular de un punto dotado de M.C.U. si su período es de 1,4 s?
+        \nb) ¿Cuál es la velocidad tangencial si el radio es de 80 cm?</string>
+    <string name="problemsMuc2">Problema n° 2) Si un motor cumple 8000 R.P.M., determinar:
+        \n
+        \na) ¿Cuál es su velocidad angular?
+        \nb) ¿Cuál es su período?</string>
+    <string name="problemsMuc3">Problema n° 3) Un móvil dotado de M.C.U. da 280 vueltas en 20 minutos, si la circunferencia que describe es de 80 cm de radio, hallar:
+        \n
+        \na) ¿Cuál es su velocidad angular?
+        \nb) ¿Cuál es su velocidad tangencial?
+        \nc) ¿Cuál es la aceleración centrípeta?</string>
     <string name="theoryMua">Movimiento uniforme acelerado (MAU)</string>
     <string name="theoryMur">Movimiento uniforme rectilíneo (MRU)</string>
     <string name="theoryMuc">Movimiento circular uniformemente acelerado (MCUA)</string>

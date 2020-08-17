@@ -27,7 +27,8 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private Menu menu;
     ViewFlipper v_flipper;
-    private ImageButton btnMurExp, btnMuaExp, btnMucExp, btnSensorMov, btnSensorPos, btnSensorEnv;
+    private ImageButton btnMurExp, btnMuaExp, btnMucExp, btnSensorMov, btnSensorPos, btnSensorEnv,
+            btnProblemsMUR, btnProblemsMUA, btnProblemsMUC;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,9 @@ public class MainActivity extends AppCompatActivity {
         btnSensorMov = findViewById(R.id.btnSensorMov);
         btnSensorPos = findViewById(R.id.btnSensorPos);
         btnSensorEnv = findViewById(R.id.btnSensorAmb);
+        btnProblemsMUR = findViewById(R.id.btnProblemsMUR);
+        btnProblemsMUA = findViewById(R.id.btnProblemsMUA);
+        btnProblemsMUC = findViewById(R.id.btnProblemsMUC);
 
         btnMurExp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,6 +92,30 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intentMenuAmb = new Intent(getApplicationContext(), MenuEnvironmental.class);
                 startActivity(intentMenuAmb);
+            }
+        });
+
+        btnProblemsMUR.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentProblemsMur = new Intent(getApplicationContext(), ProblemsMur.class);
+                startActivity(intentProblemsMur);
+            }
+        });
+
+        btnProblemsMUA.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentProblemsMua = new Intent(getApplicationContext(), ProblemsMua.class);
+                startActivity(intentProblemsMua);
+            }
+        });
+
+        btnProblemsMUC.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentProblemsMuc = new Intent(getApplicationContext(), ProblemsMuc.class);
+                startActivity(intentProblemsMuc);
             }
         });
 

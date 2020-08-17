@@ -90,6 +90,40 @@
             tools:ignore="VectorDrawableCompat" />
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_marginTop="8dp"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageButton
+            android:id="@+id/btnProblemsMUR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            app:srcCompat="@drawable/ic_mur_problems"
+            tools:ignore="VectorDrawableCompat" />
+        <ImageButton
+            android:id="@+id/btnProblemsMUA"
+            android:layout_marginLeft="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            app:layout_constraintStart_toEndOf="@+id/btnSensorMov"
+            app:layout_constraintTop_toBottomOf="@+id/textView3"
+            app:srcCompat="@drawable/ic_mua_problems"
+            tools:ignore="VectorDrawableCompat" />
+        <ImageButton
+            android:id="@+id/btnProblemsMUC"
+            android:layout_marginLeft="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            app:layout_constraintStart_toEndOf="@+id/btnSensorPos"
+            app:layout_constraintTop_toBottomOf="@+id/textView3"
+            app:srcCompat="@drawable/ic_mcu_problems"
+            tools:ignore="VectorDrawableCompat" />
+    </LinearLayout>
+
 
 
 </LinearLayout>
