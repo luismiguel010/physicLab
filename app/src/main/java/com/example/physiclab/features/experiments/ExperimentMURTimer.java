@@ -112,10 +112,6 @@ public class ExperimentMURTimer extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         dispatcher.stop();
-        customHandler.removeCallbacks(audioListener);
-        customHandler.removeCallbacks(updateTimetThread);
-        isFirstTime = true;
-        counterClap = 0;
     }
 
     public void startAudioDispatcher(){
@@ -145,19 +141,19 @@ public class ExperimentMURTimer extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.play) {
-            restartTime();
-            startAudioDispatcher();
+            //restartTime();
+            if(isFirstTime) {
+                startAudioDispatcher();
+            }
             menu.getItem(1).setVisible(false);
             menu.getItem(2).setVisible(true);
             Toast.makeText(ExperimentMURTimer.this, "Escuchando...", Toast.LENGTH_LONG).show();
-            return true;
         }else if(id == R.id.stop){
             pauseTime();
-            restartTime();
+            //restartTime();
             menu.getItem(1).setVisible(true);
             menu.getItem(2).setVisible(false);
             Toast.makeText(ExperimentMURTimer.this, "No escuchando...", Toast.LENGTH_LONG).show();
-            return true;
         }else if(id == R.id.restart){
             pauseTime();
             restartTime();

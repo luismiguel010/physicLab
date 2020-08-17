@@ -119,8 +119,6 @@ public class ExperimentMUAProx extends AppCompatActivity implements OnChartValue
     protected void onDestroy() {
         super.onDestroy();
         dispatcher.stop();
-        customHandler.removeCallbacks(audioListener);
-        customHandler.removeCallbacks(updateTimetThread);
     }
 
     private void initComponents() {
