@@ -1,66 +1,56 @@
 package com.example.physiclab;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
-import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ViewFlipper;
 
+import com.example.physiclab.features.cuestionaries.ProblemsMua;
+import com.example.physiclab.features.cuestionaries.ProblemsMuc;
+import com.example.physiclab.features.cuestionaries.ProblemsMur;
+import com.example.physiclab.features.sensors.environmental.MenuEnvironmental;
+import com.example.physiclab.features.sensors.movement.MenuMovementSensor;
+import com.example.physiclab.features.sensors.position.MenuPositionSensor;
+
 
 public class MainActivity extends AppCompatActivity {
+
+    private Toolbar toolbar;
+    private Menu menu;
     ViewFlipper v_flipper;
-    private ImageButton btnMur;
-    private ImageButton btnMua;
-    private ImageButton btnMuc;
-    private ImageButton btnMurExp;
-    private ImageButton btnMuaExp;
-    private ImageButton btnMucExp;
+    private ImageButton btnMurExp, btnMuaExp, btnMucExp, btnSensorMov, btnSensorPos, btnSensorEnv,
+            btnProblemsMUR, btnProblemsMUA, btnProblemsMUC;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
-        btnMur = (ImageButton) findViewById(R.id.btnMur);
-        btnMua = (ImageButton) findViewById(R.id.btnMua);
-        btnMuc = (ImageButton) findViewById(R.id.btnMcu);
-        btnMurExp = (ImageButton) findViewById(R.id.btnMurExp);
-        btnMuaExp = (ImageButton) findViewById(R.id.btnMuaExp);
-        btnMucExp = (ImageButton) findViewById(R.id.btnMucExp);
-
-        btnMur.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intentMur = new Intent(getApplicationContext(), ProblemsMur.class);
-                startActivity(intentMur);
-            }
-        });
-
-        btnMua.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intentMua = new Intent(getApplicationContext(), ProblemsMua.class);
-                startActivity(intentMua);
-            }
-        });
-
-        btnMuc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intentMuc = new Intent(getApplicationContext(), ProblemsMuc.class);
-                startActivity(intentMuc);
-            }
-        });
+        toolbar = findViewById(R.id.tool_bar);
+        setSupportActionBar(toolbar);
+        toolbar.setTitleTextColor(Color.WHITE);
+        btnMurExp = findViewById(R.id.btnMurExp);
+        btnMuaExp = findViewById(R.id.btnMuaExp);
+        btnMucExp = findViewById(R.id.btnMucExp);
+        btnSensorMov = findViewById(R.id.btnSensorMov);
+        btnSensorPos = findViewById(R.id.btnSensorPos);
+        btnSensorEnv = findViewById(R.id.btnSensorAmb);
+        btnProblemsMUR = findViewById(R.id.btnProblemsMUR);
+        btnProblemsMUA = findViewById(R.id.btnProblemsMUA);
+        btnProblemsMUC = findViewById(R.id.btnProblemsMUC);
 
         btnMurExp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentMurExp = new Intent(getApplicationContext(), MurTheory.class);
+                Intent intentMurExp = new Intent(getApplicationContext(), MurIntroduction.class);
                 startActivity(intentMurExp);
             }
         });
@@ -68,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         btnMuaExp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentMuaExp = new Intent(getApplicationContext(), MuaTheory.class);
+                Intent intentMuaExp = new Intent(getApplicationContext(), MuaIntroduction.class);
                 startActivity(intentMuaExp);
             }
         });
@@ -76,12 +66,61 @@ public class MainActivity extends AppCompatActivity {
         btnMucExp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentMucExp = new Intent(getApplicationContext(), MucTheory.class);
+                Intent intentMucExp = new Intent(getApplicationContext(), MucIntroduction.class);
                 startActivity(intentMucExp);
             }
         });
 
-        int images[] = new int[] {R.drawable.slide1main,R.drawable.slide2main, R.drawable.slide3main};
+        btnSensorMov.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentMenuMov = new Intent(getApplicationContext(), MenuMovementSensor.class);
+                startActivity(intentMenuMov);
+            }
+        });
+
+        btnSensorPos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentMenuPos = new Intent(getApplicationContext(), MenuPositionSensor.class);
+                startActivity(intentMenuPos);
+            }
+        });
+
+        btnSensorEnv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentMenuAmb = new Intent(getApplicationContext(), MenuEnvironmental.class);
+                startActivity(intentMenuAmb);
+            }
+        });
+
+        btnProblemsMUR.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentProblemsMur = new Intent(getApplicationContext(), ProblemsMur.class);
+                startActivity(intentProblemsMur);
+            }
+        });
+
+        btnProblemsMUA.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentProblemsMua = new Intent(getApplicationContext(), ProblemsMua.class);
+                startActivity(intentProblemsMua);
+            }
+        });
+
+        btnProblemsMUC.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentProblemsMuc = new Intent(getApplicationContext(), ProblemsMuc.class);
+                startActivity(intentProblemsMuc);
+            }
+        });
+
+        int images[] = new int[] {R.drawable.slide1, R.drawable.slide2, R.drawable.slide3,
+        R.drawable.slide4, R.drawable.slide5};
 
         v_flipper = findViewById(R.id.v_flipper);
 
@@ -91,12 +130,19 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        this.menu = menu;
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
     public void flipperImage(int image){
         ImageView imageView = new ImageView(this);
         imageView.setBackgroundResource(image);
 
         v_flipper.addView(imageView);
-        v_flipper.setFlipInterval(5000);
+        v_flipper.setFlipInterval(15000);
         v_flipper.setAutoStart(true);
 
         v_flipper.setInAnimation(this, android.R.anim.slide_in_left);
