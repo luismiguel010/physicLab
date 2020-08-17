@@ -33,6 +33,7 @@ public class ExperimentMURTimer extends AppCompatActivity {
     private int counterClap;
     private long startTimeCode;
     private boolean isFirstTime;
+    private boolean isPause;
     private Thread threadListener;
 
     Runnable updateTimetThread = new Runnable() {
@@ -52,7 +53,9 @@ public class ExperimentMURTimer extends AppCompatActivity {
         @Override
         public void run() {
             timeCatch = time;
-            controlTime(counterClap, timeCatch);
+            if(!isPause) {
+                controlTime(counterClap, timeCatch);
+            }
         }
     };
 
@@ -86,6 +89,7 @@ public class ExperimentMURTimer extends AppCompatActivity {
         sensitivity = 50;
         counterClap = 0;
         isFirstTime = true;
+        isPause = true;
     }
 
     @Override
@@ -141,7 +145,7 @@ public class ExperimentMURTimer extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.play) {
-            //restartTime();
+            isPause = false;
             if(isFirstTime) {
                 startAudioDispatcher();
             }
@@ -150,7 +154,7 @@ public class ExperimentMURTimer extends AppCompatActivity {
             Toast.makeText(ExperimentMURTimer.this, "Escuchando...", Toast.LENGTH_LONG).show();
         }else if(id == R.id.stop){
             pauseTime();
-            //restartTime();
+            isPause = true;
             menu.getItem(1).setVisible(true);
             menu.getItem(2).setVisible(false);
             Toast.makeText(ExperimentMURTimer.this, "No escuchando...", Toast.LENGTH_LONG).show();
