@@ -20,7 +20,8 @@ public class MenuMovementSensor extends AppCompatActivity {
 
     private ImageButton btnAccelerometer, btnAccelerometer2, btnGyro;
     private SensorManager sensorManager;
-    private TextView dissableAccelerometer, disableAccelerometer2, disableGyro;
+    private TextView dissableAccelerometer, disableAccelerometer2, disableGyro, textinfoAccelG,
+            textinfoAccel, textInfoGyro;
     private Toolbar toolbar;
     private Menu menu;
 
@@ -35,6 +36,9 @@ public class MenuMovementSensor extends AppCompatActivity {
         dissableAccelerometer = findViewById(R.id.disable_accelerometer);
         disableAccelerometer2 = findViewById(R.id.disable_accelerometerwithoutG);
         disableGyro = findViewById(R.id.disable_gyro);
+        textinfoAccelG = findViewById(R.id.textinfoAccelG);
+        textinfoAccel = findViewById(R.id.textinfoAccel);
+        textInfoGyro = findViewById(R.id.textInfoGyro);
         toolbar = findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Sensores de movimiento");
@@ -42,9 +46,17 @@ public class MenuMovementSensor extends AppCompatActivity {
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         if (sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null){
+            textinfoAccelG.setClickable(true);
             btnAccelerometer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Intent intentAccelView = new Intent(getApplicationContext(), AccelerometerView.class);
+                    startActivity(intentAccelView);
+                }
+            });
+            textinfoAccelG.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
                     Intent intentAccelView = new Intent(getApplicationContext(), AccelerometerView.class);
                     startActivity(intentAccelView);
                 }
@@ -58,7 +70,15 @@ public class MenuMovementSensor extends AppCompatActivity {
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         if(sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION) != null){
+            textinfoAccel.setClickable(true);
             btnAccelerometer2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intentAccelWithouGView = new Intent(getApplicationContext(), AccelerometerWithoutG.class);
+                    startActivity(intentAccelWithouGView);
+                }
+            });
+            textinfoAccel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intentAccelWithouGView = new Intent(getApplicationContext(), AccelerometerWithoutG.class);
@@ -73,7 +93,15 @@ public class MenuMovementSensor extends AppCompatActivity {
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         if(sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE) != null){
+            textInfoGyro.setClickable(true);
             btnGyro.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intentGyro = new Intent(getApplicationContext(), GyroscopeView.class);
+                    startActivity(intentGyro);
+                }
+            });
+            textInfoGyro.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intentGyro = new Intent(getApplicationContext(), GyroscopeView.class);

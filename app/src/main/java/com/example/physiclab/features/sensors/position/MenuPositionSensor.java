@@ -19,7 +19,8 @@ import com.example.physiclab.R;
 public class MenuPositionSensor extends AppCompatActivity {
 
     private ImageButton btnMagnetometer, btnOrientation, btnProximity;
-    private TextView disableMagne, disableOrientation, disableProximity;
+    private TextView disableMagne, disableOrientation, disableProximity, textInfoMagne,
+            textInfoOrient, textInfoProx;
     private SensorManager sensorManager;
     private Toolbar toolbar;
     private Menu menu;
@@ -34,6 +35,9 @@ public class MenuPositionSensor extends AppCompatActivity {
         disableMagne = findViewById(R.id.disable_magne);
         disableOrientation = findViewById(R.id.disable_orientation);
         disableProximity = findViewById(R.id.disable_proximity);
+        textInfoMagne = findViewById(R.id.textInfoMagne);
+        textInfoOrient = findViewById(R.id.textInfoOrient);
+        textInfoProx = findViewById(R.id.textInfoProx);
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         toolbar = findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
@@ -41,7 +45,15 @@ public class MenuPositionSensor extends AppCompatActivity {
         toolbar.setTitleTextColor(Color.WHITE);
 
         if (sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD) != null){
+            textInfoMagne.setClickable(true);
             btnMagnetometer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intentMagne = new Intent(getApplicationContext(), Magnetometer.class);
+                    startActivity(intentMagne);
+                }
+            });
+            textInfoMagne.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intentMagne = new Intent(getApplicationContext(), Magnetometer.class);
@@ -56,7 +68,15 @@ public class MenuPositionSensor extends AppCompatActivity {
 
         if ((sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null) &&
                 (sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)) != null){
+            textInfoOrient.setClickable(true);
             btnOrientation.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intentOrient = new Intent(getApplicationContext(), Orientation.class);
+                    startActivity(intentOrient);
+                }
+            });
+            textInfoOrient.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intentOrient = new Intent(getApplicationContext(), Orientation.class);
@@ -70,7 +90,15 @@ public class MenuPositionSensor extends AppCompatActivity {
         }
 
         if (sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY) != null){
+            textInfoProx.setClickable(true);
             btnProximity.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intentProx = new Intent(getApplicationContext(), Proximity.class);
+                    startActivity(intentProx);
+                }
+            });
+            textInfoProx.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intentProx = new Intent(getApplicationContext(), Proximity.class);

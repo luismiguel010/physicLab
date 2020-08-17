@@ -23,7 +23,8 @@ public class MenuEnvironmental extends AppCompatActivity {
 
     private ImageButton btnTemp, btnLight, btnPressure;
     private SensorManager sensorManager;
-    private TextView dissableTemp, disableLigh, disablePress;
+    private TextView dissableTemp, disableLigh, disablePress, textInfoTemp, textInfoLight,
+            textInfoPressure;
     private Toolbar toolbar;
     private Menu menu;
 
@@ -38,6 +39,9 @@ public class MenuEnvironmental extends AppCompatActivity {
         dissableTemp = findViewById(R.id.disable_temp);
         disableLigh = findViewById(R.id.disable_light);
         disablePress = findViewById(R.id.disable_pressure);
+        textInfoTemp = findViewById(R.id.textInfoTemp);
+        textInfoLight = findViewById(R.id.textInfoLight);
+        textInfoPressure = findViewById(R.id.textInfoProx);
         toolbar = findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Sensores de entorno");
@@ -45,7 +49,15 @@ public class MenuEnvironmental extends AppCompatActivity {
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         if (sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE) != null){
+            textInfoTemp.setClickable(true);
             btnTemp.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intentTemp = new Intent(getApplicationContext(), Temprature.class);
+                    startActivity(intentTemp);
+                }
+            });
+            textInfoTemp.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intentTemp = new Intent(getApplicationContext(), Temprature.class);
@@ -59,7 +71,15 @@ public class MenuEnvironmental extends AppCompatActivity {
         }
 
         if (sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT) != null){
+            textInfoLight.setClickable(true);
             btnLight.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intentLight = new Intent(getApplicationContext(), Light.class);
+                    startActivity(intentLight);
+                }
+            });
+            textInfoLight.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intentLight = new Intent(getApplicationContext(), Light.class);
@@ -73,7 +93,15 @@ public class MenuEnvironmental extends AppCompatActivity {
         }
 
         if (sensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE) != null){
+            textInfoPressure.setClickable(true);
             btnPressure.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intentPressure = new Intent(getApplicationContext(), Light.class);
+                    startActivity(intentPressure);
+                }
+            });
+            textInfoPressure.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intentPressure = new Intent(getApplicationContext(), Light.class);
