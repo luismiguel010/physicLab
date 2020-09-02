@@ -21,6 +21,7 @@ public class ProblemsMuc extends AppCompatActivity {
         setContentView(R.layout.activity_problems_muc);
         toolbar = findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Ejercicios MCUA");
         toolbar.setTitleTextColor(Color.WHITE);
     }

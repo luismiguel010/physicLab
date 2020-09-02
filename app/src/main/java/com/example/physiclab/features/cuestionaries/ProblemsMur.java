@@ -21,6 +21,7 @@ public class ProblemsMur extends AppCompatActivity {
         setContentView(R.layout.activity_problems_mur);
         toolbar = findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Ejercicios MRU");
         toolbar.setTitleTextColor(Color.WHITE);
     }

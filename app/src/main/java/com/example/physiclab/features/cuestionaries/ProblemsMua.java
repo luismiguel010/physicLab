@@ -21,6 +21,7 @@ public class ProblemsMua extends AppCompatActivity {
         setContentView(R.layout.activity_problems_mua);
         toolbar = findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Ejercicios MAU");
         toolbar.setTitleTextColor(Color.WHITE);
     }

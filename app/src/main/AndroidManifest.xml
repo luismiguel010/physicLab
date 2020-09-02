@@ -52,9 +52,12 @@
         <activity android:name=".features.theories.Muc_Theory" />
         <activity android:name=".features.theories.MuaTheory" />
         <activity android:name=".features.theories.MurTheory" />
-        <activity android:name=".features.cuestionaries.ProblemsMuc" />
-        <activity android:name=".features.cuestionaries.ProblemsMua" />
-        <activity android:name=".features.cuestionaries.ProblemsMur" />
+        <activity android:name=".features.cuestionaries.ProblemsMuc"
+            android:parentActivityName=".MainActivity"/>
+        <activity android:name=".features.cuestionaries.ProblemsMua"
+            android:parentActivityName=".MainActivity"/>
+        <activity android:name=".features.cuestionaries.ProblemsMur"
+            android:parentActivityName=".MainActivity"/>
         <activity android:name=".MucIntroduction" />
         <activity android:name=".MuaIntroduction" />
         <activity android:name=".MurIntroduction" />
