@@ -44,6 +44,7 @@ public class MenuEnvironmental extends AppCompatActivity {
         textInfoPressure = findViewById(R.id.textInfoProx);
         toolbar = findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Sensores de entorno");
         toolbar.setTitleTextColor(Color.WHITE);
 

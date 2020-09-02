@@ -52,6 +52,7 @@ public class Proximity extends AppCompatActivity implements OnChartValueSelected
     public void initComponents(){
         toolbar = findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Proximidad");
         toolbar.setTitleTextColor(Color.WHITE);
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);

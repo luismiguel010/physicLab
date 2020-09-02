@@ -69,6 +69,7 @@ public class Pressure extends AppCompatActivity implements OnChartValueSelectedL
     public void initComponents(){
         toolbar = findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Presión");
         toolbar.setTitleTextColor(Color.WHITE);
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);

@@ -69,6 +69,7 @@ public class Temprature extends AppCompatActivity implements OnChartValueSelecte
     public void initComponents(){
         toolbar = findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Temperatura ambiente");
         toolbar.setTitleTextColor(Color.WHITE);
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);

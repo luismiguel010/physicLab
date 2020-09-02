@@ -71,6 +71,7 @@ public class Orientation extends AppCompatActivity implements OnChartValueSelect
     public void initComponents(){
         toolbar = findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Orientación");
         toolbar.setTitleTextColor(Color.WHITE);
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);

@@ -41,6 +41,7 @@ public class MenuPositionSensor extends AppCompatActivity {
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         toolbar = findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Sensores de posición");
         toolbar.setTitleTextColor(Color.WHITE);
 

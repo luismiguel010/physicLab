@@ -69,6 +69,7 @@ public class Light extends AppCompatActivity implements OnChartValueSelectedList
     public void initComponents(){
         toolbar = findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Intensidad de luz");
         toolbar.setTitleTextColor(Color.WHITE);
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
