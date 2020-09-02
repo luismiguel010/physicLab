@@ -42,6 +42,7 @@ public class MenuMovementSensor extends AppCompatActivity {
         toolbar = findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Sensores de movimiento");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setTitleTextColor(Color.WHITE);
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
