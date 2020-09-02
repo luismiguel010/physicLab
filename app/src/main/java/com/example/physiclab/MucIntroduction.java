@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -23,6 +24,7 @@ import com.example.physiclab.features.theories.MurTheory;
 public class MucIntroduction extends AppCompatActivity {
 
     private ImageButton btnbook, btnlab;
+    private Button button_back;
     private SensorManager sensorManager;
     private TextView disableGyro;
 
@@ -33,8 +35,16 @@ public class MucIntroduction extends AppCompatActivity {
         setContentView(R.layout.activity_muc_introduction);
         btnlab = findViewById(R.id.imagebutton_lab);
         btnbook = findViewById(R.id.imagebutton_book);
+        button_back = findViewById(R.id.button_back);
         disableGyro = findViewById(R.id.disable_gyro_experimentMUC);
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+
+        button_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
         if (sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE) != null){
             btnlab.setOnClickListener(new View.OnClickListener() {

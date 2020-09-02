@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -25,6 +26,7 @@ public class MurIntroduction extends AppCompatActivity {
 
     private ImageButton btnbook;
     private ImageButton btnlab;
+    private Button button_back;
     public static final int RequestPermissionCode = 1;
 
     @Override
@@ -34,6 +36,14 @@ public class MurIntroduction extends AppCompatActivity {
         setContentView(R.layout.activity_mur_introduction);
         btnlab = (ImageButton) findViewById(R.id.imagebutton_lab);
         btnbook = (ImageButton) findViewById(R.id.imagebutton_book);
+        button_back = findViewById(R.id.button_back);
+
+        button_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
 
             btnlab.setOnClickListener(new View.OnClickListener() {

@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,6 +30,7 @@ import static android.Manifest.permission.RECORD_AUDIO;
 public class MuaIntroduction extends AppCompatActivity {
 
     private ImageButton btnbook, btnlab;
+    private Button button_back;
     public static final int RequestPermissionCode = 1;
     private SensorManager sensorManager;
     private TextView disableProximity;
@@ -42,6 +44,14 @@ public class MuaIntroduction extends AppCompatActivity {
         btnbook = findViewById(R.id.imagebutton_book);
         disableProximity = findViewById(R.id.disable_proximity_experimentMUA);
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        button_back = findViewById(R.id.button_back);
+
+        button_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
         if (sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY) != null){
             btnlab.setOnClickListener(new View.OnClickListener() {
