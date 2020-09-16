@@ -9,36 +9,43 @@
     <string name="murText">Desliza el avión y sabrá con qué velocidad lo hizo</string>
     <string name="txtmua">Deje caer su celular sobre una superficie blanda para saber la distancia que recorre</string>
     <string name="txtmuc">Antes de iniciar ingrese el número de vueltas y el radio en el que va a hacer girar el celular.</string>
-    <string name="problemsMur">Problema n° 1) Realizar las siguiente conversiones de unidades:
+    <string name="problemsMur">Problema n° 1) Calcula el tiempo que tarda el sonido en recorrer:
         \n
-        \na) De 36 Km/h a m/s.
-        \nb) De 10 m/s a Km/h.
-        \nc) De 30 Km/min a cm/s.
-        \nd) De 50 m/min a Km/h.</string>
-    <string name="problemsMur2">Problema n° 2) Un móvil recorre 98 Km en 2 h, determine:
+        \na) 10 m.
+        \nb) 12 m.
+        \nc) 15 m.
+        \nd) 20 m.
         \n
-        \na) Su velocidad.
-        \nb) ¿Cuántos kilómetros recorrerá en 3 horas con la misma velocidad?</string>
-    <string name="problemsMur3">Problema n° 3) Se produce un disparo a 2,04 Km de donde se encuentra un policía, ¿cuánto tarda el policía en oírlo si la velocidad del sonido en el aire es de 330 m/s?</string>
+        \nNota: Compruebe sus calculos en la sección experimental de MRU.</string>
+    <string name="problemsMur2">Problema n° 2) Durante una tempestad se escucha un trueno 8 s después de haber percibido el relámpago. ¿A qué distancia cayó el rayo?</string>
+    <string name="problemsMur3">Problema n° 3) Se produce un disparo a 2,04 Km de donde se encuentra un policía, ¿cuánto tarda el policía en oírlo si consideramos la velocidad del sonido en el aire de 340 m/s?</string>
     <string name="titleMur">Ejercicios</string>
-    <string name="problemsMua">Problema n° 1) Un cohete parte del reposo con aceleración constante y logra alcanzar en 30 s una velocidad de 588 m/s. Calcular:
+    <string name="problemsMua">Problema n° 1) Determinar el tiempo que tarda un objeto en caer a una altura de:
         \n
-        \na) Aceleración.
-        \nb) ¿Qué espacio recorrió en esos 30 s?</string>
-    <string name="problemsMua2">Problema n° 2) Un móvil que se desplaza con velocidad constante aplica los frenos durante 25 s y recorre 400 m hasta detenerse. Calcular:
+        \na) 1 m.
+        \nb) 1,5 m.
+        \nb) 2 m.
+        \nb) 3 m.
         \n
-        \na) ¿Qué velocidad tenia el móvil antes de aplicar los frenos?
-        \nb) ¿Qué desaceleración produjeron los frenos?</string>
-    <string name="problemsMua3">Problema n° 3) ¿Cuánto tiempo tardará un móvil en alcanzar una velocidad de 60 Km/h, si parte del reposo acelerando constantemente con una aceleración de 20 Km/h²?</string>
-    <string name="problemsMuc">Problema n° 1)
+        \nNota: Compruebe sus calculos en la sección experimental de MAU.</string>
+    <string name="problemsMua2">Problema n° 2) Una manzana cae de un árbol y llega al suelo en 3 segundos. ¿De qué altura cayó la manzana?</string>
+    <string name="problemsMua3">Problema n° 3) Desde una altura de 120 m, se deja caer libremente una pelota. Responder:
         \n
-        \na) ¿Cuál es la velocidad angular de un punto dotado de M.C.U. si su período es de 1,4 s?
-        \nb) ¿Cuál es la velocidad tangencial si el radio es de 80 cm?</string>
+        \na) ¿Cuánto ha descendido en 3 s?
+        \nb) ¿Cuánto le falta en recorrer?
+    </string>
+    <string name="problemsMuc">Problema n° 1) Por una pendiente se deja rodar un cilindro de radio 20 cm. Calcule su velocidad tangencial y su velocidad angular al final del trayecto si este recorre una distancia de:
+        \n
+        \na) 50 cm
+        \nb) 75 cm
+        \nc) 100 cm
+        \n
+        \nNota: Compruebe sus calculos en la sección experimental de MCUA.</string>
     <string name="problemsMuc2">Problema n° 2) Si un motor cumple 8000 R.P.M., determinar:
         \n
         \na) ¿Cuál es su velocidad angular?
         \nb) ¿Cuál es su período?</string>
-    <string name="problemsMuc3">Problema n° 3) Un móvil dotado de M.C.U. da 280 vueltas en 20 minutos, si la circunferencia que describe es de 80 cm de radio, hallar:
+    <string name="problemsMuc3">Problema n° 2) Un móvil dotado de M.C.U. da 280 vueltas en 20 minutos, si la circunferencia que describe es de 80 cm de radio, hallar:
         \n
         \na) ¿Cuál es su velocidad angular?
         \nb) ¿Cuál es su velocidad tangencial?

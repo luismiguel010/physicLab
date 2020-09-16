@@ -30,20 +30,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="@string/problemsMuc2"
+        android:text="@string/problemsMuc3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/txtProblemsMur"
         app:layout_constraintTop_toBottomOf="@+id/txtProblemsMur" />
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:text="@string/problemsMuc3"
-        app:layout_constraintEnd_toEndOf="@+id/txtProblem2Mur"
-        app:layout_constraintStart_toStartOf="@+id/txtProblem2Mur"
-        app:layout_constraintTop_toBottomOf="@+id/txtProblem2Mur" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
